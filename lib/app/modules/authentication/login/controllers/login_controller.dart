@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 
 import '../../../../core/styles/style.dart';
+import '../../../../data/services/auth_service.dart';
 import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  AuthService get auth => Get.find();
   final formKey = GlobalKey<FormState>();
 
   final phoneController = TextEditingController();
@@ -12,10 +14,21 @@ class LoginController extends GetxController {
   final _disabled = true.obs;
   bool get disabled => _disabled.value;
 
-  Future<void> submitForm() async {
+  final _isLoading = false.obs;
+  bool get isLoading => _isLoading.value;
+
+  Future<void> toVerify() async {
+    _isLoading(true);
     if (formKey.currentState!.validate()) {
-      Get.offAllNamed(Routes.dashboard);
+      // await auth.signIn(phoneStr);
+      await 2.delay(() {
+        Get.toNamed(
+          Routes.verifyPhone,
+          arguments: phoneStr,
+        );
+      });
     }
+    _isLoading(false);
   }
 
   void onChangedInput(String value) {

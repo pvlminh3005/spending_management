@@ -5,6 +5,7 @@
         "autofocus",
         "Getx",
         "paybook",
+        "pinput",
         "unfocus"
     ]
 }

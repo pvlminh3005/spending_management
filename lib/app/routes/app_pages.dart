@@ -4,6 +4,8 @@ import '../modules/authentication/login/bindings/login_binding.dart';
 import '../modules/authentication/login/views/login_view.dart';
 import '../modules/authentication/register/bindings/register_binding.dart';
 import '../modules/authentication/register/views/register_view.dart';
+import '../modules/authentication/verify_phone/bindings/verify_phone_binding.dart';
+import '../modules/authentication/verify_phone/views/verify_phone_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -45,8 +47,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.profile,
-      page: () => ProfileView(),
+      page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.verifyPhone,
+      page: () => const VerifyPhoneView(),
+      binding: VerifyPhoneBinding(),
     ),
   ];
 }

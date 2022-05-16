@@ -3,6 +3,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/styles/style.dart';
 import '../../../../core/utilities/image_utils.dart';
+import '../../../../core/utilities/validator/validator.dart';
 import '../../../../widgets/common/app_button.dart';
 import '../../../../widgets/common/input_custom.dart';
 import '../controllers/login_controller.dart';
@@ -41,16 +42,30 @@ class LoginView extends GetView<LoginController> {
                 controller: controller.phoneController,
                 hintSize: 17,
                 isShowPrefixIcon: true,
-                prefixIcon: Image.asset(ImageUtils.vnFlag),
-                hintText: '(+84) 0000 000 000',
+                prefixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(ImageUtils.vnFlag),
+                    Dimensions.width5,
+                    Text(
+                      '(+84)',
+                      style: context.bodyText1,
+                    ),
+                  ],
+                ),
+                hintText: 'Your phone number',
                 fontWeight: FontWeight.w600,
                 borderSide: const BorderSide(color: Colors.grey),
                 contentPadding: const EdgeInsets.all(22.0),
                 inputFormatters: [
-                  MaskTextInputFormatter(mask: "#### ### ###"),
+                  MaskTextInputFormatter(mask: "### ### ####"),
                 ],
                 inputType: TextInputType.phone,
                 spacing: 1.05,
+                validator: Validator.validateAll([
+                  PhoneValidator('Please enter correct format'),
+                ]),
+                maxLength: 10 + 3,
                 onChanged: controller.onChangedInput,
               ),
               Dimensions.height20,
@@ -59,8 +74,9 @@ class LoginView extends GetView<LoginController> {
                   'Login',
                   height: 55,
                   axisSize: MainAxisSize.max,
+                  loading: controller.isLoading,
                   disabled: controller.disabled,
-                  onPressed: controller.submitForm,
+                  onPressed: controller.toVerify,
                 ),
               ),
               Dimensions.height20,

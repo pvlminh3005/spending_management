@@ -30,7 +30,7 @@ class ProfileView extends GetView<ProfileController> {
             _ProfileItem(
               icon: CupertinoIcons.square_arrow_right,
               title: 'Sign out',
-              onPressed: () {},
+              onPressed: controller.signOut,
             ),
           ],
         ),

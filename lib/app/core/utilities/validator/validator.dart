@@ -38,6 +38,9 @@ class PhoneValidator extends Validator {
 
   @override
   String? validate(String? value) {
-    return value!.length < 7 ? errorText : null;
+    if (value![0] != '0') {
+      return errorText;
+    }
+    return null;
   }
 }

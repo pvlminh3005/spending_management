@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'app/data/services/auth_service.dart';
 import 'app/data/services/setting_service.dart';
 import 'app/routes/app_pages.dart';
 
 class RootApp extends StatelessWidget {
   const RootApp({Key? key}) : super(key: key);
 
+  AuthService get auth => Get.find();
   SettingService get theme => Get.find();
 
   @override
@@ -21,11 +23,12 @@ class RootApp extends StatelessWidget {
     );
     return GestureDetector(
       child: GetMaterialApp(
-        title: "Application",
+        title: "Spending Management",
         debugShowCheckedModeBanner: false,
-        themeMode: theme.themeMode,
-        initialRoute: AppPages.initialRoute,
+        initialRoute: auth.isAuth ? Routes.dashboard : Routes.login,
+        // initialRoute: Routes.verifyPhone,
         getPages: AppPages.routes,
+        themeMode: theme.themeMode,
         theme: theme.lightTheme.copyWith(
           textTheme: theme.lightTheme.textTheme,
         ),

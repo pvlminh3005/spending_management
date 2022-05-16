@@ -22,7 +22,7 @@ class AppButton extends StatelessWidget {
     this.textHeight = 1.2,
     this.width,
     this.axisSize = MainAxisSize.min,
-    this.fontWeight = FontWeight.w500,
+    this.fontWeight = FontWeight.w600,
     this.maxLines,
     this.padding,
   }) : super(key: key);
@@ -128,6 +128,9 @@ class AppButton extends StatelessWidget {
       case ButtonType.text:
         Widget button = TextButton(
           onPressed: disabled ? null : onPressed,
+          style: TextButton.styleFrom(
+            padding: padding,
+          ),
           child: child,
         );
 
@@ -142,7 +145,8 @@ class AppButton extends StatelessWidget {
           ),
           color: color ?? Theme.of(context).primaryColor,
           onPressed: disabled || loading ? null : onPressed,
-          disabledColor: Colors.grey.shade300,
+          disabledColor:
+              loading ? Theme.of(context).primaryColor : Colors.grey.shade300,
           child: child,
         );
 
