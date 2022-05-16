@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/revenue_expenditure_controller.dart';
+import '../controllers/register_controller.dart';
 
-class RevenueExpenditureView extends GetView<RevenueExpenditureController> {
-  const RevenueExpenditureView({Key? key}) : super(key: key);
+class RegisterView extends GetView<RegisterController> {
+  const RegisterView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('RevenueExpenditureView'),
+        title: Text('RegisterView'),
         centerTitle: true,
       ),
       body: Center(
         child: Text(
-          'RevenueExpenditureView is working',
+          'RegisterView is working',
           style: TextStyle(fontSize: 20),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../core/styles/style.dart';
+import '../measure_size.dart';
 import 'avatar_custom.dart';
 import 'icon_button_custom.dart';
 
@@ -31,6 +32,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       color: background ?? Colors.white,
       child: SizedBox(
         height: preferredSize.height,
+        width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
@@ -52,16 +54,24 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
                       title ?? 'd',
                       color: textColor,
                     ),
+                    // SizedBox(
+                    //   width: 100,
+                    //   height: 100,
+                    //   child: IconTitle(),
+                    // ),
                   ],
                 ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IconButtonCustom(
-                    icon: CupertinoIcons.money_euro_circle,
-                    size: 30,
-                    onPressed: () {},
+                  MeasureSize(
+                    onChange: print,
+                    child: IconButtonCustom(
+                      icon: CupertinoIcons.money_euro_circle,
+                      size: 30,
+                      onPressed: () {},
+                    ),
                   ),
                   IconButtonCustom(
                     icon: Icons.notifications_none,
@@ -84,9 +94,11 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
 class _TextChevronBuilder extends StatelessWidget {
   final String title;
   final Color? color;
+  final double? fontSize;
   const _TextChevronBuilder(
     this.title, {
     this.color,
+    this.fontSize = 12,
     Key? key,
   }) : super(key: key);
 
@@ -94,7 +106,7 @@ class _TextChevronBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        title.text.size(12).color(color!).make(),
+        title.text.size(fontSize).color(color!).make(),
         Icon(
           Icons.chevron_right_rounded,
           size: 18,

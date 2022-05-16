@@ -12,7 +12,7 @@ class RootApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(SettingService(context));
+    Get.put(SettingService());
     SystemChrome.setPreferredOrientations(
       [
         DeviceOrientation.portraitUp,
@@ -26,6 +26,12 @@ class RootApp extends StatelessWidget {
         themeMode: theme.themeMode,
         initialRoute: AppPages.initialRoute,
         getPages: AppPages.routes,
+        theme: theme.lightTheme.copyWith(
+          textTheme: theme.lightTheme.textTheme,
+        ),
+        darkTheme: theme.darkTheme.copyWith(
+          textTheme: theme.darkTheme.textTheme,
+        ),
         routingCallback: (_) {
           WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
         },

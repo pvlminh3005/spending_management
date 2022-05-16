@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
 import '../../../core/styles/style.dart';
-import '../../paybook/views/paybook_view.dart';
-import '../../revenue_expenditure/views/revenue_expenditure_view.dart';
+import '../../home/views/home_view.dart';
+import '../../profile/views/profile_view.dart';
 
 class DashboardController extends GetxController {
   final _currentIndex = 0.obs;
   int get currentIndex => _currentIndex.value;
   final pages = const [
-    PaybookView(),
-    RevenueExpenditureView(),
+    HomeView(),
+    SizedBox(),
+    ProfileView(),
   ];
   final pageController = PageController();
 

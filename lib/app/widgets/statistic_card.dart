@@ -24,6 +24,7 @@ class StatisticCard extends StatelessWidget {
           color: Colors.white,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),

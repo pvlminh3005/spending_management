@@ -7,23 +7,20 @@ class AppTheme {
 
   static final AppTheme _instance = AppTheme._();
 
-  // static const Color subtitleColor = Color(0xff727272);
-
   static LinearGradient linearGradient(BuildContext context) {
     return LinearGradient(
       colors: [
         context.primary,
         context.secondary,
       ],
-      begin: Alignment.bottomCenter,
-      end: Alignment.topCenter,
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
     );
   }
 
   static ThemeData getCollectionTheme({
     required ThemeModel theme,
     required Brightness brightness,
-    required BuildContext context,
     String? font,
   }) {
     late ColorScheme colorScheme;
@@ -33,7 +30,7 @@ class AppTheme {
           primary: theme.primary,
           secondary: theme.secondary,
           surface: Colors.white,
-          background: theme.background,
+          background: const Color(0xfffcfcfc),
           error: const Color(0xffD90615),
         );
         break;
@@ -51,7 +48,7 @@ class AppTheme {
 
     final dark = colorScheme.brightness == Brightness.dark;
     final indicatorColor = dark ? colorScheme.onSurface : colorScheme.primary;
-    return ThemeData(
+    final themeData = ThemeData(
       brightness: colorScheme.brightness,
       primaryColor: colorScheme.primary,
       canvasColor: colorScheme.background,
@@ -66,41 +63,56 @@ class AppTheme {
       applyElevationOverlayColor: dark,
       colorScheme: colorScheme,
       fontFamily: font,
-      textTheme: context.textTheme.copyWith(
-        bodyText1: context.bodyText1.copyWith(
+    );
+    final textTheme = themeData.textTheme;
+    return themeData.copyWith(
+      textTheme: themeData.textTheme.copyWith(
+        button: textTheme.button!.copyWith(
+          fontSize: 14,
           height: 1.2,
           fontFamily: font,
-          letterSpacing: 0.02,
         ),
-        bodyText2: context.bodyText2.copyWith(
+        bodyText1: textTheme.bodyText1!.copyWith(
           height: 1.2,
           fontFamily: font,
           letterSpacing: 0.02,
+          fontSize: 14,
         ),
-        subtitle1: context.subtitle1.copyWith(
+        bodyText2: textTheme.bodyText2!.copyWith(
           height: 1.2,
           fontFamily: font,
           letterSpacing: 0.02,
+          fontSize: 14,
         ),
-        subtitle2: context.subtitle2.copyWith(
+        subtitle1: textTheme.subtitle1!.copyWith(
           height: 1.2,
           fontFamily: font,
           letterSpacing: 0.02,
+          fontSize: 16,
         ),
-        caption: context.caption.copyWith(
+        subtitle2: textTheme.subtitle2!.copyWith(
           height: 1.2,
           fontFamily: font,
           letterSpacing: 0.02,
+          fontSize: 16,
         ),
-        overline: context.overline.copyWith(
+        caption: textTheme.caption!.copyWith(
           height: 1.2,
           fontFamily: font,
           letterSpacing: 0.02,
+          fontSize: 12,
         ),
-        headline6: context.headline6.copyWith(
+        overline: textTheme.overline!.copyWith(
           height: 1.2,
           fontFamily: font,
           letterSpacing: 0.02,
+          fontSize: 10,
+        ),
+        headline6: textTheme.headline6!.copyWith(
+          height: 1.2,
+          fontFamily: font,
+          letterSpacing: 0.02,
+          fontSize: 20,
         ),
       ),
     );

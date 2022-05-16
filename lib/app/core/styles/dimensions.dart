@@ -8,8 +8,8 @@ class Dimensions {
   /* Dimensions */
   static const double size1 = 1.0;
   static const double size2 = 2.0;
-  static const double size4 = 4.0;
   static const double size3 = 3.0;
+  static const double size4 = 4.0;
   static const double size6 = 6.0;
   static const double size5 = 5.0;
   static const double size7 = 7.0;
@@ -91,6 +91,7 @@ class Dimensions {
   static const empty = SizedBox();
 
   /* width */
+  static const width3 = SizedBox(width: Dimensions.size3);
   static const width5 = SizedBox(width: Dimensions.size5);
   static const width8 = SizedBox(width: Dimensions.size8);
   static const width10 = SizedBox(width: Dimensions.size10);

@@ -7,6 +7,9 @@ abstract class Routes {
   static const payBook = _Paths.payBook;
   static const revenueExpenditure = _Paths.revenueExpenditure;
   static const dashboard = _Paths.dashboard;
+  static const register = _Paths.register;
+  static const login = _Paths.login;
+  static const profile = _Paths.profile;
 }
 
 abstract class _Paths {
@@ -15,4 +18,7 @@ abstract class _Paths {
   static const payBook = '/paybook';
   static const revenueExpenditure = '/revenue-expenditure';
   static const dashboard = '/dashboard';
+  static const register = '/register';
+  static const login = '/login';
+  static const profile = '/profile';
 }

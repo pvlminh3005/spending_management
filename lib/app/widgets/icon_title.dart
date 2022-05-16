@@ -5,20 +5,16 @@ enum IconTitleType {
   horizontal,
 }
 
-enum PositionIconType {
-  start,
-  end,
-}
-
 class IconTitle extends StatelessWidget {
   final String title;
   final TextStyle? style;
   final IconData? iconData;
-  final double? iconSize, width;
+  final double? iconSize, width, height, space;
   final Color? color;
+  final bool reverse;
   final IconTitleType type;
-  final PositionIconType positionIcon;
   final EdgeInsets? padding;
+  final BoxDecoration? decoration;
   final VoidCallback? onPressed;
 
   const IconTitle({
@@ -27,10 +23,13 @@ class IconTitle extends StatelessWidget {
     this.iconData,
     this.color,
     this.iconSize,
-    this.width,
+    this.reverse = false,
+    this.width = 55.0,
+    this.height,
+    this.space,
     this.type = IconTitleType.vertical,
-    this.positionIcon = PositionIconType.start,
     this.padding,
+    this.decoration,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -39,32 +38,42 @@ class IconTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final icon = Icon(
       iconData,
-      color: color,
+      color: color ?? Colors.grey.shade600,
       size: iconSize,
     );
-    final text = Text(
-      title,
-      style: (style ?? context.caption).copyWith(color: color),
-      textAlign: TextAlign.center,
-    );
+    final text = title.text
+        .size(12)
+        .minFontSize(8)
+        .maxFontSize(14)
+        .color(color ?? Colors.grey.shade600)
+        .makeCentered();
     return MaterialButton(
       onPressed: onPressed,
+      minWidth: width,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      padding: const EdgeInsets.all(3.0),
       child: SizedBox(
         width: width,
-        child: ListView(
-          shrinkWrap: true,
-          padding: padding,
-          scrollDirection:
-              type == IconTitleType.vertical ? Axis.vertical : Axis.horizontal,
-          reverse: positionIcon == PositionIconType.end,
-          children: [
-            icon,
-            if (type == IconTitleType.vertical)
-              Dimensions.height5
-            else
-              Dimensions.width5,
-            text,
-          ],
+        height: height,
+        child: DecoratedBox(
+          decoration: decoration ??
+              const BoxDecoration(
+                color: Colors.transparent,
+              ),
+          child: ListView(
+            padding: padding,
+            reverse: reverse,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            scrollDirection: type == IconTitleType.vertical
+                ? Axis.vertical
+                : Axis.horizontal,
+            children: [
+              icon,
+              Dimensions.height8,
+              text,
+            ],
+          ),
         ),
       ),
     );

@@ -9,8 +9,10 @@ class InputCustom extends StatefulWidget {
   final TextInputAction inputAction;
   final Color? fillColor;
   final int maxLines;
-  final bool isPassword,
-      isCountryPicker,
+  final FontWeight fontWeight;
+  final bool isPassword;
+  final double spacing;
+  final bool isCountryPicker,
       isIcon,
       isShowSuffixIcon,
       isShowPrefixIcon,
@@ -42,6 +44,8 @@ class InputCustom extends StatefulWidget {
     this.controller,
     this.focusNode,
     this.nextFocus,
+    this.fontWeight = FontWeight.normal,
+    this.spacing = 0.5,
     this.isEnabled = true,
     this.isUnderBorder = false,
     this.isCountryPicker = false,
@@ -66,12 +70,12 @@ class InputCustom extends StatefulWidget {
     this.contentPadding,
     this.readOnly = false,
     this.hintStyle,
-    this.hintSize = 16,
+    this.hintSize = 14,
     this.validator,
     this.maxLength,
     this.inputFormatters,
     this.scrollPadding = const EdgeInsets.all(20.0),
-    this.radius = 0,
+    this.radius = 6,
     this.textAlign = TextAlign.start,
     this.errorStyle,
     this.suffixIconConstraints,
@@ -96,7 +100,8 @@ class _CustomTextFieldState extends State<InputCustom> {
     final style = (widget.hintStyle ?? textTheme.subtitle1!).copyWith(
       color: Colors.black,
       fontSize: widget.hintSize,
-      fontWeight: FontWeight.normal,
+      fontWeight: widget.fontWeight,
+      letterSpacing: widget.spacing,
     );
     final border = widget.isUnderBorder
         ? UnderlineInputBorder(
