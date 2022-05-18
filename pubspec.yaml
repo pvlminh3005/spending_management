@@ -14,6 +14,7 @@ dependencies:
   mask_text_input_formatter: ^2.3.0
   shared_preferences: ^2.0.15
   pinput: ^2.2.8
+  flutter_screenutil: ^5.5.2
 
   flutter:
     sdk: flutter
@@ -27,3 +28,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/png/
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: assets/fonts/NotoSansJP-Bold.otf
+        - asset: assets/fonts/NotoSansJP-Black.otf
+        - asset: assets/fonts/NotoSansJP-Medium.otf
+        - asset: assets/fonts/NotoSansJP-Light.otf
+        - asset: assets/fonts/NotoSansJP-Regular.otf
+        - asset: assets/fonts/NotoSansJP-Thin.otf

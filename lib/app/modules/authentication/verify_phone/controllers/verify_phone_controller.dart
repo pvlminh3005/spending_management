@@ -2,8 +2,11 @@ import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/styles/style.dart';
+import '../../../../data/services/auth_service.dart';
 
 class VerifyPhoneController extends GetxController {
+  AuthService get auth => Get.find();
+
   final verifyController = TextEditingController();
   String get verifyStr => verifyController.text;
 
@@ -37,7 +40,9 @@ class VerifyPhoneController extends GetxController {
   }
 
   Future<void> verifyOTP() async {
-    try {} catch (e) {
+    try {
+      await auth.signIn(verifyStr);
+    } catch (e) {
       rethrow;
     }
   }

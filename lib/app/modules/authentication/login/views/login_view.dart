@@ -14,6 +14,7 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Form(
         key: controller.formKey,
         child: Padding(
@@ -23,24 +24,24 @@ class LoginView extends GetView<LoginController> {
             children: [
               Image.asset(
                 ImageUtils.mainIconApp,
-                width: 250,
-                height: 250,
+                width: 230.w,
+                height: 230.h,
               ),
               Dimensions.height20,
               Text(
                 'Welcome to Spending Management App',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: 28.sp,
                   color: context.primary,
                   fontWeight: FontWeight.bold,
-                  height: 1.5,
+                  height: 1.4,
                 ),
                 textAlign: TextAlign.center,
               ),
               Dimensions.height95,
               InputCustom(
                 controller: controller.phoneController,
-                hintSize: 17,
+                hintSize: 14.sp,
                 isShowPrefixIcon: true,
                 prefixIcon: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -49,7 +50,9 @@ class LoginView extends GetView<LoginController> {
                     Dimensions.width5,
                     Text(
                       '(+84)',
-                      style: context.bodyText1,
+                      style: context.bodyText1.copyWith(
+                        fontSize: context.bodyText1.fontSize?.sp,
+                      ),
                     ),
                   ],
                 ),
@@ -72,14 +75,14 @@ class LoginView extends GetView<LoginController> {
               Obx(
                 () => AppButton(
                   'Login',
-                  height: 55,
+                  height: 45.h,
                   axisSize: MainAxisSize.max,
                   loading: controller.isLoading,
                   disabled: controller.disabled,
                   onPressed: controller.toVerify,
                 ),
               ),
-              Dimensions.height20,
+              SizedBox(height: 20.sp),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

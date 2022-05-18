@@ -62,7 +62,7 @@ class AppTheme {
       indicatorColor: indicatorColor,
       applyElevationOverlayColor: dark,
       colorScheme: colorScheme,
-      fontFamily: font,
+      fontFamily: 'NotoSans',
     );
     final textTheme = themeData.textTheme;
     return themeData.copyWith(

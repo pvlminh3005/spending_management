@@ -3,9 +3,13 @@
         "appbar",
         "ARGB",
         "autofocus",
+        "Extensionss",
         "Getx",
+        "Noto",
         "paybook",
         "pinput",
+        "Roboto",
+        "screenutil",
         "unfocus"
     ]
 }

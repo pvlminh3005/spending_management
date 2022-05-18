@@ -20,7 +20,6 @@ class LoginController extends GetxController {
   Future<void> toVerify() async {
     _isLoading(true);
     if (formKey.currentState!.validate()) {
-      // await auth.signIn(phoneStr);
       await 2.delay(() {
         Get.toNamed(
           Routes.verifyPhone,

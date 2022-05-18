@@ -6,6 +6,7 @@ import '../modules/authentication/register/bindings/register_binding.dart';
 import '../modules/authentication/register/views/register_view.dart';
 import '../modules/authentication/verify_phone/bindings/verify_phone_binding.dart';
 import '../modules/authentication/verify_phone/views/verify_phone_view.dart';
+import '../modules/charge_manage/bindings/charge_manage_binding.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -32,6 +33,7 @@ class AppPages {
       binding: DashboardBinding(),
       bindings: [
         HomeBinding(),
+        ChargeManageBinding(),
         ProfileBinding(),
       ],
     ),

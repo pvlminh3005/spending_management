@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '/app/core/styles/style.dart';
-import '../../../widgets/icon_title.dart';
+import '../../../core/styles/style.dart';
+import '../../../core/utilities/utilities.dart';
 import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
@@ -22,31 +22,28 @@ class DashboardView extends GetView<DashboardController> {
         bottomNavigationBar: Obx(
           () => ColoredBox(
             color: context.background,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: ColoredBox(
-                color: context.background,
-                child: Row(
-                  children: [
-                    _DashboardButton(
-                      icon: Icons.pie_chart_rounded,
-                      title: 'Text 1',
-                      isActive: controller.currentIndex == 0,
-                    ),
-                    _DashboardButton(
-                      icon: Icons.dynamic_form_sharp,
-                      title: 'Text 2',
-                      isActive: controller.currentIndex == 1,
-                      index: 1,
-                    ),
-                    _DashboardButton(
-                      icon: CupertinoIcons.person_solid,
-                      title: 'Profile',
-                      isActive: controller.currentIndex == 2,
-                      index: 2,
-                    )
-                  ],
-                ),
+            child: ColoredBox(
+              color: context.background,
+              child: Row(
+                children: [
+                  _DashboardButton(
+                    pathIcon: ImageUtils.expenseDownIcon,
+                    title: 'Payment',
+                    isActive: controller.currentIndex == 0,
+                  ),
+                  _DashboardButton(
+                    pathIcon: ImageUtils.expenseUpIcon,
+                    title: 'Charge',
+                    isActive: controller.currentIndex == 1,
+                    index: 1,
+                  ),
+                  _DashboardButton(
+                    icon: CupertinoIcons.person_solid,
+                    title: 'Profile',
+                    isActive: controller.currentIndex == 2,
+                    index: 2,
+                  )
+                ],
               ),
             ),
           ),
@@ -58,12 +55,14 @@ class DashboardView extends GetView<DashboardController> {
 
 class _DashboardButton extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final String? pathIcon;
+  final IconData? icon;
   final bool isActive;
   final int index;
   const _DashboardButton({
     required this.title,
-    required this.icon,
+    this.pathIcon,
+    this.icon,
     this.isActive = true,
     this.index = 0,
     Key? key,
@@ -73,16 +72,48 @@ class _DashboardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? context.primary : Colors.grey;
+    final Color color = isActive ? context.primary : Colors.transparent;
     return Expanded(
-      child: IconTitle(
-        title: title,
-        iconData: icon,
-        iconSize: 30,
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        color: color,
-        space: 10,
-        onPressed: () => controller.onBottomTabChange(index),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  width: 2.5,
+                  color: color,
+                ),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (pathIcon != null)
+                    Image.asset(
+                      pathIcon!,
+                      width: 22.w,
+                      height: 22.h,
+                      fit: BoxFit.cover,
+                    )
+                  else
+                    Icon(
+                      icon,
+                      size: 22.h,
+                    ),
+                  Dimensions.height5,
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 13.sp),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          onTap: () => controller.onBottomTabChange(index),
+        ),
       ),
     );
   }

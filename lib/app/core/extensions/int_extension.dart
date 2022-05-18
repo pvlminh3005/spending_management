@@ -23,3 +23,14 @@ extension NumGenericExtensions<T extends num> on T? {
     return buffer.toString();
   }
 }
+
+// extension DateExt on int {
+//   DateTime get date => DateTime.fromMillisecondsSinceEpoch(this);
+//   String get time => DateFormat.yMMMMd('ja').add_Hm().format(date);
+
+//   String get timeAgo => timeago.format(
+//         date,
+//         locale: 'ja',
+//         allowFromNow: true,
+//       );
+// }
