@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "976328238826",
+    "project_id": "savingmanagement-58012",
+    "storage_bucket": "savingmanagement-58012.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976328238826:android:528995016433ae2ef59993",
+        "android_client_info": {
+          "package_name": "com.pvlminh.sm.spending_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976328238826-a0u9jkng4uheknudmv6va68vvsif6lj2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4HiMqHGDcaMZe81mh3XYL_SZafhb_Noo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976328238826-a0u9jkng4uheknudmv6va68vvsif6lj2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,12 +4,16 @@
         "ARGB",
         "autofocus",
         "Extensionss",
+        "fenix",
         "Getx",
+        "LTRB",
         "Noto",
         "paybook",
         "pinput",
         "Roboto",
         "screenutil",
-        "unfocus"
-    ]
+        "unfocus",
+        "vsync"
+    ],
+    "dart.flutterSdkPath": "/Users/phamvuleminh/fvm/versions/2.10.5"
 }
