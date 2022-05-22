@@ -12,11 +12,6 @@ class ChargeManageView extends GetView<ChargeManageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text('HomeView'),
-        centerTitle: true,
-      ),
       body: Column(
         children: [
           Expanded(

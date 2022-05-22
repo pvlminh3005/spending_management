@@ -13,17 +13,21 @@ class DashboardView extends GetView<DashboardController> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        body: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          children: controller.pages,
-          controller: controller.pageController,
-          allowImplicitScrolling: true,
+        body: SafeArea(
+          child: PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: controller.pages,
+            controller: controller.pageController,
+            allowImplicitScrolling: true,
+          ),
         ),
         bottomNavigationBar: Obx(
           () => ColoredBox(
             color: context.background,
-            child: ColoredBox(
-              color: context.background,
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: context.screenPadding.bottom != 0 ? 10.w : 0,
+              ),
               child: Row(
                 children: [
                   _DashboardButton(
@@ -87,7 +91,10 @@ class _DashboardButton extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+              padding: EdgeInsets.symmetric(
+                vertical: 10.h,
+                horizontal: 8.w,
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

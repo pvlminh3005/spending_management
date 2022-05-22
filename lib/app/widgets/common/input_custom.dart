@@ -152,6 +152,7 @@ class _CustomTextFieldState extends State<InputCustom> {
         border: border,
         enabledBorder: border,
         focusedBorder: border,
+        disabledBorder: border,
         filled: widget.fillColor != null,
         fillColor: widget.fillColor,
         errorStyle: widget.errorStyle,

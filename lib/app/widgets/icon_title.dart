@@ -7,7 +7,7 @@ enum IconTitleType {
 
 class IconTitle extends StatelessWidget {
   final String title;
-  final TextStyle? style;
+  final TextStyle? textStyle;
   final IconData? iconData;
   final double? iconSize, width, height, space;
   final Color? color;
@@ -19,7 +19,7 @@ class IconTitle extends StatelessWidget {
 
   const IconTitle({
     this.title = '',
-    this.style,
+    this.textStyle,
     this.iconData,
     this.color,
     this.iconSize,
@@ -41,12 +41,7 @@ class IconTitle extends StatelessWidget {
       color: color ?? Colors.grey.shade600,
       size: iconSize,
     );
-    final text = title.text
-        .size(12)
-        .minFontSize(8)
-        .maxFontSize(14)
-        .color(color ?? Colors.grey.shade600)
-        .makeCentered();
+    final style = (textStyle ?? context.caption).copyWith(color: color);
     return MaterialButton(
       onPressed: onPressed,
       minWidth: width,
@@ -70,8 +65,12 @@ class IconTitle extends StatelessWidget {
                 : Axis.horizontal,
             children: [
               icon,
-              Dimensions.height8,
-              text,
+              Dimensions.height5,
+              Text(
+                title,
+                style: style,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
