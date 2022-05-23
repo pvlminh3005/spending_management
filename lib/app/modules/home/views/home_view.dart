@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../../core/styles/style.dart';
-import '../../../routes/app_pages.dart';
 import '../../../widgets/common/input_custom.dart';
 import '../../../widgets/icon_title.dart';
 import '../../../widgets/indicators/loading_indicator.dart';
@@ -63,7 +62,9 @@ class HomeView extends GetView<HomeController> {
                           child: Row(
                             children: [
                               Text(
-                                '05/2022',
+                                controller.currentMonth < 10
+                                    ? '0${controller.currentMonth}/2022'
+                                    : '${controller.currentMonth}/2022',
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w700,
@@ -104,62 +105,62 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-class _CardAmountBuilder extends StatelessWidget {
-  final String title;
-  final int amount;
-  final TextStyle? style;
-  const _CardAmountBuilder({
-    this.title = '',
-    this.amount = 0,
-    this.style,
-    Key? key,
-  }) : super(key: key);
+// class _CardAmountBuilder extends StatelessWidget {
+//   final String title;
+//   final int amount;
+//   final TextStyle? style;
+//   const _CardAmountBuilder({
+//     this.title = '',
+//     this.amount = 0,
+//     this.style,
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6.w),
-        borderSide: BorderSide.none,
-      ),
-      shadowColor: Colors.black26,
-      child: SizedBox(
-        width: context.width * .45,
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 5.h,
-                  horizontal: 8.w,
-                ),
-                child: Text(
-                  title,
-                  style: context.bodyText1.copyWith(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                ),
-              ),
-              const Divider(height: 0),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 7.h,
-                  horizontal: 8.w,
-                ),
-                child: Text(
-                  '${amount.format} đ',
-                  style: style ?? context.bodyText1,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       elevation: 3,
+//       shape: OutlineInputBorder(
+//         borderRadius: BorderRadius.circular(6.w),
+//         borderSide: BorderSide.none,
+//       ),
+//       shadowColor: Colors.black26,
+//       child: SizedBox(
+//         width: context.width * .45,
+//         child: Center(
+//           child: Column(
+//             children: [
+//               Padding(
+//                 padding: EdgeInsets.symmetric(
+//                   vertical: 5.h,
+//                   horizontal: 8.w,
+//                 ),
+//                 child: Text(
+//                   title,
+//                   style: context.bodyText1.copyWith(
+//                     fontSize: 13.sp,
+//                     fontWeight: FontWeight.w700,
+//                   ),
+//                   textAlign: TextAlign.center,
+//                   maxLines: 2,
+//                 ),
+//               ),
+//               const Divider(height: 0),
+//               Padding(
+//                 padding: EdgeInsets.symmetric(
+//                   vertical: 7.h,
+//                   horizontal: 8.w,
+//                 ),
+//                 child: Text(
+//                   '${amount.format} đ',
+//                   style: style ?? context.bodyText1,
+//                   textAlign: TextAlign.center,
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

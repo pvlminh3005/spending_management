@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../../core/styles/style.dart';
 import '../../../widgets/common/app_button.dart';
-import '../../../widgets/common/input_custom.dart';
 import '../controllers/filter_controller.dart';
 
 class FilterView extends StatelessWidget {
@@ -76,6 +74,7 @@ class FilterView extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 8.h),
                   ],
                 );
               }),
@@ -134,59 +133,59 @@ class _TextMonthItem extends StatelessWidget {
   }
 }
 
-class _DateTimeCustom extends StatelessWidget {
-  final String title;
-  final TextEditingController? controller;
-  final Function(DateTime?)? onPressed;
+// class _DateTimeCustom extends StatelessWidget {
+//   final String title;
+//   final TextEditingController? controller;
+//   final Function(DateTime?)? onPressed;
 
-  const _DateTimeCustom({
-    required this.title,
-    this.controller,
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
+//   const _DateTimeCustom({
+//     required this.title,
+//     this.controller,
+//     this.onPressed,
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    final dateNow = DateTime.now();
+//   @override
+//   Widget build(BuildContext context) {
+//     final dateNow = DateTime.now();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: context.caption.copyWith(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(height: 5.h),
-        InkWell(
-          onTap: () async {
-            var data = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(dateNow.year - 1),
-              lastDate: DateTime(dateNow.year + 1),
-            );
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       mainAxisSize: MainAxisSize.min,
+//       children: [
+//         Text(
+//           title,
+//           style: context.caption.copyWith(
+//             fontSize: 13.sp,
+//             fontWeight: FontWeight.w500,
+//           ),
+//         ),
+//         SizedBox(height: 5.h),
+//         InkWell(
+//           onTap: () async {
+//             var data = await showDatePicker(
+//               context: context,
+//               initialDate: DateTime.now(),
+//               firstDate: DateTime(dateNow.year - 1),
+//               lastDate: DateTime(dateNow.year + 1),
+//             );
 
-            onPressed?.call(data);
-          },
-          borderRadius: BorderRadius.circular(4),
-          child: InputCustom(
-            controller: controller,
-            borderSide: const BorderSide(color: Colors.grey),
-            isShowPrefixIcon: true,
-            isEnabled: false,
-            prefixIcon: Icon(
-              CupertinoIcons.calendar,
-              color: Colors.grey,
-              size: 23.w,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//             onPressed?.call(data);
+//           },
+//           borderRadius: BorderRadius.circular(4),
+//           child: InputCustom(
+//             controller: controller,
+//             borderSide: const BorderSide(color: Colors.grey),
+//             isShowPrefixIcon: true,
+//             isEnabled: false,
+//             prefixIcon: Icon(
+//               CupertinoIcons.calendar,
+//               color: Colors.grey,
+//               size: 23.w,
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

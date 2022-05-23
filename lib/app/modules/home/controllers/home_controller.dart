@@ -7,8 +7,8 @@ import '../../../routes/app_pages.dart';
 
 class HomeController extends GetxController
     with StateMixin<List<ExpenseModel>> {
-  final _currentMonth = Rx<int?>(null);
-  int? get currentMonth => _currentMonth.value;
+  final _currentMonth = Rx<int>(DateTime.now().month);
+  int get currentMonth => _currentMonth.value;
 
   final searchCtrl = TextEditingController();
   String get searchStr => searchCtrl.text;
@@ -43,7 +43,7 @@ class HomeController extends GetxController
       Routes.filter,
       arguments: currentMonth,
     );
-    _currentMonth(data);
+    _currentMonth(data + 1);
   }
 
   @override

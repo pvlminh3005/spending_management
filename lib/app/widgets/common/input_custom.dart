@@ -7,7 +7,7 @@ class InputCustom extends StatefulWidget {
   final FocusNode? focusNode, nextFocus;
   final TextInputType inputType;
   final TextInputAction inputAction;
-  final Color? fillColor;
+  final Color? fillColor, focusColor;
   final int maxLines;
   final FontWeight fontWeight;
   final bool isPassword;
@@ -26,7 +26,7 @@ class InputCustom extends StatefulWidget {
   final Widget? suffixIcon, prefixIcon;
   final TextCapitalization capitalization;
   final BorderSide? borderSide;
-  final EdgeInsets? contentPadding;
+  final EdgeInsets? contentPadding, margin;
   final EdgeInsets scrollPadding;
   final TextStyle? hintStyle, errorStyle, labelStyle;
   final double hintSize, radius;
@@ -60,6 +60,7 @@ class InputCustom extends StatefulWidget {
     this.maxLines = 1,
     this.onSuffixTap,
     this.fillColor,
+    this.focusColor,
     this.onSubmit,
     this.onChanged,
     this.capitalization = TextCapitalization.none,
@@ -68,6 +69,7 @@ class InputCustom extends StatefulWidget {
     this.prefixIcon,
     this.borderSide,
     this.contentPadding,
+    this.margin,
     this.readOnly = false,
     this.hintStyle,
     this.hintSize = 14,
@@ -75,7 +77,7 @@ class InputCustom extends StatefulWidget {
     this.maxLength,
     this.inputFormatters,
     this.scrollPadding = const EdgeInsets.all(20.0),
-    this.radius = 6,
+    this.radius = 4.0,
     this.textAlign = TextAlign.start,
     this.errorStyle,
     this.suffixIconConstraints,
@@ -98,7 +100,6 @@ class _CustomTextFieldState extends State<InputCustom> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final style = (widget.hintStyle ?? textTheme.subtitle1!).copyWith(
-      color: Colors.black,
       fontSize: widget.hintSize,
       fontWeight: widget.fontWeight,
       letterSpacing: widget.spacing,
@@ -112,107 +113,116 @@ class _CustomTextFieldState extends State<InputCustom> {
             borderSide: widget.borderSide ?? const BorderSide(),
             borderRadius: BorderRadius.circular(widget.radius),
           );
-    return TextFormField(
-      initialValue: widget.initialValue,
-      scrollPadding: widget.scrollPadding,
-      maxLength: widget.maxLength,
-      readOnly: widget.readOnly,
-      maxLines: widget.maxLines,
-      controller: widget.controller,
-      focusNode: widget.focusNode,
-      style: style,
-      keyboardType: widget.inputType,
-      textInputAction: widget.inputAction,
-      cursorColor: Theme.of(context).primaryColor,
-      textCapitalization: widget.capitalization,
-      enabled: widget.isEnabled,
-      autofocus: false,
-      validator: widget.validator,
-      obscureText: widget.isPassword ? _obscureText : false,
-      inputFormatters: widget.inputFormatters,
-      textAlign: widget.textAlign,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        labelStyle: widget.labelStyle,
-        counterText: '',
-        contentPadding:
-            widget.contentPadding ?? const EdgeInsets.fromLTRB(12, 20, 12, 14),
-        isDense: true,
-        hintText: widget.hintText,
-        hintStyle: widget.hintStyle ??
-            textTheme.headline2!.copyWith(
-              fontSize: widget.hintSize,
-              color: const Color(0xff9B9B9B),
-              fontWeight: FontWeight.normal,
-            ),
-        prefixIconConstraints: const BoxConstraints(
-          minWidth: 30,
-          maxHeight: 30,
-        ),
-        border: border,
-        enabledBorder: border,
-        focusedBorder: border,
-        disabledBorder: border,
-        filled: widget.fillColor != null,
-        fillColor: widget.fillColor,
-        errorStyle: widget.errorStyle,
-        suffixIconConstraints: widget.suffixIconConstraints,
-        prefixIcon: widget.isShowPrefixIcon
-            ? Padding(
-                padding: const EdgeInsets.only(right: 10, left: 10),
-                child: widget.prefixIcon,
-              )
-            : null,
-        suffixIcon: widget.readOnly || !widget.isShowSuffixIcon
-            ? null
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (widget.isShowSuffixIcon) ...[
-                    if (widget.isPassword)
-                      _IconButton(
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        onPressed: _toggle,
-                      )
-                    else if (widget.isSearch && _text.isNotEmpty)
-                      IconButton(
-                        onPressed: _clear,
-                        icon: const Icon(Icons.cancel_outlined),
-                      )
-                    else if (widget.isIcon)
-                      _IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: widget.onSuffixTap,
-                        icon: widget.suffixIcon ?? const SizedBox(),
-                      )
-                    else if (widget.suffixIcon != null)
-                      widget.suffixIcon!,
-                  ],
-                  if (widget.isClear)
-                    _IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.grey,
-                      ),
-                      onPressed: _clear,
-                    )
-                ],
+    return Padding(
+      padding: widget.margin ?? EdgeInsets.zero,
+      child: TextFormField(
+        initialValue: widget.initialValue,
+        scrollPadding: widget.scrollPadding,
+        maxLength: widget.maxLength,
+        readOnly: widget.readOnly,
+        maxLines: widget.maxLines,
+        controller: widget.controller,
+        focusNode: widget.focusNode,
+        style: style,
+        keyboardType: widget.inputType,
+        textInputAction: widget.inputAction,
+        cursorColor: Theme.of(context).primaryColor,
+        textCapitalization: widget.capitalization,
+        enabled: widget.isEnabled,
+        autofocus: false,
+        validator: widget.validator,
+        obscureText: widget.isPassword ? _obscureText : false,
+        inputFormatters: widget.inputFormatters,
+        textAlign: widget.textAlign,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          labelText: widget.labelText,
+          labelStyle: widget.labelStyle,
+          counterText: '',
+          contentPadding: widget.contentPadding ??
+              const EdgeInsets.fromLTRB(12, 20, 12, 14),
+          isDense: true,
+          hintText: widget.hintText,
+          hintStyle: widget.hintStyle ??
+              textTheme.headline2!.copyWith(
+                fontSize: widget.hintSize,
+                color: const Color(0xff9B9B9B),
+                fontWeight: FontWeight.normal,
               ),
+          prefixIconConstraints: const BoxConstraints(
+            minWidth: 30,
+            maxHeight: 30,
+          ),
+          border: border,
+          enabledBorder: border,
+          focusedBorder: border.copyWith(
+            borderSide: BorderSide(
+              color: widget.focusColor ?? Theme.of(context).primaryColor,
+            ),
+          ),
+          alignLabelWithHint: true,
+          disabledBorder: border,
+          filled: widget.fillColor != null,
+          fillColor: widget.fillColor,
+          errorStyle: widget.errorStyle,
+          suffixIconConstraints: widget.suffixIconConstraints,
+          prefixIcon: widget.isShowPrefixIcon
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  child: widget.prefixIcon,
+                )
+              : null,
+          suffixIcon: widget.readOnly || !widget.isShowSuffixIcon
+              ? null
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.isShowSuffixIcon) ...[
+                      if (widget.isPassword)
+                        _IconButton(
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          onPressed: _toggle,
+                        )
+                      else if (widget.isSearch && _text.isNotEmpty)
+                        IconButton(
+                          onPressed: _clear,
+                          icon: const Icon(Icons.cancel_outlined),
+                        )
+                      else if (widget.isIcon)
+                        _IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: widget.onSuffixTap,
+                          icon: widget.suffixIcon ?? const SizedBox(),
+                        )
+                      else if (widget.suffixIcon != null)
+                        widget.suffixIcon!,
+                    ],
+                    if (widget.isClear)
+                      _IconButton(
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.grey,
+                        ),
+                        onPressed: _clear,
+                      )
+                  ],
+                ),
+        ),
+        onChanged: (val) {
+          widget.onChanged?.call(val);
+          setState(() {
+            _text = val;
+          });
+        },
+        onTap: widget.onTap,
+        onFieldSubmitted: widget.onSubmit,
       ),
-      onChanged: (val) {
-        widget.onChanged?.call(val);
-        setState(() {
-          _text = val;
-        });
-      },
-      onTap: widget.onTap,
-      onFieldSubmitted: widget.onSubmit,
     );
   }
 

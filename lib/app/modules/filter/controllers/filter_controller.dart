@@ -10,7 +10,7 @@ class FilterController extends GetxController
 
   @override
   void onInit() {
-    _currentMonth(Get.arguments);
+    _currentMonth((Get.arguments as int) - 1);
     super.onInit();
   }
 

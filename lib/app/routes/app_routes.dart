@@ -11,6 +11,7 @@ abstract class Routes {
   static const verifyPhone = _Paths.verifyPhone;
   static const chargeManage = _Paths.chargeManage;
   static const filter = _Paths.filter;
+  static const transactionDetail = _Paths.transactionDetail;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const verifyPhone = '/verify-phone';
   static const chargeManage = '/charge-manage';
   static const filter = '/filter';
+  static const transactionDetail = '/transaction-detail';
 }

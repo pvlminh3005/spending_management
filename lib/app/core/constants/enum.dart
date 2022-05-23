@@ -4,7 +4,7 @@ enum ExpenseType {
 }
 
 enum CostType {
-  //payment
+  //? payment
   eat,
   personal,
   home,
@@ -21,7 +21,13 @@ enum CostType {
   saving,
   other,
 
-  //charge
+  //? charge
   salary,
   award,
+}
+
+//* Transaction Type
+enum DetailTransactionType {
+  create,
+  edit,
 }

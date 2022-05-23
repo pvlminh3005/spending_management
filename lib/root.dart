@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
 import 'app/core/styles/style.dart';
@@ -33,7 +33,7 @@ class RootApp extends StatelessWidget {
               title: "Spending Management",
               debugShowCheckedModeBanner: false,
               // initialRoute: auth.isAuth ? Routes.dashboard : Routes.login,
-              initialRoute: Routes.dashboard,
+              initialRoute: Routes.transactionDetail,
               getPages: AppPages.routes,
               themeMode: theme.themeMode,
               theme: theme.lightTheme.copyWith(
@@ -45,6 +45,8 @@ class RootApp extends StatelessWidget {
               routingCallback: (_) {
                 WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
               },
+              localizationsDelegates: GlobalMaterialLocalizations.delegates,
+              supportedLocales: const [Locale('vi', 'VI')],
             ),
             onTap: () {
               WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();

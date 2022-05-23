@@ -14,7 +14,7 @@ class SettingService extends GetxService {
 
   ThemeModel currentTheme = themeSupport.first;
 
-  String currentFont = 'NotoSans';
+  String currentFont = fontSupport.last;
 
   late ThemeData lightTheme = AppTheme.getCollectionTheme(
     theme: currentTheme,

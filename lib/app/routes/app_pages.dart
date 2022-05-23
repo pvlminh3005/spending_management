@@ -15,6 +15,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/transaction_detail/bindings/transaction_detail_binding.dart';
+import '../modules/transaction_detail/views/transaction_detail_view.dart';
 
 part 'app_routes.dart';
 
@@ -63,6 +65,11 @@ class AppPages {
       name: _Paths.filter,
       page: () => const FilterView(),
       binding: FilterBinding(),
+    ),
+    GetPage(
+      name: _Paths.transactionDetail,
+      page: () => const TransactionDetailView(),
+      binding: TransactionDetailBinding(),
     ),
   ];
 }
