@@ -5,6 +5,6 @@ import '../controllers/filter_controller.dart';
 class FilterBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => FilterController());
+    Get.put(FilterController());
   }
 }

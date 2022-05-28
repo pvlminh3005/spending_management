@@ -4,84 +4,79 @@ import '../../../core/styles/style.dart';
 import '../../../widgets/common/app_button.dart';
 import '../controllers/filter_controller.dart';
 
-class FilterView extends StatelessWidget {
+class FilterView extends GetView<FilterController> {
   const FilterView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<FilterController>(
-      init: FilterController(),
-      builder: (controller) {
-        final _currentFilter = ValueNotifier<int?>(controller.currentMonth);
+    final _currentFilter = ValueNotifier<int?>(controller.currentMonth);
 
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            leading: const BackButton(),
-            title: const Text('Bộ lọc'),
-          ),
-          body: Padding(
-            padding: EdgeInsets.all(10.0.w),
-            child: ValueListenableBuilder(
-              valueListenable: _currentFilter,
-              builder: ((context, int? value, child) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // const _DateTimeCustom(
-                    //   title: 'Từ ngày',
-                    // ),
-                    // SizedBox(height: 15.h),
-                    // const _DateTimeCustom(
-                    //   title: 'Đến ngày',
-                    // ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      'Lọc theo tháng',
-                      style: context.bodyText1.copyWith(fontSize: 18.sp),
-                    ),
-                    SizedBox(height: 10.h),
-                    Center(
-                      child: Wrap(
-                        runSpacing: 5.h,
-                        spacing: 5.w,
-                        children: List.generate(12, (index) {
-                          return _TextMonthItem(
-                            'Tháng ${index + 1}',
-                            index: index,
-                            isActive: value == index,
-                            onPressed: (index) {
-                              _currentFilter.value = index;
-                            },
-                          );
-                        }).toList(),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: const BackButton(),
+        title: const Text('Bộ lọc'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(10.0.w),
+        child: ValueListenableBuilder(
+          valueListenable: _currentFilter,
+          builder: ((context, int? value, child) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // const _DateTimeCustom(
+                //   title: 'Từ ngày',
+                // ),
+                // SizedBox(height: 15.h),
+                // const _DateTimeCustom(
+                //   title: 'Đến ngày',
+                // ),
+                SizedBox(height: 20.h),
+                Text(
+                  'Lọc theo tháng',
+                  style: context.bodyText1.copyWith(fontSize: 18.sp),
+                ),
+                SizedBox(height: 10.h),
+                Center(
+                  child: Wrap(
+                    runSpacing: 5.h,
+                    spacing: 5.w,
+                    children: List.generate(12, (index) {
+                      return _TextMonthItem(
+                        'Tháng ${index + 1}',
+                        index: index,
+                        isActive: value == index,
+                        onPressed: (index) {
+                          _currentFilter.value = index;
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Obx(
+                      () => AppButton(
+                        'Áp dụng',
+                        axisSize: MainAxisSize.max,
+                        loading: controller.isLoading,
+                        onPressed: _currentFilter.value != null
+                            ? () {
+                                controller.applyFilter(value);
+                              }
+                            : null,
                       ),
                     ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Obx(
-                          () => AppButton(
-                            'Áp dụng',
-                            axisSize: MainAxisSize.max,
-                            loading: controller.isLoading,
-                            onPressed: _currentFilter.value != null
-                                ? () {
-                                    controller.applyFilter(value);
-                                  }
-                                : null,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                  ],
-                );
-              }),
-            ),
-          ),
-        );
-      },
+                  ),
+                ),
+                SizedBox(height: 8.h),
+              ],
+            );
+          }),
+        ),
+      ),
     );
   }
 }

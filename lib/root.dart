@@ -32,8 +32,7 @@ class RootApp extends StatelessWidget {
             child: GetMaterialApp(
               title: "Spending Management",
               debugShowCheckedModeBanner: false,
-              // initialRoute: auth.isAuth ? Routes.dashboard : Routes.login,
-              initialRoute: Routes.transactionDetail,
+              initialRoute: auth.isAuth ? Routes.dashboard : Routes.login,
               getPages: AppPages.routes,
               themeMode: theme.themeMode,
               theme: theme.lightTheme.copyWith(
