@@ -1,20 +1,22 @@
+import 'package:get/get.dart';
 import '../styles/style.dart';
 
 class DateTimePickerUtils {
   DateTimePickerUtils._();
 
-  static Future<String> picker(
-    BuildContext context, {
+  static Future<DateTime> dateTimePicker({
     DateTime? initialDate,
     DateTime? firstDate,
     DateTime? lastDate,
   }) async {
-    var data = await showDatePicker(
-      context: context,
-      initialDate: initialDate ?? DateTime.now(),
-      firstDate: firstDate ?? DateTime(DateTime.now().year - 1),
-      lastDate: lastDate ?? DateTime(DateTime.now().year + 1),
-    );
-    return data?.displayDate ?? DateTime.now().displayDate;
+    final now = DateTime.now();
+    return await showDatePicker(
+          context: Get.context!,
+          initialDate: initialDate ?? now,
+          firstDate: firstDate ?? DateTime(1980),
+          lastDate: lastDate ?? DateTime(now.year, 12),
+          locale: const Locale('ja'),
+        ) ??
+        now;
   }
 }

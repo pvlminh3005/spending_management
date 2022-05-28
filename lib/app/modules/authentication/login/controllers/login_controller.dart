@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 
 import '../../../../core/styles/style.dart';
+import '../../../../core/utilities/utilities.dart';
+import '../../../../data/models/models.dart';
 import '../../../../data/services/auth_service.dart';
+import '../../../../data/services/notification_service.dart';
 import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -39,7 +42,15 @@ class LoginController extends GetxController {
   }
 
   void toRegister() {
-    Get.offAndToNamed(Routes.register);
+    // Get.offAndToNamed(Routes.register);
+    Get.find<NotificationService>().sentMessage(
+      MessagingModel(
+        title: 'Chào bae',
+        body: 'Yêu bae',
+        data: {},
+      ),
+      StringUtils.messagingKey,
+    );
   }
 
   @override

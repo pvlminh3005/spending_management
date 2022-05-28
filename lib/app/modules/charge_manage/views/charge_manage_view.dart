@@ -19,6 +19,7 @@ class ChargeManageView extends GetView<ChargeManageController> {
               (state) {
                 return ListView.builder(
                   itemCount: state!.length,
+                  shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return SpendingManageItem(
                       model: state[index],

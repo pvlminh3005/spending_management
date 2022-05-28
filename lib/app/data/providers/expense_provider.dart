@@ -2,7 +2,7 @@ part of providers;
 
 class ExpenseProvider {
   static Future<ResponseData<List<ExpenseModel>>> getList(
-      {int? expenseType}) async {
+      {ExpenseType? expenseType}) async {
     try {
       await 1.delay();
       if (expenseType == null) {

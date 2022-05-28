@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "976328238826-9k4p5c6ml4hmdsirf6qqn4gqq19q87cl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pvlminh.sm.spending_management",
+            "certificate_hash": "59694664437212b7c3aecb27dcd7e6f1d22c0f92"
+          }
+        },
+        {
           "client_id": "976328238826-a0u9jkng4uheknudmv6va68vvsif6lj2.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -1,54 +1,40 @@
-import '../../core/constants/constants.dart';
-import '../../core/styles/style.dart';
+// import 'package:json_annotation/json_annotation.dart';
 
+import 'package:json_annotation/json_annotation.dart';
+import '../../../core/constants/constants.dart';
+import '../../../core/styles/style.dart';
+
+part 'expense.g.dart';
+
+@JsonSerializable()
 class ExpenseModel {
   final String uid;
   final String title;
-  final String description;
-  final int price;
-  final int expenseType;
+  final String? description;
+  final int balance;
+  @JsonKey(required: true, name: 'expense_type')
+  final ExpenseType expenseType;
+  @JsonKey(required: true, name: 'created_at')
   final DateTime createdAt;
 
   ExpenseModel({
     required this.uid,
     required this.title,
-    this.description = '',
-    this.price = 0,
-    this.expenseType = 0,
+    required this.expenseType,
+    required this.balance,
     required this.createdAt,
+    this.description,
   });
 
-  CostType get costType => CostType.values.firstWhere(
-        (element) => element.name == title.replaceAll(' ', '').toLowerCase(),
-      );
-  ExpenseType get actionType => ExpenseType.values[expenseType];
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseModelFromJson(json);
 
-  String titleTagBuilder(CostType type) {
-    switch (type) {
-      //?payment
-      case CostType.eat:
-        return 'Eat';
-      case CostType.personal:
-        return 'Personal';
-      case CostType.study:
-        return 'Study';
-      case CostType.shopping:
-        return 'Shopping';
-      case CostType.donate:
-        return 'Donate';
-
-      //?charge
-      case CostType.award:
-        return 'Award';
-      case CostType.salary:
-        return 'Salary';
-      default:
-        return 'Other';
-    }
-  }
+  Map<String, dynamic> toJson() => _$ExpenseModelToJson(this);
 
   String get formatDate => (createdAt).displayDate;
   String get month => createdAt.month.toString();
+  String get displayBalance => balance.format;
+  // String get convertTitle => ExpenseExt.convert(title);
 }
 
 List<ExpenseModel> fakeData = [
@@ -57,16 +43,16 @@ List<ExpenseModel> fakeData = [
     uid: 'ex001',
     title: 'Play',
     description: 'Cafe với bae',
-    price: 45000,
-    expenseType: 0,
+    balance: 45000,
+    expenseType: ExpenseType.payment,
     createdAt: DateTime.now(),
   ),
   ExpenseModel(
     uid: 'ex002',
     title: 'Eat',
     description: 'Đi chợ',
-    price: 91000,
-    expenseType: 0,
+    balance: 91000,
+    expenseType: ExpenseType.payment,
     createdAt: DateTime.now(),
   ),
   ExpenseModel(
@@ -74,8 +60,8 @@ List<ExpenseModel> fakeData = [
     title: 'Study',
     description:
         'Eveniet cum assumenda ab laborum ut consectetur quia, qui accusamus ratione vitae debitis voluptatum ad similique, laboriosam tenetur?',
-    price: 9786000,
-    expenseType: 0,
+    balance: 9786000,
+    expenseType: ExpenseType.payment,
     createdAt: DateTime.now(),
   ),
   //? charge
@@ -84,8 +70,8 @@ List<ExpenseModel> fakeData = [
     title: 'Award',
     description:
         'Eveniet cum assumenda ab laborum ut consectetur quia, qui accusamus ratione vitae debitis voluptatum ad similique, laboriosam tenetur?',
-    price: 145000,
-    expenseType: 1,
+    balance: 145000,
+    expenseType: ExpenseType.charge,
     createdAt: DateTime.now(),
   ),
   ExpenseModel(
@@ -93,8 +79,8 @@ List<ExpenseModel> fakeData = [
     title: 'Salary',
     description:
         'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae sapiente saepe ullam eveniet cum assumenda ab laborum ut consectetur quia, qui accusamus ratione vitae debitis voluptatum ad similique, laboriosam tenetur?',
-    price: 145000,
-    expenseType: 1,
+    balance: 145000,
+    expenseType: ExpenseType.charge,
     createdAt: DateTime.now(),
   ),
 ];

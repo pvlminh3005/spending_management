@@ -5,8 +5,8 @@ class FilterController extends GetxController
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  final _currentMonth = Rxn<int?>(null);
-  int? get currentMonth => _currentMonth.value;
+  final _currentMonth = (DateTime.now().month).obs;
+  int get currentMonth => _currentMonth.value;
 
   @override
   void onInit() {
@@ -14,8 +14,9 @@ class FilterController extends GetxController
     super.onInit();
   }
 
-  Future<void> applyFilter(int? index) async {
-    _currentMonth(index);
+  Future<void> applyFilter(int index) async {
+    int newMonth = index + 1;
+    _currentMonth(newMonth);
     _isLoading(true);
     await 2.delay(() {
       Get.back(result: currentMonth);

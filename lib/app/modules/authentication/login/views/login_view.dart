@@ -64,6 +64,7 @@ class LoginView extends GetView<LoginController> {
                   MaskTextInputFormatter(mask: "### ### ####"),
                 ],
                 inputType: TextInputType.phone,
+                inputAction: TextInputAction.done,
                 spacing: 1.05,
                 validator: Validator.validateAll([
                   PhoneValidator('Please enter correct format'),

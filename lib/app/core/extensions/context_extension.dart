@@ -11,6 +11,7 @@ extension ContextEx on BuildContext {
   Color get secondaryContainer => colorScheme.secondaryContainer;
   Color get surface => colorScheme.surface;
   Color get background => colorScheme.background;
+  Color get tertiary => colorScheme.tertiary;
   Color get error => colorScheme.error;
   Color get onPrimary => colorScheme.onPrimary;
   Color get onSecondary => colorScheme.onSecondary;

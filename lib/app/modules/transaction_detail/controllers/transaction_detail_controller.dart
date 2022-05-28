@@ -10,8 +10,10 @@ class TransactionDetailController extends GetxController {
   final amountController = TextEditingController();
   final descriptionController = TextEditingController();
 
-  Future<void> chooseDate(BuildContext context) async {
-    dateController.text = await DateTimePickerUtils.picker(context);
+  void chooseDate(BuildContext context) {
+    DateTimePickerUtils.dateTimePicker().then((date) {
+      dateController.text = date.displayDate;
+    });
   }
 
   @override

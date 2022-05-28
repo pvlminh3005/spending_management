@@ -29,18 +29,20 @@ class AppTheme {
         colorScheme = ColorScheme.light(
           primary: theme.primary,
           secondary: theme.secondary,
+          tertiary: Colors.grey.shade200,
           surface: Colors.white,
           background: const Color(0xfffcfcfc),
-          error: const Color(0xffD90615),
+          error: const Color(0xffe74c3c),
         );
         break;
       case Brightness.dark:
         colorScheme = ColorScheme.dark(
           primary: theme.primary,
           secondary: theme.secondary,
+          tertiary: const Color(0xFF2d2d2d),
           surface: const Color(0xff121212),
           background: const Color(0xff010101),
-          error: const Color(0xffD90615),
+          error: const Color(0xffe74c3c),
         );
         break;
       default:

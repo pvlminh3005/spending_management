@@ -6,10 +6,10 @@ import '../../../widgets/common/input_custom.dart';
 import '../../../widgets/icon_title.dart';
 import '../../../widgets/indicators/loading_indicator.dart';
 import '../../../widgets/spending_manage_item.dart';
-import '../controllers/home_controller.dart';
+import '../controllers/payment_manage_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+class PaymentManageView extends GetView<PaymentManageController> {
+  const PaymentManageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class HomeView extends GetView<HomeController> {
                     isShowPrefixIcon: true,
                     isCountryPicker: true,
                     isSearch: true,
-                    fillColor: Colors.grey.shade200,
+                    fillColor: context.tertiary,
                     prefixIcon: const Icon(
                       CupertinoIcons.search,
                       color: Colors.grey,

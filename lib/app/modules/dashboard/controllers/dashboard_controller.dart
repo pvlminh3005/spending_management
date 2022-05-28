@@ -1,15 +1,17 @@
 import 'package:get/get.dart';
 import '../../../core/styles/style.dart';
 import '../../charge_manage/views/charge_manage_view.dart';
-import '../../home/views/home_view.dart';
+import '../../classify/views/classify_view.dart';
+import '../../payment_manage/views/payment_manage_view.dart';
 import '../../profile/views/profile_view.dart';
 
 class DashboardController extends GetxController {
   final _currentIndex = 0.obs;
   int get currentIndex => _currentIndex.value;
   final pages = const [
-    HomeView(),
+    PaymentManageView(),
     ChargeManageView(),
+    ClassifyView(),
     ProfileView(),
   ];
   final pageController = PageController();
@@ -17,11 +19,7 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     _currentIndex.listen((index) {
-      pageController.animateToPage(
-        index,
-        curve: Curves.fastOutSlowIn,
-        duration: kTabScrollDuration,
-      );
+      pageController.jumpToPage(index);
     });
     super.onInit();
   }

@@ -9,7 +9,7 @@ class FilterView extends GetView<FilterController> {
 
   @override
   Widget build(BuildContext context) {
-    final _currentFilter = ValueNotifier<int?>(controller.currentMonth);
+    final _currentFilter = ValueNotifier<int>(controller.currentMonth);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +21,7 @@ class FilterView extends GetView<FilterController> {
         padding: EdgeInsets.all(10.0.w),
         child: ValueListenableBuilder(
           valueListenable: _currentFilter,
-          builder: ((context, int? value, child) {
+          builder: ((context, int value, child) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -62,11 +62,7 @@ class FilterView extends GetView<FilterController> {
                         'Áp dụng',
                         axisSize: MainAxisSize.max,
                         loading: controller.isLoading,
-                        onPressed: _currentFilter.value != null
-                            ? () {
-                                controller.applyFilter(value);
-                              }
-                            : null,
+                        onPressed: () => controller.applyFilter(value),
                       ),
                     ),
                   ),

@@ -1,5 +1,5 @@
 import '../core/styles/style.dart';
-import '../data/models/expense_model.dart';
+import '../data/models/expense/expense.dart';
 
 class SpendingManageItem extends StatelessWidget {
   final ExpenseModel model;
@@ -19,7 +19,7 @@ class SpendingManageItem extends StatelessWidget {
       elevation: 0,
       highlightElevation: 0,
       padding: EdgeInsets.zero,
-      color: index % 2 == 0 ? null : Colors.grey.shade100,
+      color: index % 2 == 0 ? null : context.tertiary.withOpacity(.6),
       child: Padding(
         padding: EdgeInsets.symmetric(
           vertical: 11.h,
@@ -29,19 +29,20 @@ class SpendingManageItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _CostTag(
-              title: model.titleTagBuilder(model.costType),
+              title: model.title,
               color: tagColor ?? context.primary,
             ),
             SizedBox(height: 5.h),
-            Text(
-              model.description,
-              style: TextStyle(
-                fontSize: 13.sp,
-                height: 1.5,
+            if (model.description != null)
+              Text(
+                model.description!,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  height: 1.5,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
               ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 3,
-            ),
             Row(
               children: [
                 Text(
@@ -57,7 +58,7 @@ class SpendingManageItem extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      '${model.price.format} đ',
+                      '${model.displayBalance} đ',
                       style: TextStyle(
                         fontSize: 17.sp,
                         fontWeight: FontWeight.w600,

@@ -23,14 +23,14 @@ class ClassifyView extends GetView<ClassifyController> {
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text(
                   'Age',
                   maxLines: 1,
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
-              DataColumn(
+              const DataColumn(
                 label: Text(
                   'Role',
                   maxLines: 1,
