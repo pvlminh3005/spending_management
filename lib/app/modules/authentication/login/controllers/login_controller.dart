@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/styles/style.dart';
@@ -20,17 +21,23 @@ class LoginController extends GetxController {
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
 
-  Future<void> toVerify() async {
+  void signIn() {
     _isLoading(true);
+
     if (formKey.currentState!.validate()) {
-      await 2.delay(() {
-        Get.toNamed(
-          Routes.verifyPhone,
-          arguments: phoneStr,
-        );
-      });
+      auth.signInWithPhoneNumber(
+        phoneStr.phoneVerify,
+        onCompleted: (phoneAuth) {},
+        onSuccess: (verificationId, resendToken) {
+          Get.toNamed(
+            Routes.verifyPhone,
+            arguments: verificationId,
+          );
+          _isLoading(false);
+        },
+        onFailed: (e) {},
+      );
     }
-    _isLoading(false);
   }
 
   void onChangedInput(String value) {

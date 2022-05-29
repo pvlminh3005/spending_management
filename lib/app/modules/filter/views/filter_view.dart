@@ -43,8 +43,9 @@ class FilterView extends GetView<FilterController> {
                     runSpacing: 5.h,
                     spacing: 5.w,
                     children: List.generate(12, (index) {
+                      final month = index + 1;
                       return _TextMonthItem(
-                        'Tháng ${index + 1}',
+                        'Tháng $month',
                         index: index,
                         isActive: value == index,
                         onPressed: (index) {

@@ -80,7 +80,7 @@ class LoginView extends GetView<LoginController> {
                   axisSize: MainAxisSize.max,
                   loading: controller.isLoading,
                   disabled: controller.disabled,
-                  onPressed: controller.toVerify,
+                  onPressed: controller.signIn,
                 ),
               ),
               SizedBox(height: 20.sp),

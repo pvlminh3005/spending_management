@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/styles/style.dart';
+import '../../../../core/utilities/app_utils.dart';
 import '../../../../data/services/auth_service.dart';
+import '../../../../routes/app_pages.dart';
 
 class VerifyPhoneController extends GetxController {
   AuthService get auth => Get.find();
@@ -39,12 +42,18 @@ class VerifyPhoneController extends GetxController {
     }
   }
 
-  Future<void> verifyOTP() async {
-    try {
-      await auth.signIn(verifyStr);
-    } catch (e) {
-      rethrow;
-    }
+  void verifyOTP() {
+    _isLoading(true);
+    auth.verifyOTP(
+      smsCode: verifyStr,
+      onSuccess: (UserCredential user) {
+        _isLoading(false);
+        Get.offAndToNamed(Routes.dashboard);
+      },
+      onError: (e) {
+        _isLoading(false);
+      },
+    );
   }
 
   @override
