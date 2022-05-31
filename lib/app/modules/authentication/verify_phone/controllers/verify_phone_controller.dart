@@ -3,23 +3,25 @@ import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/styles/style.dart';
-import '../../../../core/utilities/app_utils.dart';
+import '../../../../core/utilities/utilities.dart';
 import '../../../../data/services/auth_service.dart';
 import '../../../../routes/app_pages.dart';
+
+const _minute = 1;
 
 class VerifyPhoneController extends GetxController {
   AuthService get auth => Get.find();
 
   final verifyController = TextEditingController();
-  String get verifyStr => verifyController.text;
-
-  String yourPhone = Get.arguments ?? '0916115535';
-
   final _disabled = true.obs;
-  bool get disabled => _disabled.value;
-
   final _isLoading = false.obs;
+  final _isResend = false.obs;
+
+  String get verifyStr => verifyController.text;
+  bool get disabled => _disabled.value;
   bool get isLoading => _isLoading.value;
+  bool get isResend => _isResend.value;
+  String yourPhone = Get.parameters[StringUtils.phoneNumber]!;
 
   @override
   void onInit() {
@@ -29,9 +31,10 @@ class VerifyPhoneController extends GetxController {
 
   void formatPhone() {
     yourPhone = MaskTextInputFormatter(
-      initialText: yourPhone.substring(1),
-      mask: '+84## ### ####',
+      initialText: yourPhone,
+      mask: '### ### ####',
     ).getMaskedText();
+    _isResend(true);
   }
 
   void onChange() {
@@ -48,12 +51,21 @@ class VerifyPhoneController extends GetxController {
       smsCode: verifyStr,
       onSuccess: (UserCredential user) {
         _isLoading(false);
-        Get.offAndToNamed(Routes.dashboard);
+        Get.offAllNamed(Routes.dashboard);
       },
       onError: (e) {
         _isLoading(false);
       },
     );
+  }
+
+  Future<void> resendOTP() async {
+    _isResend(true);
+    await (_minute * 60).delay(timeEnd);
+  }
+
+  void timeEnd() {
+    _isResend(false);
   }
 
   @override

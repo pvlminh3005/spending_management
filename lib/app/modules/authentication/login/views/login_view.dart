@@ -2,8 +2,7 @@ import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/styles/style.dart';
-import '../../../../core/utilities/image_utils.dart';
-import '../../../../core/utilities/validator/validator.dart';
+import '../../../../core/utilities/utilities.dart';
 import '../../../../widgets/common/app_button.dart';
 import '../../../../widgets/common/input_custom.dart';
 import '../controllers/login_controller.dart';
@@ -29,7 +28,7 @@ class LoginView extends GetView<LoginController> {
               ),
               Dimensions.height20,
               Text(
-                'Welcome to Spending Management App',
+                StringUtils.welcomeApp,
                 style: TextStyle(
                   fontSize: 28.sp,
                   color: context.primary,
@@ -49,14 +48,14 @@ class LoginView extends GetView<LoginController> {
                     Image.asset(ImageUtils.vnFlag),
                     Dimensions.width5,
                     Text(
-                      '(+84)',
+                      StringUtils.countryVNCode,
                       style: context.bodyText1.copyWith(
                         fontSize: context.bodyText1.fontSize?.sp,
                       ),
                     ),
                   ],
                 ),
-                hintText: 'Your phone number',
+                hintText: StringUtils.inputPhone,
                 fontWeight: FontWeight.w600,
                 borderSide: const BorderSide(color: Colors.grey),
                 contentPadding: const EdgeInsets.all(22.0),
@@ -67,7 +66,7 @@ class LoginView extends GetView<LoginController> {
                 inputAction: TextInputAction.done,
                 spacing: 1.05,
                 validator: Validator.validateAll([
-                  PhoneValidator('Please enter correct format'),
+                  PhoneValidator(StringUtils.validPhone),
                 ]),
                 maxLength: 10 + 3,
                 onChanged: controller.onChangedInput,
@@ -75,7 +74,7 @@ class LoginView extends GetView<LoginController> {
               Dimensions.height20,
               Obx(
                 () => AppButton(
-                  'Login',
+                  StringUtils.signIn,
                   height: 45.h,
                   axisSize: MainAxisSize.max,
                   loading: controller.isLoading,
@@ -87,9 +86,9 @@ class LoginView extends GetView<LoginController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Haven\'t account yet?'),
+                  const Text(StringUtils.noAccount),
                   AppButton(
-                    'Register here',
+                    StringUtils.signUpHere,
                     type: ButtonType.text,
                     textColor: context.primary,
                     onPressed: controller.toRegister,
@@ -103,7 +102,7 @@ class LoginView extends GetView<LoginController> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(
-          'Copyright 2022 by Amo 💕',
+          StringUtils.copyrightBy,
           style: context.caption,
           textAlign: TextAlign.center,
         ),

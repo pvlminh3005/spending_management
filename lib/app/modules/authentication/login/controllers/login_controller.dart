@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/styles/style.dart';
@@ -10,28 +9,32 @@ import '../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
   AuthService get auth => Get.find();
+
   final formKey = GlobalKey<FormState>();
-
   final phoneController = TextEditingController();
-  String get phoneStr => phoneController.text;
-
   final _disabled = true.obs;
-  bool get disabled => _disabled.value;
-
   final _isLoading = false.obs;
+
+  String get phoneStr => phoneController.text;
+  bool get disabled => _disabled.value;
   bool get isLoading => _isLoading.value;
 
   void signIn() {
     _isLoading(true);
-
     if (formKey.currentState!.validate()) {
       auth.signInWithPhoneNumber(
         phoneStr.phoneVerify,
-        onCompleted: (phoneAuth) {},
+        onCompleted: (phoneAuth) {
+          print(phoneAuth);
+        },
         onSuccess: (verificationId, resendToken) {
+          print(resendToken);
           Get.toNamed(
             Routes.verifyPhone,
-            arguments: verificationId,
+            parameters: {
+              StringUtils.verificationId: verificationId,
+              StringUtils.phoneNumber: phoneStr.trim(),
+            },
           );
           _isLoading(false);
         },

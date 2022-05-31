@@ -2,14 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import '../../core/utilities/app_utils.dart';
 import '../../core/utilities/utilities.dart';
+import '../../routes/app_pages.dart';
 
 class AuthService extends GetxService {
   final _isAuth = false.obs;
-  bool get isAuth => _isAuth.value;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   late String _verificationId;
 
-  static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  bool get isAuth => _isAuth.value;
 
   Future<AuthService> init() async {
     _isAuth(_firebaseAuth.currentUser != null);
@@ -70,6 +71,7 @@ class AuthService extends GetxService {
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
+      Get.offAndToNamed(Routes.login);
     } on FirebaseAuthException catch (e) {
       AppUtils.toast(e.message!);
     }
