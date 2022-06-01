@@ -45,6 +45,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
               labelText: 'Nhập số tiền',
               maxLength: 18,
               hintStyle: context.bodyText2.copyWith(color: context.primary),
+              inputType: TextInputType.number,
               borderSide: const BorderSide(color: Colors.grey),
               inputFormatters: [
                 CurrencyTextInputFormatter(
