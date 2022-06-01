@@ -1,15 +1,17 @@
 import '../core/styles/style.dart';
-import '../data/models/expense/expense.dart';
+import '../data/models/transaction/transaction.dart';
 
 class SpendingManageItem extends StatelessWidget {
-  final ExpenseModel model;
+  final TransactionModel model;
   final int index;
   final Color? tagColor;
+  final VoidCallback? onPressed;
 
   const SpendingManageItem({
     required this.model,
     this.index = 0,
     this.tagColor,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -72,7 +74,7 @@ class SpendingManageItem extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: () {},
+      onPressed: onPressed,
     );
   }
 }

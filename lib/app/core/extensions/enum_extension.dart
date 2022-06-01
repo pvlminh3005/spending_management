@@ -1,22 +1,22 @@
 import '../constants/enum.dart';
 import '../utilities/utilities.dart';
 
-extension ExpenseExt on ExpenseType {
+extension ExpenseExt on TransactionType {
   String get name {
     switch (this) {
-      case ExpenseType.payment:
+      case TransactionType.payment:
         return StringUtils.paymentType;
-      case ExpenseType.charge:
+      case TransactionType.charge:
         return StringUtils.chargeType;
     }
   }
 
-  static ExpenseType create(String type) {
+  static TransactionType create(String type) {
     switch (type) {
       case StringUtils.chargeType:
-        return ExpenseType.charge;
+        return TransactionType.charge;
       default:
-        return ExpenseType.payment;
+        return TransactionType.payment;
     }
   }
 

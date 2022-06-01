@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../core/styles/style.dart';
+import '../../../core/utilities/utilities.dart';
 import '../../../data/services/auth_service.dart';
 import '../../../data/services/setting_service.dart';
 
@@ -21,7 +22,10 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> signOut() async {
-    await auth.signOut();
+  void signOut() {
+    LayoutUtils.dialogMessage(
+      title: StringUtils.announceLogOut,
+      onConfirm: auth.signOut,
+    );
   }
 }

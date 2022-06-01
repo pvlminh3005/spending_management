@@ -1,6 +1,7 @@
 import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../../core/styles/style.dart';
+import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/app_button.dart';
 import '../controllers/filter_controller.dart';
 
@@ -15,7 +16,7 @@ class FilterView extends GetView<FilterController> {
       appBar: AppBar(
         elevation: 0,
         leading: const BackButton(),
-        title: const Text('Bộ lọc'),
+        title: const Text(StringUtils.filter),
       ),
       body: Padding(
         padding: EdgeInsets.all(10.0.w),
@@ -34,18 +35,18 @@ class FilterView extends GetView<FilterController> {
                 // ),
                 SizedBox(height: 20.h),
                 Text(
-                  'Lọc theo tháng',
+                  StringUtils.filterByMonth,
                   style: context.bodyText1.copyWith(fontSize: 18.sp),
                 ),
                 SizedBox(height: 10.h),
                 Center(
                   child: Wrap(
-                    runSpacing: 5.h,
+                    runSpacing: 10,
                     spacing: 5.w,
                     children: List.generate(12, (index) {
                       final month = index + 1;
                       return _TextMonthItem(
-                        'Tháng $month',
+                        '${StringUtils.month} $month',
                         index: index,
                         isActive: value == index,
                         onPressed: (index) {
@@ -60,7 +61,7 @@ class FilterView extends GetView<FilterController> {
                     alignment: Alignment.bottomCenter,
                     child: Obx(
                       () => AppButton(
-                        'Áp dụng',
+                        StringUtils.apply,
                         axisSize: MainAxisSize.max,
                         loading: controller.isLoading,
                         onPressed: () => controller.applyFilter(value),
@@ -95,15 +96,22 @@ class _TextMonthItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
+    return AnimatedContainer(
+      duration: kThemeChangeDuration,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 1),
+            color: Colors.grey.shade300,
+            blurRadius: 3,
+          ),
+        ],
+        color: isActive ? context.primary : context.background,
+      ),
       margin: EdgeInsets.zero,
-      shadowColor: Colors.grey.shade100,
-      color: isActive ? context.primary : null,
       child: InkWell(
-        onTap: () {
-          onPressed?.call(index);
-        },
+        onTap: () => onPressed?.call(index),
         borderRadius: BorderRadius.circular(4),
         child: SizedBox(
           width: width ?? context.width / 4 - 3.w * 3,

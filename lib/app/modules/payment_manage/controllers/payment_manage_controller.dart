@@ -1,32 +1,43 @@
 import 'package:get/get.dart';
 import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
-import '../../../data/models/expense/expense.dart';
+import '../../../data/models/transaction/transaction.dart';
 import '../../../data/repositories/repositories.dart';
 import '../../../routes/app_pages.dart';
 
 class PaymentManageController extends GetxController
-    with StateMixin<List<ExpenseModel>> {
+    with StateMixin<List<TransactionModel>> {
   final _currentMonth = Rx<int>(DateTime.now().month);
-  int get currentMonth => _currentMonth.value;
-
   final searchCtrl = TextEditingController();
+
+  int get currentMonth => _currentMonth.value;
   String get searchStr => searchCtrl.text;
 
   @override
   void onInit() {
-    initData();
-
     _currentMonth.listen((_) {
       initData();
     });
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    initData();
+    super.onReady();
+  }
+
+  void toDetailTransaction({TransactionModel? transaction}) {
+    Get.toNamed(
+      Routes.transactionDetail,
+      arguments: transaction,
+    );
+  }
+
   Future<void> initData() async {
     try {
-      var data =
-          await Repositories.expense.getList(expenseType: ExpenseType.payment);
+      var data = await Repositories.transaction
+          .getList(transactionType: TransactionType.payment);
       if (data.isEmpty) {
         change([], status: RxStatus.empty());
       } else {
@@ -50,17 +61,18 @@ class PaymentManageController extends GetxController
     if (val.isEmpty) {
       initData();
     } else {
-      change(state, status: RxStatus.loading());
-      1.delay(() {
-        var data = state?.where((e) => e.title.contains(val)).toList();
-        if (data == null) {
-          change(state, status: RxStatus.error());
-        } else if (data.isEmpty) {
-          change([], status: RxStatus.empty());
-        } else {
-          change(data, status: RxStatus.success());
-        }
-      });
+      1.delay(
+        () {
+          var data = state?.where((e) => e.title.contains(val)).toList();
+          if (data == null) {
+            change(state, status: RxStatus.error());
+          } else if (data.isEmpty) {
+            change([], status: RxStatus.empty());
+          } else {
+            change(data, status: RxStatus.success());
+          }
+        },
+      );
     }
   }
 

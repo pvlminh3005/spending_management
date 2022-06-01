@@ -1,16 +1,16 @@
 part of providers;
 
-class ExpenseProvider {
-  static Future<ResponseData<List<ExpenseModel>>> getList(
-      {ExpenseType? expenseType}) async {
+class TransactionProvider {
+  static Future<ResponseData<List<TransactionModel>>> getList(
+      {TransactionType? transactionType}) async {
     try {
       await 1.delay();
-      if (expenseType == null) {
+      if (transactionType == null) {
         return ResponseData(data: fakeData);
       } else {
         return ResponseData(
           data: fakeData
-              .where((element) => element.expenseType == expenseType)
+              .where((element) => element.transactionType == transactionType)
               .toList(),
         );
       }

@@ -33,7 +33,7 @@ class LoginController extends GetxController {
             Routes.verifyPhone,
             parameters: {
               StringUtils.verificationId: verificationId,
-              StringUtils.phoneNumber: phoneStr.trim(),
+              StringUtils.phoneNumber: phoneStr,
             },
           );
           _isLoading(false);

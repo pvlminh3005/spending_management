@@ -24,9 +24,9 @@ class VerifyPhoneController extends GetxController {
   String yourPhone = Get.parameters[StringUtils.phoneNumber]!;
 
   @override
-  void onInit() {
+  void onReady() {
     formatPhone();
-    super.onInit();
+    super.onReady();
   }
 
   void formatPhone() {
@@ -37,13 +37,7 @@ class VerifyPhoneController extends GetxController {
     _isResend(true);
   }
 
-  void onChange() {
-    if (verifyStr.length < 6) {
-      _disabled(true);
-    } else {
-      _disabled(false);
-    }
-  }
+  void onChange() => _disabled(verifyStr.length < 6);
 
   void verifyOTP() {
     _isLoading(true);
@@ -71,5 +65,6 @@ class VerifyPhoneController extends GetxController {
   @override
   void onClose() {
     verifyController.dispose();
+    super.onClose();
   }
 }

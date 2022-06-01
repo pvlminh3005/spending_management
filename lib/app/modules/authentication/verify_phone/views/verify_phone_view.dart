@@ -103,7 +103,7 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
             ),
             Obx(
               () => AppButton(
-                'Verify',
+                StringUtils.verify,
                 height: _height,
                 axisSize: MainAxisSize.max,
                 loading: controller.isLoading,

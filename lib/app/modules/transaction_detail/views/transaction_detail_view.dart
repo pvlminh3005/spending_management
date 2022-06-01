@@ -15,89 +15,85 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
   Widget build(BuildContext context) {
     final margin = EdgeInsets.symmetric(horizontal: 10.w);
     return Scaffold(
-      appBar: const AppBarCustom(
-        title: 'Chi tiêu',
-      ),
+      appBar: const AppBarCustom(title: 'Chi tiêu'),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: margin,
-                child: InkWell(
-                  onTap: () => controller.chooseDate(context),
-                  child: InputCustom(
-                    controller: controller.dateController,
-                    isShowPrefixIcon: true,
-                    isEnabled: false,
-                    prefixIcon: Icon(
-                      CupertinoIcons.calendar,
-                      size: 24.w,
-                    ),
-                    borderSide: const BorderSide(color: Colors.grey),
-                    labelText: 'Chọn ngày',
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const _DividerCustom(margin: EdgeInsets.only(bottom: 15)),
+            Padding(
+              padding: margin,
+              child: InkWell(
+                onTap: () => controller.chooseDate(context),
+                child: InputCustom(
+                  controller: controller.dateController,
+                  isShowPrefixIcon: true,
+                  isEnabled: false,
+                  prefixIcon: Icon(
+                    CupertinoIcons.calendar,
+                    size: 24.w,
+                  ),
+                  borderSide: const BorderSide(color: Colors.grey),
+                  labelText: 'Chọn ngày',
+                ),
+              ),
+            ),
+            const _DividerCustom(),
+            InputCustom(
+              controller: controller.amountController,
+              margin: margin,
+              labelText: 'Nhập số tiền',
+              maxLength: 18,
+              hintStyle: context.bodyText2.copyWith(color: context.primary),
+              borderSide: const BorderSide(color: Colors.grey),
+              inputFormatters: [
+                CurrencyTextInputFormatter(
+                  symbol: '',
+                  decimalDigits: 0,
+                  locale: 'en',
+                ),
+              ],
+              isShowSuffixIcon: true,
+              isClear: false,
+              suffixIcon: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text(
+                  '₫',
+                  style: context.subtitle1.copyWith(
+                    fontSize: 20.sp,
+                    color: const Color(0xFF333333),
                   ),
                 ),
               ),
-              const _DividerCustom(),
-              InputCustom(
-                controller: controller.amountController,
-                margin: margin,
-                labelText: 'Nhập số tiền',
-                maxLength: 25,
-                hintStyle: context.bodyText2.copyWith(color: context.primary),
-                borderSide: const BorderSide(color: Colors.grey),
-                inputFormatters: [
-                  CurrencyTextInputFormatter(
-                    symbol: '',
-                    decimalDigits: 0,
-                    locale: 'vi',
-                  ),
-                ],
-                isShowSuffixIcon: true,
-                isClear: false,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    '₫',
-                    style: context.subtitle1.copyWith(
-                      fontSize: 20.sp,
-                      color: const Color(0xFF333333),
-                    ),
-                  ),
-                ),
+            ),
+            const _DividerCustom(),
+            const _TitleBuilder('Phân loại'),
+            Padding(
+              padding: margin,
+              child: Wrap(
+                spacing: 7.w,
+                runSpacing: 7.h,
+                children: List.generate(6, (index) {
+                  return _CustomItemType('Lorem ${index * index * index}');
+                }).toList(),
               ),
-              const _DividerCustom(),
-              const _TitleBuilder('Phân loại'),
-              Padding(
-                padding: margin,
-                child: Wrap(
-                  spacing: 7.w,
-                  runSpacing: 7.h,
-                  children: List.generate(6, (index) {
-                    return _CustomItemType('Lorem ${index * index * index}');
-                  }).toList(),
-                ),
-              ),
-              const _DividerCustom(),
-              InputCustom(
-                controller: controller.descriptionController,
-                margin: margin,
-                inputType: TextInputType.multiline,
-                labelText: 'Nhập mô tả',
-                borderSide: const BorderSide(color: Colors.grey),
-                maxLines: 6,
-              ),
-            ],
-          ),
+            ),
+            const _DividerCustom(),
+            InputCustom(
+              controller: controller.descriptionController,
+              margin: margin,
+              inputType: TextInputType.multiline,
+              labelText: 'Nhập mô tả',
+              borderSide: const BorderSide(color: Colors.grey),
+              maxLines: 6,
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(10.h),
         child: AppButton(
-          'Tạo khoản chi mới',
+          controller.titleButton,
           onPressed: () {},
         ),
       ),
@@ -162,12 +158,16 @@ class _CustomItemType extends StatelessWidget {
 }
 
 class _DividerCustom extends StatelessWidget {
-  const _DividerCustom({Key? key}) : super(key: key);
+  final EdgeInsetsGeometry margin;
+  const _DividerCustom({
+    this.margin = const EdgeInsets.symmetric(vertical: 15),
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.h),
+      padding: margin,
       child: ColoredBox(
         color: Colors.grey.shade200,
         child: SizedBox(

@@ -1,4 +1,4 @@
-enum ExpenseType {
+enum TransactionType {
   payment,
   charge,
 }

@@ -8,4 +8,5 @@ class ImageUtils {
   static String waitingPlaneIcon = 'assets/images/png/waiting_plane.png';
   static String expenseDownIcon = 'assets/images/png/expense_down.png';
   static String expenseUpIcon = 'assets/images/png/expense_up.png';
+  static String emptyBox = 'assets/images/png/empty_box.png';
 }

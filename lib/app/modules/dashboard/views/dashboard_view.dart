@@ -102,7 +102,6 @@ class _DashboardButton extends GetView<DashboardController> {
                           pathIcon!,
                           width: 22.w,
                           height: 22.h,
-                          fit: BoxFit.cover,
                         )
                       else
                         Icon(

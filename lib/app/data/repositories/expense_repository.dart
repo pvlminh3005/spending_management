@@ -1,14 +1,14 @@
 part of repositories;
 
-abstract class ExpenseRepositoryBase {
-  Future<List<ExpenseModel>> getList({ExpenseType? expenseType});
+abstract class TransactionRepositoryBase {
+  Future<List<TransactionModel>> getList({TransactionType? transactionType});
 }
 
-class ExpenseRepository extends ExpenseRepositoryBase {
+class TransactionRepository extends TransactionRepositoryBase {
   @override
-  Future<List<ExpenseModel>> getList({ExpenseType? expenseType}) {
+  Future<List<TransactionModel>> getList({TransactionType? transactionType}) {
     try {
-      return ExpenseProvider.getList(expenseType: expenseType)
+      return TransactionProvider.getList(transactionType: transactionType)
           .then((value) => value.data);
     } catch (e) {
       rethrow;

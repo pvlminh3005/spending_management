@@ -1,30 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'expense.dart';
+part of 'transaction.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) {
+TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
   $checkKeys(json, requiredKeys: const ['expense_type', 'created_at']);
-  return ExpenseModel(
+  return TransactionModel(
     uid: json['uid'] as String,
     title: json['title'] as String,
-    expenseType: _$enumDecode(_$ExpenseTypeEnumMap, json['expense_type']),
+    transactionType: _$enumDecode(_$ExpenseTypeEnumMap, json['expense_type']),
     balance: json['balance'] as int,
     createdAt: DateTime.parse(json['created_at'] as String),
     description: json['description'] as String?,
   );
 }
 
-Map<String, dynamic> _$ExpenseModelToJson(ExpenseModel instance) =>
+Map<String, dynamic> _$TransactionModelToJson(TransactionModel instance) =>
     <String, dynamic>{
       'uid': instance.uid,
       'title': instance.title,
       'description': instance.description,
       'balance': instance.balance,
-      'expense_type': _$ExpenseTypeEnumMap[instance.expenseType],
+      'expense_type': _$ExpenseTypeEnumMap[instance.transactionType],
       'created_at': instance.createdAt.toIso8601String(),
     };
 
@@ -55,6 +55,6 @@ K _$enumDecode<K, V>(
 }
 
 const _$ExpenseTypeEnumMap = {
-  ExpenseType.payment: 'payment',
-  ExpenseType.charge: 'charge',
+  TransactionType.payment: 'payment',
+  TransactionType.charge: 'charge',
 };
