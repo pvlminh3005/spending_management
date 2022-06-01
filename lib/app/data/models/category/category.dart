@@ -22,7 +22,7 @@ class CategoryModel {
   String get capitalizeTitle => title.toCapitalized;
 }
 
-final listCategory = <CategoryModel>[
+final listCategories = <CategoryModel>[
   CategoryModel(
     uid: 'Category1',
     title: 'Ăn uống',
@@ -34,5 +34,9 @@ final listCategory = <CategoryModel>[
   CategoryModel(
     uid: 'Category3',
     title: 'Mua sắm',
+  ),
+  CategoryModel(
+    uid: 'Category4',
+    title: 'Sinh hoạt gia đình',
   ),
 ];

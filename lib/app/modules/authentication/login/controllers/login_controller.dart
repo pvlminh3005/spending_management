@@ -24,11 +24,8 @@ class LoginController extends GetxController {
     if (formKey.currentState!.validate()) {
       auth.signInWithPhoneNumber(
         phoneStr.phoneVerify,
-        onCompleted: (phoneAuth) {
-          print(phoneAuth);
-        },
+        onCompleted: (phoneAuth) {},
         onSuccess: (verificationId, resendToken) {
-          print(resendToken);
           Get.toNamed(
             Routes.verifyPhone,
             parameters: {

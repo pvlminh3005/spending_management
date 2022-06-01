@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../core/styles/style.dart';
 import '../../../core/utilities/date_time_picker_utils.dart';
@@ -12,6 +13,9 @@ class TransactionDetailController extends GetxController {
   final amountController = TextEditingController();
   final descriptionController = TextEditingController();
 
+  String get dateStr => dateController.text;
+  String get amountStr => amountController.text;
+  String get descriptionStr => descriptionController.text;
   String titleButton = StringUtils.createTransaction;
 
   @override
@@ -33,9 +37,8 @@ class TransactionDetailController extends GetxController {
 
   void chooseDate(BuildContext context) {
     DateTimePickerUtils.dateTimePicker(
-            //! initialDate: arguments?.createdAt,
-            )
-        .then((date) {
+      initialDate: DateTimeExt.parseDate(dateStr),
+    ).then((date) {
       if (date != null) {
         dateController.text = date.displayDate;
       }

@@ -56,22 +56,24 @@ class PaymentManageView extends GetView<PaymentManageController> {
                 ],
               ),
             ),
-            ColoredBox(
-              color: context.primary.withOpacity(.3),
-              child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Row(
-                  children: [
-                    Text(
-                      controller.currentMonth < 10
-                          ? '0${controller.currentMonth}/2022'
-                          : '${controller.currentMonth}/2022',
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w700,
+            Obx(
+              () => ColoredBox(
+                color: context.primary.withOpacity(.3),
+                child: Padding(
+                  padding: EdgeInsets.all(12.w),
+                  child: Row(
+                    children: [
+                      Text(
+                        controller.currentMonth < 10
+                            ? '0${controller.currentMonth}/2022'
+                            : '${controller.currentMonth}/2022',
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -141,7 +143,7 @@ class _ListLoading extends StatelessWidget {
                 width: double.infinity,
                 height: 90,
               ),
-              SizedBox(height: 5.h),
+              SizedBox(height: 8.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [

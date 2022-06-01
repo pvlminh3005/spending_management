@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
 import '../../../data/models/transaction/transaction.dart';
 import '../../../data/repositories/repositories.dart';
@@ -36,8 +35,8 @@ class PaymentManageController extends GetxController
 
   Future<void> initData() async {
     try {
-      var data = await Repositories.transaction
-          .getList(transactionType: TransactionType.payment);
+      var transaction = await Repositories.transaction.getListPayment();
+      final data = transaction.listTransactions;
       if (data.isEmpty) {
         change([], status: RxStatus.empty());
       } else {
