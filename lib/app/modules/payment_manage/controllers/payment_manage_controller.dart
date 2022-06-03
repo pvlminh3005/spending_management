@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../../../core/styles/style.dart';
-import '../../../data/models/transaction/transaction.dart';
+import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
 import '../../../routes/app_pages.dart';
 

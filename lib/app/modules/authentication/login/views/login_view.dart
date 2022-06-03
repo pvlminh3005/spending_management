@@ -30,7 +30,7 @@ class LoginView extends GetView<LoginController> {
               Text(
                 StringUtils.welcomeApp,
                 style: TextStyle(
-                  fontSize: 28.sp,
+                  fontSize: 28,
                   color: context.primary,
                   fontWeight: FontWeight.bold,
                   height: 1.4,

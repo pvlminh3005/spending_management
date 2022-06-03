@@ -2,8 +2,8 @@ library repositories;
 
 import 'package:get/get.dart';
 
-import '../models/list_transaction/list_transaction.dart';
-import '../models/user/user_model.dart';
+import '../models/list_transaction_model.dart';
+import '../models/user_model.dart';
 import '../providers/providers.dart';
 
 part 'transaction_repository.dart';

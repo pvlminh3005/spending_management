@@ -1,5 +1,5 @@
 import '../core/styles/style.dart';
-import '../data/models/transaction/transaction.dart';
+import '../data/models/transaction_model.dart';
 
 class SpendingManageItem extends StatelessWidget {
   final TransactionModel model;
@@ -46,6 +46,7 @@ class SpendingManageItem extends StatelessWidget {
                 maxLines: 3,
               ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   model.formatDate,

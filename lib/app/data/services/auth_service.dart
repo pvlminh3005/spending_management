@@ -7,13 +7,15 @@ import '../../routes/app_pages.dart';
 class AuthService extends GetxService {
   final _isAuth = false.obs;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   late String _verificationId;
 
   bool get isAuth => _isAuth.value;
+  User? user;
 
   Future<AuthService> init() async {
     _isAuth(_firebaseAuth.currentUser != null);
+    user = _firebaseAuth.currentUser;
+    Get.log(user?.uid ?? '');
     return this;
   }
 

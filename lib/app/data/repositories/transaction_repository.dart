@@ -1,7 +1,7 @@
 part of repositories;
 
 abstract class TransactionRepositoryBase {
-  Future<ListTransactionModel> getListPayment();
+  Future getListPayment();
   Future<ListTransactionModel> getListCharge();
 }
 
@@ -12,7 +12,7 @@ class TransactionRepository extends TransactionRepositoryBase {
   }
 
   @override
-  Future<ListTransactionModel> getListPayment() {
+  Future getListPayment() {
     return TransactionProvider.getListPayment();
   }
 }

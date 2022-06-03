@@ -111,7 +111,7 @@ class _DashboardButton extends GetView<DashboardController> {
                       Dimensions.height5,
                       Text(
                         title,
-                        style: TextStyle(fontSize: 13.sp),
+                        style: context.caption,
                       ),
                     ],
                   ),

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../../../core/styles/style.dart';
 import '../../../core/utilities/date_time_picker_utils.dart';
 import '../../../core/utilities/utilities.dart';
-import '../../../data/models/transaction/transaction.dart';
+import '../../../data/models/transaction_model.dart';
 
 final _currentDate = DateTime.now().displayDate;
 

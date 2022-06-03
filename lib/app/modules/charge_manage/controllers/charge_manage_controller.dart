@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../core/constants/enum.dart';
-import '../../../data/models/transaction/transaction.dart';
+import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
 
 class ChargeManageController extends GetxController

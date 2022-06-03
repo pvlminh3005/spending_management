@@ -1,36 +1,38 @@
-import 'package:json_annotation/json_annotation.dart';
+import '../../core/constants/constants.dart';
+import '../../core/extensions/enum_extension.dart';
+import 'transaction_model.dart';
 
-import '../../../core/constants/enum.dart';
-import '../transaction/transaction.dart';
-
-part 'list_transaction.g.dart';
-
-@JsonSerializable()
 class ListTransactionModel {
   ListTransactionModel({
     required this.uid,
-    required this.idUser,
     required this.transactionType,
     this.listTransactions = const [],
   });
 
   final String uid;
-  @JsonKey(required: true, name: 'id_user')
-  final String idUser;
-  @JsonKey(required: true, name: 'transaction_type')
   final TransactionType transactionType;
-  @JsonKey(required: true, name: 'list_transactions')
   final List<TransactionModel> listTransactions;
 
   factory ListTransactionModel.fromJson(Map<String, dynamic> json) =>
-      _$ListTransactionModelFromJson(json);
+      ListTransactionModel(
+        uid: json[DbKeys.uid],
+        transactionType:
+            TransactionExt.create(json[DbKeys.transactionType] as String),
+        listTransactions: (json[DbKeys.listTransactions] as List)
+            .map((e) => TransactionModel.fromJson(e))
+            .toList(),
+      );
 
-  Map<String, dynamic> toJson() => _$ListTransactionModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        DbKeys.uid: uid,
+        DbKeys.transactionType: transactionType.name,
+        DbKeys.listTransactions:
+            listTransactions.map((e) => e.toJson()).toList(),
+      };
 }
 
 final paymentTransaction = ListTransactionModel(
   uid: 'paymentTransaction',
-  idUser: 'user1234',
   transactionType: TransactionType.payment,
   listTransactions: [
     TransactionModel(
@@ -60,7 +62,6 @@ final paymentTransaction = ListTransactionModel(
 
 final chargeTransactions = ListTransactionModel(
   uid: 'chargeTransaction',
-  idUser: 'user1234',
   transactionType: TransactionType.charge,
   listTransactions: [
     TransactionModel(

@@ -1,7 +1,7 @@
 import '../constants/enum.dart';
 import '../utilities/utilities.dart';
 
-extension ExpenseExt on TransactionType {
+extension TransactionExt on TransactionType {
   String get name {
     switch (this) {
       case TransactionType.payment:
