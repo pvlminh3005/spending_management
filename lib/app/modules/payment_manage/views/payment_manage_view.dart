@@ -7,7 +7,6 @@ import '../../../widgets/common/input_custom.dart';
 import '../../../widgets/empty_widget.dart';
 import '../../../widgets/icon_title.dart';
 import '../../../widgets/list_loading_widget.dart';
-import '../../../widgets/skeleton_loading/item_skeleton.dart';
 import '../../../widgets/spending_manage_item.dart';
 import '../controllers/payment_manage_controller.dart';
 

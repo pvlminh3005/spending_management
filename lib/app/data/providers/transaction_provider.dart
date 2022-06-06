@@ -1,29 +1,27 @@
 part of providers;
 
+typedef EnumValues<T> = TransactionType;
+
 class TransactionProvider {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  static final _referencePayment =
-      _firestore.collection(DbPaths.transactionPayment);
-  static final CollectionReference _referenceCharge =
-      _firestore.collection(DbPaths.transactionCharge);
-  static AuthService get _auth => Get.find();
+  static final _transactions = _firestore.collection(DbPaths.transactions);
 
-  static Future getListPayment() async {
+  static AuthService get _auth => Get.find();
+  static String? get _uid => _auth.user?.uid;
+
+  static Future<List<TransactionModel>> getListTransactions(
+      TransactionType type) async {
     try {
-      final _collection = await _referencePayment.doc(_auth.user?.uid).get();
-      print(_collection.data());
-      return ListTransactionModel.fromJson(_collection.data()!);
+      AppUtils.log('UID: $_uid');
+      String _path = getPath(type);
+      final _collection = await _transactions.doc(_uid).collection(_path).get();
+
+      return _collection.docs.map((transaction) {
+        print(transaction.data());
+        return TransactionModel.fromJson(transaction.data());
+      }).toList();
     } on FirebaseException catch (e) {
       AppUtils.toast(e.message!);
-      rethrow;
-    }
-  }
-
-  static Future<ListTransactionModel> getListCharge() async {
-    try {
-      await 1.delay();
-      return chargeTransactions;
-    } catch (e) {
       rethrow;
     }
   }
@@ -31,6 +29,15 @@ class TransactionProvider {
   static Future<void> createTransaction(Map<String, dynamic> data) async {
     try {} catch (e) {
       rethrow;
+    }
+  }
+
+  static String getPath(TransactionType type) {
+    switch (type) {
+      case TransactionType.payment:
+        return DbPaths.transactionPayment;
+      case TransactionType.charge:
+        return DbPaths.transactionCharge;
     }
   }
 }

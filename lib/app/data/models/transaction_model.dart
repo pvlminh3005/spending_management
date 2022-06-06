@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/constants/db_keys.dart';
+import '../../core/constants/enum.dart';
 import '../../core/styles/style.dart';
 
 class TransactionModel {
@@ -7,12 +8,14 @@ class TransactionModel {
   final String title;
   final String? description;
   final int balance;
+  final TransactionType transactionType;
   final DateTime createdAt;
 
   TransactionModel({
     required this.uid,
     required this.title,
     required this.balance,
+    required this.transactionType,
     required this.createdAt,
     this.description,
   });
@@ -23,6 +26,8 @@ class TransactionModel {
         title: json[DbKeys.title],
         balance: json[DbKeys.balance],
         description: json[DbKeys.description],
+        transactionType:
+            TransactionExt.create(json[DbKeys.transactionType] as String),
         createdAt: (json[DbKeys.createdAt] as Timestamp).toDate(),
       );
 
@@ -31,6 +36,7 @@ class TransactionModel {
         DbKeys.title: title,
         DbKeys.description: description,
         DbKeys.balance: balance,
+        DbKeys.transactionType: transactionType.name,
         DbKeys.createdAt: Timestamp.fromDate(createdAt),
       };
 

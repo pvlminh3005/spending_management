@@ -35,13 +35,11 @@ class PaymentManageController extends GetxController
 
   Future<void> initData() async {
     try {
-      var transaction = await Repositories.transaction.getListPayment();
-      final data = transaction.listTransactions;
-      if (data.isEmpty) {
-        change([], status: RxStatus.empty());
-      } else {
-        change(data, status: RxStatus.success());
-      }
+      var data = await Repositories.transaction.getTransactionPayment();
+      change(
+        data,
+        status: data.isEmpty ? RxStatus.empty() : RxStatus.success(),
+      );
     } catch (e) {
       change(null, status: RxStatus.error());
       rethrow;

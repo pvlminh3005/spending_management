@@ -23,8 +23,8 @@ class LoginView extends GetView<LoginController> {
             children: [
               Image.asset(
                 ImageUtils.mainIconApp,
-                width: 230.w,
-                height: 230.h,
+                width: 200,
+                height: 200,
               ),
               Dimensions.height20,
               Text(

@@ -37,6 +37,8 @@ class LoginController extends GetxController {
         },
         onFailed: (e) {},
       );
+    } else {
+      _isLoading(false);
     }
   }
 

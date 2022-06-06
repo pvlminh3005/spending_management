@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import '../../../main.dart';
 import '../../core/utilities/app_utils.dart';
 import '../../core/utilities/utilities.dart';
 import '../../routes/app_pages.dart';
@@ -14,8 +15,9 @@ class AuthService extends GetxService {
 
   Future<AuthService> init() async {
     _isAuth(_firebaseAuth.currentUser != null);
-    user = _firebaseAuth.currentUser;
-    Get.log(user?.uid ?? '');
+    _firebaseAuth.authStateChanges().listen((event) {
+      user = event;
+    });
     return this;
   }
 
@@ -59,8 +61,9 @@ class AuthService extends GetxService {
       );
 
       await _firebaseAuth.signInWithCredential(credentials).then(
-        (UserCredential user) {
+        (UserCredential user) async {
           _isAuth(true);
+          await initialApp();
           onSuccess.call(user);
         },
       );
