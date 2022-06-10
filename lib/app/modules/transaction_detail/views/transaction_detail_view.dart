@@ -4,6 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../core/styles/style.dart';
 import '../../../core/utilities/utilities.dart';
+import '../../../data/models/category_model.dart';
 import '../../../widgets/common/app_button.dart';
 import '../../../widgets/common/appbar_custom.dart';
 import '../../../widgets/common/input_custom.dart';
@@ -72,12 +73,18 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
               const _TitleBuilder('Phân loại'),
               Padding(
                 padding: margin,
-                child: Wrap(
-                  spacing: 7.w,
-                  runSpacing: 7.h,
-                  children: List.generate(6, (index) {
-                    return _CustomItemType('Lorem ${index * index * index}');
-                  }).toList(),
+                child: Obx(
+                  () => Wrap(
+                    spacing: 7.w,
+                    runSpacing: 7.h,
+                    children: List.generate(controller.listCategories.length,
+                        (index) {
+                      final CategoryModel model =
+                          controller.listCategories[index];
+                      print(model);
+                      return _CustomItemType(title: model.title);
+                    }).toList(),
+                  ),
                 ),
               ),
               const _DividerCustom(),
@@ -130,8 +137,8 @@ class _TitleBuilder extends StatelessWidget {
 class _CustomItemType extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
-  const _CustomItemType(
-    this.title, {
+  const _CustomItemType({
+    required this.title,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -140,6 +147,7 @@ class _CustomItemType extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
+      shadowColor: Colors.black45,
       margin: EdgeInsets.zero,
       shape: OutlineInputBorder(
         borderSide: BorderSide.none,
@@ -150,7 +158,7 @@ class _CustomItemType extends StatelessWidget {
         borderRadius: BorderRadius.circular(6.0),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: 12.h,
+            vertical: 10.h,
             horizontal: 20.w,
           ),
           child: Text(

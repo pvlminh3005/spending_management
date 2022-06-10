@@ -62,7 +62,6 @@ class AuthService extends GetxService {
 
       await _firebaseAuth.signInWithCredential(credentials).then(
         (UserCredential user) async {
-          _isAuth(true);
           await initialApp();
           onSuccess.call(user);
         },

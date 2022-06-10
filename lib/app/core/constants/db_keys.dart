@@ -10,5 +10,7 @@ class DbKeys {
   static const String timestamp = 'timestamp';
   static const String costType = 'cost_type';
   static const String transactionType = 'transaction_type';
-  static const String listTransactions = 'list_transactions';
+  static const String categoryType = 'category_type';
+  static const String payment = 'payment';
+  static const String charge = 'charge';
 }

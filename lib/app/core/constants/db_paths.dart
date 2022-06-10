@@ -9,4 +9,7 @@ class DbPaths {
 
   static const String transactionPayment = 'transaction_payment';
   static const String transactionCharge = 'transaction_charge';
+
+  static const String categoryPayment = 'category_payment';
+  static const String categoryCharge = 'category_charge';
 }

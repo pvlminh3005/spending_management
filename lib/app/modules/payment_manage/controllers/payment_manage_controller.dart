@@ -36,6 +36,7 @@ class PaymentManageController extends GetxController
 
   Future<void> initData() async {
     _page = 1;
+
     _currentMonth(DateTime.now().month);
     await getListTransactions();
   }

@@ -3,10 +3,13 @@ import 'package:uuid/uuid.dart';
 
 import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
+import '../../../core/utilities/app_utils.dart';
 import '../../../core/utilities/date_time_picker_utils.dart';
 import '../../../core/utilities/utilities.dart';
+import '../../../data/models/category_model.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
+import '../../../data/services/user_service.dart';
 import '../../../routes/app_pages.dart';
 
 enum ButtonDetailType {
@@ -23,20 +26,29 @@ class TransactionDetailController extends GetxController {
   final dateController = TextEditingController(text: _currentDate);
   final balanceController = TextEditingController();
   final descriptionController = TextEditingController();
+  final _listCategories = <CategoryModel>[].obs;
 
   bool get isLoading => _isLoading.value;
   String get dateStr => dateController.text;
   String get balanceStr => balanceController.text;
   String get descriptionStr => descriptionController.text;
   String titleButton = StringUtils.createTransaction;
+  List<CategoryModel> get listCategories => _listCategories;
+  //?
 
   @override
   void onInit() {
-    initialData();
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    initialData();
+    super.onReady();
+  }
+
   void initialData() {
+    _listCategories(Get.find<UserService>().lisPaymentCategories);
     TransactionModel? arguments = Get.arguments;
 
     if (arguments != null) {
@@ -74,6 +86,7 @@ class TransactionDetailController extends GetxController {
         _isLoading(false);
         Get.offAndToNamed(Routes.dashboard);
       } catch (e) {
+        AppUtils.toast(e.toString());
         _isLoading(false);
       }
     }

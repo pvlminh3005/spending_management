@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../../core/styles/style.dart';
+import '../../../../core/utilities/app_utils.dart';
 import '../../../../core/utilities/utilities.dart';
 import '../../../../data/models/models.dart';
 import '../../../../data/services/auth_service.dart';
@@ -35,7 +36,10 @@ class LoginController extends GetxController {
           );
           _isLoading(false);
         },
-        onFailed: (e) {},
+        onFailed: (e) {
+          _isLoading(false);
+          AppUtils.toast(e.message!.toString());
+        },
       );
     } else {
       _isLoading(false);
