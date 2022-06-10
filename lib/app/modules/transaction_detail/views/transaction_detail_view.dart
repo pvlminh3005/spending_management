@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../core/styles/style.dart';
+import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/app_button.dart';
 import '../../../widgets/common/appbar_custom.dart';
-import '../../../widgets/common/currency_text_input_formatter/currency_text_input_formatter.dart';
 import '../../../widgets/common/input_custom.dart';
 import '../controllers/transaction_detail_controller.dart';
 
@@ -17,85 +18,89 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
     return Scaffold(
       appBar: const AppBarCustom(title: 'Chi tiêu'),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const _DividerCustom(margin: EdgeInsets.only(bottom: 15)),
-            Padding(
-              padding: margin,
-              child: InkWell(
-                onTap: () => controller.chooseDate(context),
-                child: InputCustom(
-                  controller: controller.dateController,
-                  isShowPrefixIcon: true,
-                  isEnabled: false,
-                  prefixIcon: Icon(
-                    CupertinoIcons.calendar,
-                    size: 24.w,
-                  ),
-                  borderSide: const BorderSide(color: Colors.grey),
-                  labelText: 'Chọn ngày',
-                ),
-              ),
-            ),
-            const _DividerCustom(),
-            InputCustom(
-              controller: controller.amountController,
-              margin: margin,
-              labelText: 'Nhập số tiền',
-              maxLength: 18,
-              hintStyle: context.bodyText2,
-              inputType: TextInputType.number,
-              borderSide: const BorderSide(color: Colors.grey),
-              inputFormatters: [
-                CurrencyTextInputFormatter(
-                  symbol: '',
-                  decimalDigits: 0,
-                  locale: 'en',
-                ),
-              ],
-              isShowSuffixIcon: true,
-              isClear: false,
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Text(
-                  '₫',
-                  style: context.subtitle1.copyWith(
-                    fontSize: 20.sp,
-                    color: const Color(0xFF333333),
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _DividerCustom(margin: EdgeInsets.only(bottom: 15)),
+              Padding(
+                padding: margin,
+                child: InkWell(
+                  onTap: () => controller.chooseDate(context),
+                  child: InputCustom(
+                    controller: controller.dateController,
+                    isShowPrefixIcon: true,
+                    isEnabled: false,
+                    prefixIcon: Icon(
+                      CupertinoIcons.calendar,
+                      size: 24.w,
+                    ),
+                    borderSide: const BorderSide(color: Colors.grey),
+                    labelText: 'Chọn ngày',
                   ),
                 ),
               ),
-            ),
-            const _DividerCustom(),
-            const _TitleBuilder('Phân loại'),
-            Padding(
-              padding: margin,
-              child: Wrap(
-                spacing: 7.w,
-                runSpacing: 7.h,
-                children: List.generate(6, (index) {
-                  return _CustomItemType('Lorem ${index * index * index}');
-                }).toList(),
+              const _DividerCustom(),
+              InputCustom(
+                controller: controller.balanceController,
+                margin: margin,
+                labelText: 'Nhập số tiền',
+                hintStyle: context.bodyText2,
+                inputType: TextInputType.number,
+                borderSide: const BorderSide(color: Colors.grey),
+                inputFormatters: [
+                  MaskTextInputFormatter(mask: "###,###,###,###,###"),
+                ],
+                validator: Validator.validateAll([
+                  BalanceValidator(StringUtils.errorBalance),
+                ]),
+                isShowSuffixIcon: true,
+                isClear: false,
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    '₫',
+                    style: context.subtitle1.copyWith(
+                      fontSize: 20.sp,
+                      color: const Color(0xFF333333),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            const _DividerCustom(),
-            InputCustom(
-              controller: controller.descriptionController,
-              margin: margin,
-              inputType: TextInputType.multiline,
-              labelText: 'Nhập mô tả',
-              borderSide: const BorderSide(color: Colors.grey),
-              maxLines: 6,
-            ),
-          ],
+              const _DividerCustom(),
+              const _TitleBuilder('Phân loại'),
+              Padding(
+                padding: margin,
+                child: Wrap(
+                  spacing: 7.w,
+                  runSpacing: 7.h,
+                  children: List.generate(6, (index) {
+                    return _CustomItemType('Lorem ${index * index * index}');
+                  }).toList(),
+                ),
+              ),
+              const _DividerCustom(),
+              InputCustom(
+                controller: controller.descriptionController,
+                margin: margin,
+                inputType: TextInputType.multiline,
+                labelText: 'Nhập mô tả',
+                borderSide: const BorderSide(color: Colors.grey),
+                maxLines: 6,
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(10.h),
-        child: AppButton(
-          controller.titleButton,
-          onPressed: () {},
+        child: Obx(
+          () => AppButton(
+            controller.titleButton,
+            loading: controller.isLoading,
+            onPressed: controller.createTransaction,
+          ),
         ),
       ),
     );

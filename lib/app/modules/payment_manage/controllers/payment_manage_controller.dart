@@ -5,17 +5,18 @@ import '../../../data/repositories/repositories.dart';
 import '../../../routes/app_pages.dart';
 
 class PaymentManageController extends GetxController
-    with StateMixin<List<TransactionModel>> {
-  final _currentMonth = Rx<int>(DateTime.now().month);
+    with StateMixin<List<TransactionModel>>, ScrollMixin {
+  final _currentMonth = DateTime.now().month.obs;
   final searchCtrl = TextEditingController();
 
+  int _page = 1;
   int get currentMonth => _currentMonth.value;
   String get searchStr => searchCtrl.text;
 
   @override
   void onInit() {
     _currentMonth.listen((_) {
-      initData();
+      getListTransactions();
     });
     super.onInit();
   }
@@ -34,15 +35,23 @@ class PaymentManageController extends GetxController
   }
 
   Future<void> initData() async {
+    _page = 1;
+    _currentMonth(DateTime.now().month);
+    await getListTransactions();
+  }
+
+  Future<void> getListTransactions() async {
     try {
-      var data = await Repositories.transaction.getTransactionPayment();
+      var data = await Repositories.transaction.getTransactionPayment(
+        page: _page,
+        month: currentMonth,
+      );
       change(
         data,
         status: data.isEmpty ? RxStatus.empty() : RxStatus.success(),
       );
     } catch (e) {
-      change(null, status: RxStatus.error());
-      rethrow;
+      change(null, status: RxStatus.error(e.toString()));
     }
   }
 
@@ -56,11 +65,13 @@ class PaymentManageController extends GetxController
 
   Future<void> searchData(String val) async {
     if (val.isEmpty) {
-      initData();
+      getListTransactions();
     } else {
-      1.delay(
+      .5.delay(
         () {
-          var data = state?.where((e) => e.title.contains(val)).toList();
+          var data = state
+              ?.where((e) => e.title.toLowerCase().contains(val.toLowerCase()))
+              .toList();
           if (data == null) {
             change(state, status: RxStatus.error());
           } else if (data.isEmpty) {
@@ -77,4 +88,10 @@ class PaymentManageController extends GetxController
   void onClose() {
     searchCtrl.dispose();
   }
+
+  @override
+  Future<void> onEndScroll() async {}
+
+  @override
+  Future<void> onTopScroll() async {}
 }

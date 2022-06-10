@@ -17,11 +17,7 @@ class FilterController extends GetxController
   Future<void> applyFilter(int index) async {
     int newMonth = index + 1;
     _currentMonth(newMonth);
-    _isLoading(true);
-    await 2.delay(() {
-      Get.back(result: currentMonth);
-    });
-    _isLoading(false);
+    Get.back(result: currentMonth);
   }
 
   @override

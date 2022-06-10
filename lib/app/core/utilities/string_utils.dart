@@ -38,4 +38,8 @@ class StringUtils {
   static const emptyTransaction = 'Không có giao dịch nào';
   static const createTransaction = 'Tạo khoản chi mới';
   static const updateTransaction = 'Cập nhật giao dịch';
+  static const errorNotification = 'Có lỗi xảy ra';
+
+  //!ERROR TEXT
+  static const errorBalance = 'Số tiền không được để trống';
 }

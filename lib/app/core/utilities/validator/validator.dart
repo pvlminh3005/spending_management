@@ -44,3 +44,12 @@ class PhoneValidator extends Validator {
     return null;
   }
 }
+
+class BalanceValidator extends Validator {
+  BalanceValidator(String errorText) : super(errorText, []);
+
+  @override
+  String? validate(String? value) {
+    return value!.isEmpty ? errorText : null;
+  }
+}

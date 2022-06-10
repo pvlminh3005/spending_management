@@ -15,70 +15,70 @@ class PaymentManageView extends GetView<PaymentManageController> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: controller.initData,
-      child: Scaffold(
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(10.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: InputCustom(
-                      controller: controller.searchCtrl,
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 13.h,
-                        horizontal: 8.w,
-                      ),
-                      hintText: 'Tìm kiếm',
-                      isShowPrefixIcon: true,
-                      isCountryPicker: true,
-                      isSearch: true,
-                      fillColor: context.tertiary,
-                      prefixIcon: const Icon(
-                        CupertinoIcons.search,
-                        color: Colors.grey,
-                      ),
-                      borderSide: BorderSide.none,
-                      onChanged: controller.searchData,
+    return Scaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(10.w),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InputCustom(
+                    controller: controller.searchCtrl,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 13.h,
+                      horizontal: 8.w,
                     ),
+                    hintText: 'Tìm kiếm',
+                    isShowPrefixIcon: true,
+                    isCountryPicker: true,
+                    isSearch: true,
+                    fillColor: context.tertiary,
+                    prefixIcon: const Icon(
+                      CupertinoIcons.search,
+                      color: Colors.grey,
+                    ),
+                    borderSide: BorderSide.none,
+                    onChanged: controller.searchData,
                   ),
-                  SizedBox(width: 5.w),
-                  IconTitle(
-                    iconData: Icons.filter_alt_rounded,
-                    title: StringUtils.filter,
-                    onPressed: controller.toFilterPage,
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(width: 5.w),
+                IconTitle(
+                  iconData: Icons.filter_alt_rounded,
+                  title: StringUtils.filter,
+                  onPressed: controller.toFilterPage,
+                ),
+              ],
             ),
-            Obx(
-              () => ColoredBox(
-                color: context.primary.withOpacity(.3),
-                child: Padding(
-                  padding: EdgeInsets.all(12.w),
-                  child: Row(
-                    children: [
-                      Text(
-                        controller.currentMonth < 10
-                            ? '0${controller.currentMonth}/2022'
-                            : '${controller.currentMonth}/2022',
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
+          ),
+          Obx(
+            () => ColoredBox(
+              color: context.primary.withOpacity(.3),
+              child: Padding(
+                padding: EdgeInsets.all(12.w),
+                child: Row(
+                  children: [
+                    Text(
+                      controller.currentMonth < 10
+                          ? '0${controller.currentMonth}/2022'
+                          : '${controller.currentMonth}/2022',
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            Expanded(
+          ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: controller.initData,
               child: controller.obx(
                 (state) {
                   return ListView.builder(
-                    shrinkWrap: true,
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: state!.length,
                     itemBuilder: (ctx, index) {
                       return SpendingManageItem(
@@ -92,21 +92,27 @@ class PaymentManageView extends GetView<PaymentManageController> {
                   );
                 },
                 onLoading: const ListLoading(),
-                onEmpty: const EmptyWidget(),
-                onError: (error) => Text(error!),
+                onEmpty: Obx(
+                  () => EmptyWidget(
+                      title:
+                          "Không có giao dịch trong tháng ${controller.currentMonth}"),
+                ),
+                onError: (error) => const Center(
+                  child: Text(StringUtils.errorNotification),
+                ),
               ),
             ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          elevation: 3.0,
-          backgroundColor: context.error,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
           ),
-          onPressed: controller.toDetailTransaction,
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        elevation: 3.0,
+        backgroundColor: context.error,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
         ),
+        onPressed: controller.toDetailTransaction,
       ),
     );
   }

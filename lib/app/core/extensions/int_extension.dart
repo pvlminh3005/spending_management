@@ -24,6 +24,10 @@ extension NumGenericExtensions<T extends num> on T? {
   }
 }
 
+extension BalanceExt on String {
+  int get formatBalance => int.parse(replaceAll(',', ''));
+}
+
 // extension DateExt on int {
 //   DateTime get date => DateTime.fromMillisecondsSinceEpoch(this);
 //   String get time => DateFormat.yMMMMd('ja').add_Hm().format(date);

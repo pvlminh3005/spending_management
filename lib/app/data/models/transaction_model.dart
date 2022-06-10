@@ -28,7 +28,8 @@ class TransactionModel {
         description: json[DbKeys.description],
         transactionType:
             TransactionExt.create(json[DbKeys.transactionType] as String),
-        createdAt: (json[DbKeys.createdAt] as Timestamp).toDate(),
+        createdAt:
+            DateTime.fromMillisecondsSinceEpoch(json[DbKeys.createdAt] as int),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -36,11 +37,16 @@ class TransactionModel {
         DbKeys.title: title,
         DbKeys.description: description,
         DbKeys.balance: balance,
-        DbKeys.transactionType: transactionType.name,
-        DbKeys.createdAt: Timestamp.fromDate(createdAt),
+        DbKeys.transactionType: convertType(transactionType),
+        DbKeys.createdAt: createdAt,
       };
 
+  //* Convert String
   String get formatDate => createdAt.displayDate;
   String get month => createdAt.month.toString();
   String get displayBalance => balance.format;
+
+  //Convert to model
+  static DateTime convertDate(String date) => DateTimeExt.parseDate(date);
+  static String convertType(TransactionType type) => type.name;
 }
