@@ -49,14 +49,7 @@ class TransactionProvider {
           .doc(_uid)
           .collection(_path)
           .doc(transaction.uid)
-          .set(TransactionModel(
-            uid: '1234',
-            title: 'Test 1',
-            description: 'ALo',
-            createdAt: DateTimeExt.parseDate('10/06/2022'),
-            transactionType: TransactionType.payment,
-            balance: 10000,
-          ).toJson());
+          .set(transaction.toJson());
     } on FirebaseException catch (e) {
       AppUtils.log(e);
       AppUtils.toast(e.message!);
