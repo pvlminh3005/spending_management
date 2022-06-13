@@ -19,7 +19,4 @@ class FilterController extends GetxController
     _currentMonth(newMonth);
     Get.back(result: currentMonth);
   }
-
-  @override
-  void onClose() {}
 }

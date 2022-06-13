@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../core/styles/style.dart';
 import '../../../core/utilities/utilities.dart';
-import '../../../data/models/category_model.dart';
 import '../../../widgets/common/app_button.dart';
 import '../../../widgets/common/appbar_custom.dart';
 import '../../../widgets/common/input_custom.dart';
+import '../../../widgets/common/thousand_input_formatter/thousand_input_formatter.dart';
+import '../../../widgets/list_category/list_category_widget.dart';
 import '../controllers/transaction_detail_controller.dart';
 
 class TransactionDetailView extends GetView<TransactionDetailController> {
@@ -17,7 +17,10 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
   Widget build(BuildContext context) {
     final margin = EdgeInsets.symmetric(horizontal: 10.w);
     return Scaffold(
-      appBar: const AppBarCustom(title: 'Chi tiêu'),
+      appBar: AppBarCustom(
+        title: 'Chi tiêu',
+        onPressed: () => Get.back(result: false),
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: controller.formKey,
@@ -51,7 +54,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                 inputType: TextInputType.number,
                 borderSide: const BorderSide(color: Colors.grey),
                 inputFormatters: [
-                  MaskTextInputFormatter(mask: "###,###,###,###,###"),
+                  ThousandsFormatter(),
                 ],
                 validator: Validator.validateAll([
                   BalanceValidator(StringUtils.errorBalance),
@@ -74,16 +77,10 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
               Padding(
                 padding: margin,
                 child: Obx(
-                  () => Wrap(
-                    spacing: 7.w,
-                    runSpacing: 7.h,
-                    children: List.generate(controller.listCategories.length,
-                        (index) {
-                      final CategoryModel model =
-                          controller.listCategories[index];
-                      print(model);
-                      return _CustomItemType(title: model.title);
-                    }).toList(),
+                  () => ListCategoryWidget(
+                    listCategories: controller.listCategories,
+                    currentCategory: controller.currentCategory,
+                    onSelected: controller.selectedCategory,
                   ),
                 ),
               ),
@@ -106,7 +103,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
           () => AppButton(
             controller.titleButton,
             loading: controller.isLoading,
-            onPressed: controller.createTransaction,
+            onPressed: controller.toggleTransaction,
           ),
         ),
       ),
@@ -134,43 +131,6 @@ class _TitleBuilder extends StatelessWidget {
   }
 }
 
-class _CustomItemType extends StatelessWidget {
-  final String title;
-  final VoidCallback? onPressed;
-  const _CustomItemType({
-    required this.title,
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      shadowColor: Colors.black45,
-      margin: EdgeInsets.zero,
-      shape: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(6.w),
-      ),
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(6.0),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 10.h,
-            horizontal: 20.w,
-          ),
-          child: Text(
-            title,
-            style: context.caption.copyWith(fontWeight: FontWeight.w500),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _DividerCustom extends StatelessWidget {
   final EdgeInsetsGeometry margin;
   const _DividerCustom({
@@ -186,7 +146,7 @@ class _DividerCustom extends StatelessWidget {
         color: Colors.grey.shade200,
         child: SizedBox(
           width: context.width,
-          height: 10.h,
+          height: 10,
         ),
       ),
     );

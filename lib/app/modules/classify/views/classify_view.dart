@@ -48,9 +48,9 @@ class ClassifyView extends GetView<ClassifyController> {
   List<DataRow> _createRows() {
     return listClassify
         .map((book) => DataRow(cells: [
-              DataCell(Text(book['title'])),
-              DataCell(Text(book['defaultAmount'].toString())),
-              DataCell(Text(book['currentAmount'].toString()))
+              DataCell(Text('ds')),
+              DataCell(Text('ds')),
+              DataCell(Text('ds')),
             ]))
         .toList();
   }

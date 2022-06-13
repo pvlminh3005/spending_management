@@ -1,19 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/constants/db_keys.dart';
 import '../../core/constants/enum.dart';
 import '../../core/styles/style.dart';
+import 'category_model.dart';
 
 class TransactionModel {
-  final String uid;
-  final String title;
+  final String? uid;
+  final CategoryModel category;
   final String? description;
   final int balance;
   final TransactionType transactionType;
   final DateTime createdAt;
 
   TransactionModel({
-    required this.uid,
-    required this.title,
+    this.uid,
+    required this.category,
     required this.balance,
     required this.transactionType,
     required this.createdAt,
@@ -23,7 +23,7 @@ class TransactionModel {
   factory TransactionModel.fromJson(Map<String, dynamic> json) =>
       TransactionModel(
         uid: json[DbKeys.uid],
-        title: json[DbKeys.title],
+        category: CategoryModel.fromJson(json[DbKeys.category]),
         balance: json[DbKeys.balance],
         description: json[DbKeys.description],
         transactionType:
@@ -34,19 +34,20 @@ class TransactionModel {
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         DbKeys.uid: uid,
-        DbKeys.title: title,
+        DbKeys.category: category.toJson(),
         DbKeys.description: description,
         DbKeys.balance: balance,
         DbKeys.transactionType: convertType(transactionType),
-        DbKeys.createdAt: createdAt,
+        DbKeys.createdAt: createdAt.millisecondsSinceEpoch,
       };
 
   //* Convert String
+  String get title => category.title;
   String get formatDate => createdAt.displayDate;
   String get month => createdAt.month.toString();
   String get displayBalance => balance.format;
 
-  //Convert to model
+  //* Convert to model
   static DateTime convertDate(String date) => DateTimeExt.parseDate(date);
   static String convertType(TransactionType type) => type.name;
 }

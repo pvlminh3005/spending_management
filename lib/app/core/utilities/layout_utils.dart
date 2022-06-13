@@ -10,7 +10,7 @@ class LayoutUtils {
   static void dialogMessage({
     required String title,
     String? subtitle,
-    VoidCallback? onConfirm,
+    Future Function()? onConfirm,
   }) {
     final _isLoading = ValueNotifier(false);
     Get.dialog(
@@ -41,7 +41,8 @@ class LayoutUtils {
                         axisSize: MainAxisSize.max,
                         onPressed: () async {
                           _isLoading.value = true;
-                          onConfirm?.call();
+                          await onConfirm?.call();
+                          Get.back();
                         },
                       ),
                     );

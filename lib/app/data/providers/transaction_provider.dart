@@ -19,7 +19,6 @@ class TransactionProvider {
     required TransactionType type,
     int? month,
   }) async {
-    print('UID: $_uid');
     final _month = month ?? _dateNow.month;
     final DateTime _firstDate = DateTime(_dateNow.year, _month, 1);
     final DateTime _lastDate = DateTime(_dateNow.year, _month + 1, 0);
@@ -41,6 +40,7 @@ class TransactionProvider {
         return TransactionModel.fromJson(transaction.data());
       }).toList();
     } on FirebaseException catch (e) {
+      AppUtils.toast(e.toString());
       rethrow;
     }
   }
@@ -51,9 +51,46 @@ class TransactionProvider {
       await _transactions
           .doc(_uid)
           .collection(_path)
-          .doc(transaction.uid)
-          .set(transaction.toJson());
-    } on FirebaseException catch (e) {
+          // .doc(transaction.uid)
+          // .set(transaction.toJson());
+          .add(transaction.toJson())
+          .then((value) async {
+        await _transactions
+            .doc(_uid)
+            .collection(_path)
+            .doc(value.id)
+            .update({DbKeys.uid: value.id});
+      });
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  static Future<void> updateTransaction(TransactionModel data) async {
+    try {
+      String _path = _getPath(data.transactionType);
+      await _transactions
+          .doc(_uid)
+          .collection(_path)
+          .doc(data.uid)
+          .update(data.toJson());
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  static Future<void> deleteTransaction({
+    required TransactionType type,
+    required String uidTransaction,
+  }) async {
+    try {
+      String _path = _getPath(type);
+      await _transactions
+          .doc(_uid)
+          .collection(_path)
+          .doc(uidTransaction)
+          .delete();
+    } on FirebaseException {
       rethrow;
     }
   }

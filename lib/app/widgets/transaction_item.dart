@@ -1,17 +1,19 @@
 import '../core/styles/style.dart';
 import '../data/models/transaction_model.dart';
 
-class SpendingManageItem extends StatelessWidget {
+class TransactionItem extends StatelessWidget {
   final TransactionModel model;
   final int index;
   final Color? tagColor;
-  final VoidCallback? onPressed;
+  final Function(TransactionModel)? onPressed;
+  final Function(String)? onLongPress;
 
-  const SpendingManageItem({
+  const TransactionItem({
     required this.model,
     this.index = 0,
     this.tagColor,
     this.onPressed,
+    this.onLongPress,
     Key? key,
   }) : super(key: key);
 
@@ -75,7 +77,8 @@ class SpendingManageItem extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: onPressed,
+      onPressed: () => onPressed?.call(model),
+      onLongPress: () => onLongPress?.call(model.uid!),
     );
   }
 }

@@ -7,7 +7,7 @@ import '../../../widgets/common/input_custom.dart';
 import '../../../widgets/empty_widget.dart';
 import '../../../widgets/icon_title.dart';
 import '../../../widgets/list_loading_widget.dart';
-import '../../../widgets/spending_manage_item.dart';
+import '../../../widgets/transaction_item.dart';
 import '../controllers/payment_manage_controller.dart';
 
 class PaymentManageView extends GetView<PaymentManageController> {
@@ -81,12 +81,13 @@ class PaymentManageView extends GetView<PaymentManageController> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: state!.length,
                     itemBuilder: (ctx, index) {
-                      return SpendingManageItem(
+                      return TransactionItem(
                         model: state[index],
                         index: index,
                         tagColor: context.error,
-                        onPressed: () => controller.toDetailTransaction(
-                            transaction: state[index]),
+                        onPressed: (transaction) => controller
+                            .toDetailTransaction(transaction: transaction),
+                        onLongPress: controller.confirmDeleteTransaction,
                       );
                     },
                   );

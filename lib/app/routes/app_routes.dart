@@ -3,7 +3,7 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
-  static const home = _Paths.home;
+  static const paymentManage = _Paths.paymentManage;
   static const dashboard = _Paths.dashboard;
   static const register = _Paths.register;
   static const login = _Paths.login;
@@ -16,7 +16,7 @@ abstract class Routes {
 
 abstract class _Paths {
   _Paths._();
-  static const home = '/home';
+  static const paymentManage = '/payment-manage';
   static const dashboard = '/dashboard';
   static const register = '/register';
   static const login = '/login';

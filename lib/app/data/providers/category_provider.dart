@@ -15,8 +15,6 @@ class CategoryProvider {
     try {
       String _path = _getPath(type);
 
-      print('UUUUID: $_uid');
-
       final _collection = await _categories
           .doc(_uid)
           .collection(_path)
@@ -24,22 +22,26 @@ class CategoryProvider {
           .get();
 
       return _collection.docs.map((category) {
-        print(category.data());
         return CategoryModel.fromJson(category.data());
       }).toList();
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       rethrow;
     }
   }
 
   static Future<void> createCategory(CategoryModel category) async {
-    try {} catch (e) {
+    try {
+      String _path = _getPath(category.categoryType);
+      await _categories.doc(_uid).collection(_path).add(category.toJson());
+    } on FirebaseException {
       rethrow;
     }
   }
 
   static Future<void> updateCategory(CategoryModel newCategory) async {
-    try {} catch (e) {
+    try {
+      String _path = _getPath(newCategory.categoryType);
+    } on FirebaseException {
       rethrow;
     }
   }

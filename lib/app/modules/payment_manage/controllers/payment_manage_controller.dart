@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
+import '../../../core/utilities/layout_utils.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
-import '../../../routes/app_pages.dart';
+import '../../filter/navigator/navigator.dart';
+import '../../transaction_detail/navigator/navigator.dart';
 
 class PaymentManageController extends GetxController
     with StateMixin<List<TransactionModel>>, ScrollMixin {
@@ -18,6 +21,7 @@ class PaymentManageController extends GetxController
     _currentMonth.listen((_) {
       getListTransactions();
     });
+
     super.onInit();
   }
 
@@ -28,10 +32,32 @@ class PaymentManageController extends GetxController
   }
 
   void toDetailTransaction({TransactionModel? transaction}) {
-    Get.toNamed(
-      Routes.transactionDetail,
-      arguments: transaction,
-    );
+    TransactionDetailNavigator.toTransactionDetail(args: transaction)
+        ?.then((value) {
+      if (value) {
+        getListTransactions();
+      }
+    });
+  }
+
+  void confirmDeleteTransaction(String uid) {
+    try {
+      LayoutUtils.dialogMessage(
+          title: 'Bạn có muốn xoá giao dịch này?',
+          onConfirm: () async {
+            await Repositories.transaction.deleteTransaction(
+              type: TransactionType.payment,
+              uidTransaction: uid,
+            );
+            state!.removeWhere((transaction) => transaction.uid == uid);
+            change(
+              state,
+              status: state!.isNotEmpty ? RxStatus.success() : RxStatus.empty(),
+            );
+          });
+    } catch (e) {
+      change(null, status: RxStatus.error());
+    }
   }
 
   Future<void> initData() async {
@@ -57,11 +83,9 @@ class PaymentManageController extends GetxController
   }
 
   Future<void> toFilterPage() async {
-    var data = await Get.toNamed(
-      Routes.filter,
-      arguments: currentMonth,
-    );
-    _currentMonth(data ?? currentMonth);
+    FilterNavigator.toTransactionDetail(args: currentMonth)?.then((newMonth) {
+      _currentMonth(newMonth ?? currentMonth);
+    });
   }
 
   Future<void> searchData(String val) async {

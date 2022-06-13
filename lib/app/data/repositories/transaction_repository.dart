@@ -5,16 +5,22 @@ class TransactionRepository {
     await TransactionProvider.createTransaction(data);
   }
 
-  Future<bool> updateTransactionPayment() {
+  Future<void> updateTransaction({
+    required TransactionModel data,
+  }) async {
+    await TransactionProvider.updateTransaction(data);
+  }
+
+  Future<void> updateTransactionCharge() {
     throw UnimplementedError();
   }
 
-  Future<bool> createTransactionCharge(Map<String, dynamic> data) {
-    throw UnimplementedError();
-  }
-
-  Future<bool> updateTransactionCharge() {
-    throw UnimplementedError();
+  Future<void> deleteTransaction({
+    required TransactionType type,
+    required String uidTransaction,
+  }) {
+    return TransactionProvider.deleteTransaction(
+        type: type, uidTransaction: uidTransaction);
   }
 
   Future<List<TransactionModel>> getTransactionPayment({

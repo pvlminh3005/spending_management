@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../widgets/indicators/loading_indicator.dart';
-import '../../../widgets/spending_manage_item.dart';
+import '../../../widgets/transaction_item.dart';
 import '../controllers/charge_manage_controller.dart';
 
 class ChargeManageView extends GetView<ChargeManageController> {
@@ -21,7 +21,7 @@ class ChargeManageView extends GetView<ChargeManageController> {
                   itemCount: state!.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return SpendingManageItem(
+                    return TransactionItem(
                       model: state[index],
                       index: index,
                       tagColor: Colors.green,

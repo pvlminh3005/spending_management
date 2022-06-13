@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
@@ -10,34 +9,34 @@ import '../../../data/models/category_model.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
 import '../../../data/services/user_service.dart';
-import '../../../routes/app_pages.dart';
-
-enum ButtonDetailType {
-  create,
-  update,
-  delete,
-}
-
-final _currentDate = DateTime.now().displayDate;
 
 class TransactionDetailController extends GetxController {
   final formKey = GlobalKey<FormState>();
+  final _titleButton = StringUtils.createTransaction.obs;
   final _isLoading = false.obs;
-  final dateController = TextEditingController(text: _currentDate);
+  final dateController =
+      TextEditingController(text: DateTime.now().displayDate);
   final balanceController = TextEditingController();
   final descriptionController = TextEditingController();
   final _listCategories = <CategoryModel>[].obs;
+  final _currentCategory =
+      Get.find<UserService>().lisPaymentCategories.first.obs;
 
+  String? _uidTransaction;
+  DateTime _selectedDate = DateTime.now();
   bool get isLoading => _isLoading.value;
   String get dateStr => dateController.text;
   String get balanceStr => balanceController.text;
   String get descriptionStr => descriptionController.text;
-  String titleButton = StringUtils.createTransaction;
+  String get titleButton => _titleButton.value;
   List<CategoryModel> get listCategories => _listCategories;
+  CategoryModel get currentCategory => _currentCategory.value;
   //?
 
   @override
   void onInit() {
+    _listCategories(Get.find<UserService>().lisPaymentCategories);
+
     super.onInit();
   }
 
@@ -48,48 +47,63 @@ class TransactionDetailController extends GetxController {
   }
 
   void initialData() {
-    _listCategories(Get.find<UserService>().lisPaymentCategories);
     TransactionModel? arguments = Get.arguments;
 
     if (arguments != null) {
-      titleButton = StringUtils.updateTransaction;
+      _selectedDate = arguments.createdAt;
+      _titleButton(StringUtils.updateTransaction);
+      _uidTransaction = arguments.uid;
       dateController.text = arguments.formatDate;
       balanceController.text = arguments.displayBalance;
       descriptionController.text = arguments.description ?? '';
+      _currentCategory(arguments.category);
     }
   }
 
   void chooseDate(BuildContext context) {
-    DateTimePickerUtils.dateTimePicker(
-      initialDate: DateTimeExt.parseDate(dateStr),
-    ).then((date) {
+    DateTimePickerUtils()
+        .dateTimePicker(initialDate: DateTimeExt.parseDate(dateStr))
+        .then((date) {
       if (date != null) {
-        dateController.text = date.displayDate;
+        updateDate(date);
       }
     });
   }
 
-  Future<void> createTransaction() async {
+  void selectedCategory(CategoryModel category) => _currentCategory(category);
+
+  Future<void> toggleTransaction() async {
     if (formKey.currentState!.validate()) {
       _isLoading(true);
       try {
         final TransactionModel model = TransactionModel(
-          uid: const Uuid().v1(),
-          title: 'Test 1',
+          uid: _uidTransaction,
+          category: currentCategory,
           balance: balanceStr.formatBalance,
           description: descriptionStr,
           transactionType: TransactionType.payment,
-          createdAt: DateTimeExt.parseDate(dateStr),
+          createdAt: _selectedDate,
         );
+        if (Get.arguments == null) {
+          await Repositories.transaction.createTransaction(model);
+        } else {
+          await Repositories.transaction.updateTransaction(data: model);
+        }
 
-        await Repositories.transaction.createTransaction(model);
         _isLoading(false);
-        Get.offAndToNamed(Routes.dashboard);
+        Get.back(result: true);
       } catch (e) {
         AppUtils.toast(e.toString());
         _isLoading(false);
       }
     }
+  }
+
+  Future<void> updateTransaction() async {}
+
+  void updateDate(DateTime newDate) {
+    _selectedDate = newDate;
+    dateController.text = newDate.displayDate;
   }
 
   @override

@@ -18,7 +18,6 @@ class UserService extends GetxService {
     // _listChargeCategories(
     //     await Repositories.category.getCategories(type: CategoryType.charge));
 
-    print(_listPaymentCategories);
     return this;
   }
 }
