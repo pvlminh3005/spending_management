@@ -95,14 +95,15 @@ class PaymentManageController extends GetxController
       .5.delay(
         () {
           var data = state
-              ?.where((e) => e.title.toLowerCase().contains(val.toLowerCase()))
+              ?.where((e) => e.title.tiengViet.contains(val.tiengViet))
               .toList();
           if (data == null) {
             change(state, status: RxStatus.error());
-          } else if (data.isEmpty) {
-            change([], status: RxStatus.empty());
           } else {
-            change(data, status: RxStatus.success());
+            change(
+              data,
+              status: data.isNotEmpty ? RxStatus.success() : RxStatus.empty(),
+            );
           }
         },
       );

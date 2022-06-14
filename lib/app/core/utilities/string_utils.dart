@@ -39,5 +39,6 @@ class StringUtils {
   //!ERROR TEXT
   static const verifyOtpError = 'Mã OTP không đúng. Vui lòng thử lại';
   static const errorBalance = 'Số tiền không được để trống';
+  static const errorCategory = 'Tên danh mục không được để trống';
   static const errorNotification = 'Có lỗi xảy ra';
 }

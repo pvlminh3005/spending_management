@@ -2,33 +2,36 @@ import '../../core/constants/constants.dart';
 import 'category_model.dart';
 
 class ClassifyModel {
-  final String uid;
+  final String? uid;
   final CategoryModel category;
-  final int defaultAmount;
-  final int currentAmount;
+  final int defaultBalance;
+  final int currentBalance;
 
   ClassifyModel({
-    required this.uid,
+    this.uid,
     required this.category,
-    this.defaultAmount = 0,
-    this.currentAmount = 0,
+    this.defaultBalance = 0,
+    this.currentBalance = 0,
   });
 
   factory ClassifyModel.fromJson(Map<String, dynamic> json) => ClassifyModel(
         uid: json[DbKeys.uid],
         category: CategoryModel.fromJson(json[DbKeys.category]),
-        defaultAmount: json[DbKeys.defaultAmount],
-        currentAmount: json[DbKeys.currentAmount],
+        defaultBalance: json[DbKeys.defaultBalance],
+        currentBalance: json[DbKeys.currentBalance],
       );
 
   Map<String, dynamic> toJson() => {
         DbKeys.uid: uid,
         DbKeys.category: category.toJson(),
-        DbKeys.defaultAmount: defaultAmount,
-        DbKeys.currentAmount: currentAmount,
+        DbKeys.defaultBalance: defaultBalance,
+        DbKeys.currentBalance: currentBalance,
       };
 
   String get title => category.title;
+  CategoryType get type => category.categoryType;
+
+  //Covert
 }
 
 final listClassify = <ClassifyModel>[
@@ -39,8 +42,8 @@ final listClassify = <ClassifyModel>[
       title: 'Ăn uống',
       categoryType: CategoryType.payment,
     ),
-    defaultAmount: 2000000,
-    currentAmount: 1800000,
+    defaultBalance: 2000000,
+    currentBalance: 1800000,
   ),
   ClassifyModel(
     uid: 'classify2',
@@ -49,7 +52,16 @@ final listClassify = <ClassifyModel>[
       title: 'Mua sắm',
       categoryType: CategoryType.payment,
     ),
-    defaultAmount: 750000,
-    currentAmount: 1200000,
+    defaultBalance: 750000,
+    currentBalance: 1200000,
+  ),
+  ClassifyModel(
+    uid: 'classify3',
+    category: const CategoryModel(
+      uid: '3Z31zrR81mUntrCojlF5',
+      title: 'Lương',
+      categoryType: CategoryType.charge,
+    ),
+    currentBalance: 12000000,
   ),
 ];

@@ -32,7 +32,18 @@ class CategoryProvider {
   static Future<void> createCategory(CategoryModel category) async {
     try {
       String _path = _getPath(category.categoryType);
-      await _categories.doc(_uid).collection(_path).add(category.toJson());
+      await _categories
+          .doc(_uid)
+          .collection(_path)
+          .add(category.toJson())
+          .then((value) async {
+        //update uid model
+        await _categories
+            .doc(_uid)
+            .collection(_path)
+            .doc(value.id)
+            .update({DbKeys.uid: value.id});
+      });
     } on FirebaseException {
       rethrow;
     }

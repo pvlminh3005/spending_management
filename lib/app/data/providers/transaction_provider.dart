@@ -51,8 +51,6 @@ class TransactionProvider {
       await _transactions
           .doc(_uid)
           .collection(_path)
-          // .doc(transaction.uid)
-          // .set(transaction.toJson());
           .add(transaction.toJson())
           .then((value) async {
         await _transactions

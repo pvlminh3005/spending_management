@@ -24,6 +24,10 @@ dependencies:
   cloud_firestore: ^3.1.14
   firebase_messaging: ^11.3.0
   flutter_local_notifications: ^9.5.2
+  #paint dotted border
+  path_drawing: ^1.0.0
+  #remove sign in vietnam language
+  tiengviet: ^0.5.0
   flutter_localizations:
     sdk: flutter
 

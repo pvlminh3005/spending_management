@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide ContextExtensionss;
 
-import 'package:get/get.dart';
-
-import '../../../data/models/classify_model.dart';
+import '../../../core/styles/style.dart';
+import '../../../widgets/common/app_button.dart';
+import '../../../widgets/dotted_border/dotted_border.dart';
 import '../controllers/classify_controller.dart';
+import '../widgets/widgets.dart';
 
 class ClassifyView extends GetView<ClassifyController> {
   const ClassifyView({Key? key}) : super(key: key);
@@ -11,73 +12,39 @@ class ClassifyView extends GetView<ClassifyController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          DataTable(
-            columns: [
-              DataColumn(
-                onSort: (columnIndex, ascending) {},
-                label: const Text(
-                  'Phân loại',
-                  maxLines: 1,
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              const DataColumn(
-                label: Text(
-                  'Age',
-                  maxLines: 1,
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
-              const DataColumn(
-                label: Text(
-                  'Role',
-                  maxLines: 1,
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
+      body: RefreshIndicator(
+        onRefresh: controller.initialData,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              StatisticalBuilder(),
+              TotalBalanceBuilder(),
+              FilterTypeBuilder(),
+              ListClassifyBuilder(),
             ],
-            rows: _createRows(),
           ),
-        ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 12,
+        ),
+        child: DottedBorder(
+          radius: const Radius.circular(10.0),
+          padding: EdgeInsets.zero,
+          child: AppButton(
+            'Thêm danh mục',
+            textColor: context.onBackground,
+            color: context.background,
+            elevation: 0,
+            axisSize: MainAxisSize.max,
+            onPressed: controller.createClassify,
+          ),
+        ),
       ),
     );
   }
-
-  List<DataRow> _createRows() {
-    return listClassify
-        .map((book) => DataRow(cells: [
-              DataCell(Text('ds')),
-              DataCell(Text('ds')),
-              DataCell(Text('ds')),
-            ]))
-        .toList();
-  }
 }
-
-// class _DataColumnCustom extends DataTableSource {
-//   _DataColumnCustom() : super();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return;
-//   }
-
-//   @override
-//   DataRow? getRow(int index) {
-//     return DataRow(cells: []);
-//   }
-
-//   @override
-//   // TODO: implement isRowCountApproximate
-//   bool get isRowCountApproximate => throw UnimplementedError();
-
-//   @override
-//   // TODO: implement rowCount
-//   int get rowCount => throw UnimplementedError();
-
-//   @override
-//   // TODO: implement selectedRowCount
-//   int get selectedRowCount => throw UnimplementedError();
-// }

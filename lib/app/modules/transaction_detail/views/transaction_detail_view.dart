@@ -6,8 +6,8 @@ import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/app_button.dart';
 import '../../../widgets/common/appbar_custom.dart';
 import '../../../widgets/common/input_custom.dart';
-import '../../../widgets/common/thousand_input_formatter/thousand_input_formatter.dart';
 import '../../../widgets/list_category/list_category_widget.dart';
+import '../../../widgets/thousand_input_formatter/thousand_input_formatter.dart';
 import '../controllers/transaction_detail_controller.dart';
 
 class TransactionDetailView extends GetView<TransactionDetailController> {

@@ -10,8 +10,8 @@ class DbKeys {
 
   static const String createdAt = 'created_at';
   static const String timestamp = 'timestamp';
-  static const String defaultAmount = 'default_amount';
-  static const String currentAmount = 'current_amount';
+  static const String defaultBalance = 'default_balance';
+  static const String currentBalance = 'current_balance';
   static const String costType = 'cost_type';
   static const String transactionType = 'transaction_type';
   static const String categoryType = 'category_type';
