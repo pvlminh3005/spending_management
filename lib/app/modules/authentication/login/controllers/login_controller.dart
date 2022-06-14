@@ -8,6 +8,8 @@ import '../../../../data/services/auth_service.dart';
 import '../../../../data/services/notification_service.dart';
 import '../../../../routes/app_pages.dart';
 
+const maxLength = 13;
+
 class LoginController extends GetxController {
   AuthService get auth => Get.find();
 
@@ -51,6 +53,7 @@ class LoginController extends GetxController {
       _disabled(true);
     } else {
       _disabled(false);
+      WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
     }
   }
 

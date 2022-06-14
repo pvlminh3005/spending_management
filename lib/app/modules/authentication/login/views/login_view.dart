@@ -68,7 +68,7 @@ class LoginView extends GetView<LoginController> {
                 validator: Validator.validateAll([
                   PhoneValidator(StringUtils.validPhone),
                 ]),
-                maxLength: 10 + 3,
+                maxLength: maxLength,
                 onChanged: controller.onChangedInput,
               ),
               Dimensions.height20,
