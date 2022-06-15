@@ -8,6 +8,7 @@ abstract class ClassifyRepositoryBase {
   Future<void> updateCurrentBalance({
     required String uidClassify,
     required int newBalance,
+    bool isPlus = true,
   });
   Future<void> deleteClassify(ClassifyModel classify);
 }
@@ -37,10 +38,12 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   Future<void> updateCurrentBalance({
     required String uidClassify,
     required int newBalance,
+    bool isPlus = true,
   }) {
     return ClassifyProvider.updateCurrentBalance(
       uidClassify: uidClassify,
       newBalance: newBalance,
+      isPlus: isPlus,
     );
   }
 }

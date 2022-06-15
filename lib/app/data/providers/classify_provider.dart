@@ -71,13 +71,15 @@ class ClassifyProvider {
   static Future<void> updateCurrentBalance({
     required String uidClassify,
     required int newBalance,
+    required isPlus,
   }) async {
     try {
-      _classify
-          .doc(_uid)
-          .collection(_uid)
-          .doc(uidClassify)
-          .update({DbKeys.currentBalance: newBalance});
+      _classify.doc(_uid).collection(_uid).doc(uidClassify).update(
+        {
+          DbKeys.currentBalance:
+              FieldValue.increment(isPlus ? newBalance : -newBalance)
+        },
+      );
     } on FirebaseException {
       rethrow;
     }

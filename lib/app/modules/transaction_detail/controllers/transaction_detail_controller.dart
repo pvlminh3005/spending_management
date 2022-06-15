@@ -9,6 +9,7 @@ import '../../../data/models/category_model.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
 import '../../../data/services/user_service.dart';
+import '../../classify/controllers/classify_controller.dart';
 
 class TransactionDetailController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -32,19 +33,16 @@ class TransactionDetailController extends GetxController {
   String get titleButton => _titleButton.value;
   List<CategoryModel> get listCategories => _listCategories;
   CategoryModel? get currentCategory => _currentCategory.value;
-  //?
 
   @override
   void onInit() {
     List<CategoryModel> _list = Get.find<UserService>().listPaymentCategories;
     _listCategories(_list);
-
-    _isDisable(_list.isEmpty);
-
     if (_list.isNotEmpty) {
       _currentCategory.value = _list.first;
+    } else {
+      _isDisable(true);
     }
-
     super.onInit();
   }
 
@@ -65,11 +63,13 @@ class TransactionDetailController extends GetxController {
       balanceController.text = arguments.displayBalance;
       descriptionController.text = arguments.description ?? '';
       for (var category in listCategories) {
-        if (!category.uid!.contains(arguments.category.uid!)) {
-          _isDisable(true);
+        if (category.uid == arguments.category.uid) {
+          _isDisable(false);
+          _currentCategory(arguments.category);
+          return;
         }
+        _isDisable(true);
       }
-      _currentCategory(arguments.category);
     }
   }
 
@@ -86,6 +86,7 @@ class TransactionDetailController extends GetxController {
   void selectedCategory(CategoryModel category) => _currentCategory(category);
 
   Future<void> toggleTransaction() async {
+    WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
       _isLoading(true);
       try {
@@ -97,13 +98,32 @@ class TransactionDetailController extends GetxController {
           transactionType: TransactionType.payment,
           createdAt: _selectedDate,
         );
-        if (Get.arguments == null) {
+        TransactionModel? arguments = Get.arguments;
+        if (arguments == null) {
+          //* 1: new transaction
           await Repositories.transaction.createTransaction(model);
+          await Repositories.classify.updateCurrentBalance(
+            uidClassify: currentCategory!.uid!,
+            newBalance: balanceStr.formatBalance,
+          );
         } else {
           await Repositories.transaction.updateTransaction(data: model);
+          //! First, we need decrement balance in previous category arguments pass
+          await Repositories.classify.updateCurrentBalance(
+            uidClassify: arguments.category.uid!,
+            newBalance: arguments.balance,
+            isPlus: false,
+          );
+          //! Then, we update balance in current category
+          await Repositories.classify.updateCurrentBalance(
+            uidClassify: currentCategory!.uid!,
+            newBalance: balanceStr.formatBalance,
+          );
         }
 
         _isLoading(false);
+        //update data when occur change
+        await Get.find<ClassifyController>().initialData();
         Get.back(result: true);
       } catch (e) {
         AppUtils.toast(e.toString());
@@ -112,11 +132,19 @@ class TransactionDetailController extends GetxController {
     }
   }
 
-  Future<void> updateTransaction() async {}
-
   void updateDate(DateTime newDate) {
     _selectedDate = newDate;
     dateController.text = newDate.displayDate;
+  }
+
+  Future<void> updateBalanceClassify({
+    required String uid,
+    required int balance,
+  }) async {
+    await Repositories.classify.updateCurrentBalance(
+      uidClassify: uid,
+      newBalance: balance,
+    );
   }
 
   @override

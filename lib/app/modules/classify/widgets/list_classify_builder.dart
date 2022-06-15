@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../../core/styles/style.dart';
@@ -49,28 +51,36 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
                 ),
               ),
             ],
-            rows: state!
-                .map(
-                  (data) => DataRow(
-                    onLongPress: () => controller.onEditClassify(data),
-                    cells: [
-                      DataCell(
-                        _HeaderTitle(data.title),
+            rows: state!.map(
+              (data) {
+                bool isExceed = (data.defaultBalance <= data.currentBalance) ||
+                    ((data.currentBalance) >= data.defaultBalance * 2 / 3);
+
+                return DataRow(
+                  onLongPress: () => controller.onEditClassify(data),
+                  cells: [
+                    DataCell(
+                      _HeaderTitle(data.title),
+                    ),
+                    DataCell(
+                      _HeaderTitle(
+                        data.defaultBalance == 0
+                            ? '\t'
+                            : data.defaultBalance.format + '\t₫',
                       ),
-                      DataCell(
-                        _HeaderTitle(
-                          data.defaultBalance == 0
-                              ? '\t'
-                              : data.defaultBalance.format + '\t₫',
+                    ),
+                    DataCell(
+                      _HeaderTitle(
+                        data.currentBalance.format + '\t₫',
+                        style: TextStyle(
+                          color: isExceed ? context.error : null,
                         ),
                       ),
-                      DataCell(
-                        _HeaderTitle(data.currentBalance.format + '\t₫'),
-                      ),
-                    ],
-                  ),
-                )
-                .toList(),
+                    ),
+                  ],
+                );
+              },
+            ).toList(),
           ),
         ),
         onLoading: const IntrinsicHeight(

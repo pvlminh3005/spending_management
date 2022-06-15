@@ -39,7 +39,6 @@ class ClassifyController extends GetxController
   }
 
   Future<void> initialData() async {
-    print('ALOOO???????????????');
     try {
       resetData();
       var data = await Repositories.classify.getListClassify();
@@ -116,7 +115,7 @@ class ClassifyController extends GetxController
       onDelete: () async {
         LayoutUtils.dialogMessage(
           title: 'Bạn muốn xoá danh mục này?',
-          subtitle: 'Các giao dịch liên quan tới danh mục đều không bị xoá',
+          subtitle: 'Các giao dịch liên quan tới danh mục này đều không bị xoá',
           onConfirm: () async {
             try {
               await Repositories.classify.deleteClassify(classify);

@@ -56,15 +56,20 @@ class _CustomItemType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2.0,
-      shadowColor: Colors.black45,
-      margin: EdgeInsets.zero,
-      color: uid == category.uid ? context.primary : context.background,
-      shape: OutlineInputBorder(
-        borderSide: BorderSide.none,
+    return AnimatedContainer(
+      decoration: BoxDecoration(
+        color: uid == category.uid ? context.primary : context.background,
         borderRadius: BorderRadius.circular(6),
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(0, 2),
+            color: Colors.black12,
+            blurRadius: 2,
+            blurStyle: BlurStyle.normal,
+          )
+        ],
       ),
+      duration: const Duration(milliseconds: 100),
       child: InkWell(
         onTap: () => onPressed?.call(category.uid!),
         borderRadius: BorderRadius.circular(6.0),
