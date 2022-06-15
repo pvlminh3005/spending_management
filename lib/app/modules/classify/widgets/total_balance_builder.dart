@@ -18,16 +18,16 @@ class TotalBalanceBuilder extends GetView<ClassifyController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Obx(
-            () => _TotalBalanceItem(
+            () => TotalBalanceItem(
               title: 'Tổng chi',
               balance: controller.totalPayment,
               icon: CupertinoIcons.down_arrow,
               iconColor: context.error,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 7),
           Obx(
-            () => _TotalBalanceItem(
+            () => TotalBalanceItem(
               title: 'Tổng thu',
               balance: controller.totalCharge,
               icon: CupertinoIcons.up_arrow,
@@ -40,17 +40,19 @@ class TotalBalanceBuilder extends GetView<ClassifyController> {
   }
 }
 
-class _TotalBalanceItem extends StatelessWidget {
+class TotalBalanceItem extends StatelessWidget {
   final String title;
   final int balance;
-  final IconData icon;
+  final IconData? icon;
   final Color? iconColor;
+  final double? width;
 
-  const _TotalBalanceItem({
+  const TotalBalanceItem({
     required this.title,
     required this.balance,
-    required this.icon,
+    this.icon,
     this.iconColor,
+    this.width = 70,
     Key? key,
   }) : super(key: key);
 
@@ -59,7 +61,7 @@ class _TotalBalanceItem extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-          width: 70,
+          width: width,
           child: Text(
             '$title:',
             style: context.bodyText1.copyWith(
@@ -68,11 +70,12 @@ class _TotalBalanceItem extends StatelessWidget {
             ),
           ),
         ),
-        Icon(
-          icon,
-          size: 12,
-          color: iconColor,
-        ),
+        if (icon != null)
+          Icon(
+            icon,
+            size: 13,
+            color: iconColor,
+          ),
         Expanded(
           child: Text(
             balance == 0 ? '' : balance.format + '\t₫',

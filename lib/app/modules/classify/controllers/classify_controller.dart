@@ -15,6 +15,7 @@ class ClassifyController extends GetxController
   final _sortAscending = false.obs;
   final _totalPayment = 0.obs;
   final _totalCharge = 0.obs;
+  final _totalEstimate = 0.obs;
   final int balanceLast = 120000;
 
   List<ClassifyModel> get listClassifyPayment => _listClassifyPayment;
@@ -23,6 +24,7 @@ class ClassifyController extends GetxController
   bool get sortAscending => _sortAscending.value;
   int get totalPayment => _totalPayment.value;
   int get totalCharge => _totalCharge.value;
+  int get totalEstimate => _totalEstimate.value;
 
   @override
   void onInit() {
@@ -45,6 +47,8 @@ class ClassifyController extends GetxController
       listClassify.addAll(data);
 
       for (var classify in data) {
+        _totalEstimate(totalEstimate + classify.defaultBalance);
+
         if (classify.type == CategoryType.payment) {
           _totalPayment(totalPayment + classify.currentBalance);
         } else {
@@ -141,6 +145,7 @@ class ClassifyController extends GetxController
     _sortAscending(false);
     _totalPayment(0);
     _totalCharge(0);
+    _totalEstimate(0);
   }
 
   @override
