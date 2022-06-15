@@ -5,7 +5,10 @@ abstract class ClassifyRepositoryBase {
   Future<List<ClassifyModel>> getListClassify();
   Future<void> createClassify(ClassifyModel classify);
   Future<void> updateClassify(ClassifyModel newClassify);
-
+  Future<void> updateCurrentBalance({
+    required String uidClassify,
+    required int newBalance,
+  });
   Future<void> deleteClassify(ClassifyModel classify);
 }
 
@@ -28,5 +31,16 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   @override
   Future<void> deleteClassify(ClassifyModel classify) {
     return ClassifyProvider.deleteClassify(classify);
+  }
+
+  @override
+  Future<void> updateCurrentBalance({
+    required String uidClassify,
+    required int newBalance,
+  }) {
+    return ClassifyProvider.updateCurrentBalance(
+      uidClassify: uidClassify,
+      newBalance: newBalance,
+    );
   }
 }

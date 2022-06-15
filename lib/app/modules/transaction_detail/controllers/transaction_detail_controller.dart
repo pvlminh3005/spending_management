@@ -39,6 +39,8 @@ class TransactionDetailController extends GetxController {
     List<CategoryModel> _list = Get.find<UserService>().listPaymentCategories;
     _listCategories(_list);
 
+    _isDisable(_list.isEmpty);
+
     if (_list.isNotEmpty) {
       _currentCategory.value = _list.first;
     }

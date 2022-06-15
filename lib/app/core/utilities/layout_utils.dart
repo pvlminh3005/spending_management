@@ -241,6 +241,7 @@ class LayoutUtils {
                             onPressed: () async {
                               _isLoadingBtn2.value = true;
                               var data = ClassifyModel(
+                                uid: classify?.uid,
                                 category: CategoryModel(
                                   title: _titleCtrl.text,
                                   categoryType: _categoryType.value,

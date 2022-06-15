@@ -46,11 +46,10 @@ class ClassifyProvider {
         classify = classify.copyWith(
           category: classify.category.copyWith(uid: value.id),
         );
-        await _classify
-            .doc(_uid)
-            .collection(_uid)
-            .doc(value.id)
-            .update({DbKeys.uid: value.id}).then((_) async {
+        await _classify.doc(_uid).collection(_uid).doc(value.id).update({
+          DbKeys.uid: value.id,
+          DbKeys.category: classify.category.toJson(),
+        }).then((_) async {
           await Repositories.category.createCategory(classify.category);
         });
       });
@@ -61,14 +60,24 @@ class ClassifyProvider {
 
   static Future<void> updateClassify(ClassifyModel newClassify) async {
     try {
-      Repositories.category
-          .updateCategory(newClassify.category)
-          .then((_) async {
-        //* NEXT STEP: Update category in list transactions
-        // Repositories.transaction.updateTransaction(data: data)
-
-        //* NEXT STEP: Update category in classify
+      await _classify.doc(_uid).collection(_uid).doc(newClassify.uid).update({
+        DbKeys.defaultBalance: newClassify.defaultBalance,
       });
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  static Future<void> updateCurrentBalance({
+    required String uidClassify,
+    required int newBalance,
+  }) async {
+    try {
+      _classify
+          .doc(_uid)
+          .collection(_uid)
+          .doc(uidClassify)
+          .update({DbKeys.currentBalance: newBalance});
     } on FirebaseException {
       rethrow;
     }
@@ -76,7 +85,7 @@ class ClassifyProvider {
 
   static Future<void> deleteClassify(ClassifyModel classify) async {
     try {
-      _classify
+      await _classify
           .doc(_uid)
           .collection(_uid)
           .doc(classify.uid)
