@@ -5,6 +5,7 @@ import '../../../core/styles/style.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/input_custom.dart';
 import '../../../widgets/empty_widget.dart';
+import '../../../widgets/error_widget/error_widget.dart';
 import '../../../widgets/icon_title.dart';
 import '../../../widgets/list_loading_widget.dart';
 import '../../../widgets/transaction_item.dart';
@@ -98,9 +99,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
                       title:
                           "Không có giao dịch trong tháng ${controller.currentMonth}"),
                 ),
-                onError: (error) => const Center(
-                  child: Text(StringUtils.errorNotification),
-                ),
+                onError: (error) => const ErrorCustomWidget(),
               ),
             ),
           ),
@@ -118,63 +117,3 @@ class PaymentManageView extends GetView<PaymentManageController> {
     );
   }
 }
-
-// class _CardAmountBuilder extends StatelessWidget {
-//   final String title;
-//   final int amount;
-//   final TextStyle? style;
-//   const _CardAmountBuilder({
-//     this.title = '',
-//     this.amount = 0,
-//     this.style,
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: 3,
-//       shape: OutlineInputBorder(
-//         borderRadius: BorderRadius.circular(6.w),
-//         borderSide: BorderSide.none,
-//       ),
-//       shadowColor: Colors.black26,
-//       child: SizedBox(
-//         width: context.width * .45,
-//         child: Center(
-//           child: Column(
-//             children: [
-//               Padding(
-//                 padding: EdgeInsets.symmetric(
-//                   vertical: 5.h,
-//                   horizontal: 8.w,
-//                 ),
-//                 child: Text(
-//                   title,
-//                   style: context.bodyText1.copyWith(
-//                     fontSize: 13.sp,
-//                     fontWeight: FontWeight.w700,
-//                   ),
-//                   textAlign: TextAlign.center,
-//                   maxLines: 2,
-//                 ),
-//               ),
-//               const Divider(height: 0),
-//               Padding(
-//                 padding: EdgeInsets.symmetric(
-//                   vertical: 7.h,
-//                   horizontal: 8.w,
-//                 ),
-//                 child: Text(
-//                   '${amount.format} đ',
-//                   style: style ?? context.bodyText1,
-//                   textAlign: TextAlign.center,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

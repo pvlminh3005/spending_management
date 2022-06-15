@@ -16,7 +16,7 @@ class LayoutUtils {
   static void dialogMessage({
     required String title,
     String? subtitle,
-    Future Function()? onConfirm,
+    Future<void> Function()? onConfirm,
   }) {
     final BuildContext context = Get.context!;
     final _isLoading = ValueNotifier(false);
@@ -31,7 +31,7 @@ class LayoutUtils {
             if (subtitle != null) ...[
               Text(
                 subtitle,
-                style: context.caption,
+                style: context.caption.copyWith(fontSize: 13),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 15),
@@ -80,19 +80,22 @@ class LayoutUtils {
   static void openBottomSheet({
     bool isEdit = false,
     final ClassifyModel? classify,
-    Function(ClassifyModel)? onPressed,
-    VoidCallback? onDelete,
+    Future<void> Function(ClassifyModel)? onCreate,
+    Future<void> Function(ClassifyModel)? onEdit,
+    Future<void> Function()? onDelete,
   }) {
     final BuildContext context = Get.context!;
-    final bool isCharge = classify?.type == CategoryType.charge;
+    final _isLoadingBtn1 = ValueNotifier<bool>(false);
+    final _isLoadingBtn2 = ValueNotifier<bool>(false);
 
     final _titleCtrl = TextEditingController(text: classify?.title);
     final _defaultCtrl = TextEditingController(
-        text: isCharge
-            ? null
-            : classify?.defaultBalance.format.toString() ?? '0');
+        text: classify?.defaultBalance.format.toString() ?? '0');
     final _categoryType =
         ValueNotifier<CategoryType>(classify?.type ?? CategoryType.payment);
+    final _haveChanged = ValueNotifier<bool>(false);
+    final Color fillColor =
+        isEdit ? context.tertiary.withOpacity(.6) : Colors.transparent;
 
     Get.bottomSheet(
       Container(
@@ -102,45 +105,76 @@ class LayoutUtils {
             top: Radius.circular(10.0),
           ),
         ),
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 15,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              isEdit ? 'Chỉnh sửa' : 'Tạo mới',
-              style: context.subtitle1.copyWith(fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  isEdit ? 'Chỉnh sửa' : 'Tạo mới',
+                  style:
+                      context.subtitle1.copyWith(fontWeight: FontWeight.bold),
+                ),
+                InkWell(
+                  onTap: Get.back,
+                  child: Icon(
+                    Icons.close,
+                    color: context.onBackground.withOpacity(.5),
+                    size: 20,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 25),
             InputCustom(
               controller: _titleCtrl,
               labelText: 'Tên danh mục (*)',
+              isEnabled: !isEdit,
+              fillColor: fillColor,
               borderSide: BorderSide(color: context.tertiary),
             ),
             const SizedBox(height: 15),
-            InputCustom(
-              controller: _defaultCtrl,
-              labelText: 'Ngân sách dự kiến',
-              // isEnabled: !isCharge,
-              // fillColor: isCharge ? context.tertiary : Colors.transparent,
-              isShowSuffixIcon: true,
-              isClear: false,
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Text(
-                  '₫',
-                  style: context.subtitle1.copyWith(
-                    fontSize: 20.sp,
-                    color: const Color(0xFF333333),
+            ValueListenableBuilder(
+              valueListenable: _categoryType,
+              builder: (BuildContext context, CategoryType value, Widget? _) {
+                final bool isCharge = value == CategoryType.charge;
+                return InputCustom(
+                  controller: _defaultCtrl,
+                  labelText: 'Ngân sách dự kiến',
+                  isEnabled: !isCharge,
+                  fillColor: isCharge
+                      ? context.tertiary.withOpacity(.5)
+                      : Colors.transparent,
+                  isShowSuffixIcon: true,
+                  isClear: false,
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      '₫',
+                      style: context.subtitle1.copyWith(
+                        fontSize: 20.sp,
+                        color: const Color(0xFF333333),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              borderSide: BorderSide(color: context.tertiary),
-              inputType: TextInputType.number,
-              inputFormatters: [ThousandsFormatter()],
-              validator: Validator.validateAll([
-                BalanceValidator(StringUtils.errorCategory),
-              ]),
+                  borderSide: BorderSide(color: context.tertiary),
+                  inputType: TextInputType.number,
+                  inputFormatters: [ThousandsFormatter()],
+                  validator: Validator.validateAll([
+                    BalanceValidator(StringUtils.errorCategory),
+                  ]),
+                  onChanged: (val) {
+                    _haveChanged.value = val.isNotEmpty &&
+                        val.formatBalance != classify?.defaultBalance;
+                  },
+                );
+              },
             ),
             const SizedBox(height: 15),
             ValueListenableBuilder(
@@ -149,9 +183,17 @@ class LayoutUtils {
                 return DropDownCustom(
                   categoryType: value,
                   padding: const EdgeInsets.all(15.0),
-                  onChanged: (CategoryType? newType) {
-                    _categoryType.value = newType!;
-                  },
+                  fillColor: isEdit
+                      ? context.tertiary.withOpacity(.6)
+                      : Colors.transparent,
+                  onChanged: isEdit
+                      ? null
+                      : (CategoryType? newType) {
+                          _categoryType.value = newType!;
+                          if (newType == CategoryType.charge) {
+                            _defaultCtrl.clear();
+                          }
+                        },
                 );
               },
             ),
@@ -159,32 +201,61 @@ class LayoutUtils {
             Row(
               children: [
                 Expanded(
-                  child: AppButton(
-                    isEdit ? 'Xoá' : 'Huỷ',
-                    color: const Color(0xFFf1f2f6),
-                    height: 40.0,
-                    textColor: const Color(0xFF2f3542),
-                    elevation: 0,
-                    borderRadius: 6.0,
-                    onPressed: isEdit ? onDelete : Get.back,
+                  child: ValueListenableBuilder(
+                    valueListenable: _isLoadingBtn1,
+                    builder: (BuildContext context, bool value, Widget? _) {
+                      return AppButton(
+                        isEdit ? 'Xoá' : 'Huỷ',
+                        color: context.primary,
+                        loading: value,
+                        height: 40.0,
+                        elevation: 0,
+                        borderRadius: 6.0,
+                        onPressed: isEdit
+                            ? () async {
+                                _isLoadingBtn1.value = true;
+                                await onDelete?.call();
+                                _isLoadingBtn1.value = false;
+                              }
+                            : Get.back,
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: AppButton(
-                    isEdit ? 'Chỉnh sửa' : 'Xác nhận',
-                    height: 40.0,
-                    elevation: 0,
-                    borderRadius: 6.0,
-                    onPressed: () {
-                      onPressed?.call(
-                        ClassifyModel(
-                          category: CategoryModel(
-                            title: _titleCtrl.text,
-                            categoryType: _categoryType.value,
-                          ),
-                          defaultBalance: _defaultCtrl.text.formatBalance,
-                        ),
+                  child: ValueListenableBuilder(
+                    valueListenable: _isLoadingBtn2,
+                    builder: (BuildContext context, bool isLoading, Widget? _) {
+                      return ValueListenableBuilder(
+                        valueListenable: _haveChanged,
+                        builder: (BuildContext context, bool value, Widget? _) {
+                          return AppButton(
+                            isEdit ? 'Chỉnh sửa' : 'Xác nhận',
+                            height: 40.0,
+                            elevation: 0,
+                            disabled: !value,
+                            loading: isLoading,
+                            color: context.secondary,
+                            borderRadius: 6.0,
+                            onPressed: () async {
+                              _isLoadingBtn2.value = true;
+                              var data = ClassifyModel(
+                                category: CategoryModel(
+                                  title: _titleCtrl.text,
+                                  categoryType: _categoryType.value,
+                                ),
+                                defaultBalance: _defaultCtrl.text.formatBalance,
+                              );
+
+                              isEdit
+                                  ? await onEdit?.call(data)
+                                  : await onCreate?.call(data);
+
+                              _isLoadingBtn2.value = false;
+                            },
+                          );
+                        },
                       );
                     },
                   ),

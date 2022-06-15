@@ -18,7 +18,7 @@ class CategoryProvider {
       final _collection = await _categories
           .doc(_uid)
           .collection(_path)
-          .orderBy(DbKeys.title, descending: true)
+          .orderBy(DbKeys.title)
           .get();
 
       return _collection.docs.map((category) {
@@ -35,15 +35,10 @@ class CategoryProvider {
       await _categories
           .doc(_uid)
           .collection(_path)
-          .add(category.toJson())
-          .then((value) async {
-        //update uid model
-        await _categories
-            .doc(_uid)
-            .collection(_path)
-            .doc(value.id)
-            .update({DbKeys.uid: value.id});
-      });
+          .doc(category.uid)
+          .set(category.toJson());
+
+      await Get.find<UserService>().init();
     } on FirebaseException {
       rethrow;
     }
@@ -52,6 +47,27 @@ class CategoryProvider {
   static Future<void> updateCategory(CategoryModel newCategory) async {
     try {
       String _path = _getPath(newCategory.categoryType);
+      await _categories
+          .doc(_uid)
+          .collection(_path)
+          .doc(newCategory.uid)
+          .update(newCategory.toJson());
+
+      await Get.find<UserService>().init();
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  static Future<void> deleteCategory({
+    required CategoryType type,
+    required String uidCategory,
+  }) async {
+    try {
+      String _path = _getPath(type);
+      _categories.doc(_uid).collection(_path).doc(uidCategory).delete();
+
+      await Get.find<UserService>().init();
     } on FirebaseException {
       rethrow;
     }

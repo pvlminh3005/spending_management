@@ -1,6 +1,8 @@
 import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../../core/styles/style.dart';
+import '../../../widgets/empty_widget.dart';
+import '../../../widgets/error_widget/error_widget.dart';
 import '../../../widgets/indicators/loading_indicator.dart';
 import '../controllers/classify_controller.dart';
 
@@ -50,7 +52,7 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
             rows: state!
                 .map(
                   (data) => DataRow(
-                    onSelectChanged: (_) => controller.onEditClassify(data),
+                    onLongPress: () => controller.onEditClassify(data),
                     cells: [
                       DataCell(
                         _HeaderTitle(data.title),
@@ -71,9 +73,13 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
                 .toList(),
           ),
         ),
-        onLoading: const Center(
-          child: LoadingIndicator(),
+        onLoading: const IntrinsicHeight(
+          child: Center(child: LoadingIndicator()),
         ),
+        onEmpty: const IntrinsicHeight(
+          child: EmptyWidget(title: "Chưa có danh mục nào"),
+        ),
+        onError: (error) => const IntrinsicHeight(child: ErrorCustomWidget()),
       ),
     );
   }

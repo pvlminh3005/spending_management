@@ -9,4 +9,5 @@ class ImageUtils {
   static String expenseDownIcon = 'assets/images/png/expense_down.png';
   static String expenseUpIcon = 'assets/images/png/expense_up.png';
   static String emptyBox = 'assets/images/png/empty_box.png';
+  static String errorImage = 'assets/images/png/404_error.png';
 }

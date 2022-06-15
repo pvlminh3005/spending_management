@@ -25,5 +25,22 @@ class CategoryModel {
         DbKeys.categoryType: convertType(categoryType),
       };
 
+  CategoryModel copyWith({
+    String? uid,
+    String? title,
+    CategoryType? categoryType,
+  }) {
+    return CategoryModel(
+      uid: uid ?? this.uid,
+      title: title ?? this.title,
+      categoryType: categoryType ?? this.categoryType,
+    );
+  }
+
   static String convertType(CategoryType type) => type.name;
+
+  @override
+  String toString() {
+    return 'UID: $uid + title: $title + type: $categoryType';
+  }
 }

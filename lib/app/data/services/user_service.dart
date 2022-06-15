@@ -8,7 +8,7 @@ class UserService extends GetxService {
   final _listPaymentCategories = Rx<List<CategoryModel>>([]);
   final _listChargeCategories = Rx<List<CategoryModel>>([]);
 
-  List<CategoryModel> get lisPaymentCategories => _listPaymentCategories.value;
+  List<CategoryModel> get listPaymentCategories => _listPaymentCategories.value;
   // List<CategoryModel> get lisChargeCategories => _lisChargeCategories.value;
 
   Future<UserService> init() async {

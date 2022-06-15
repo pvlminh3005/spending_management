@@ -14,28 +14,34 @@ class TransactionDetailController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final _titleButton = StringUtils.createTransaction.obs;
   final _isLoading = false.obs;
+  final _isDisable = false.obs;
   final dateController =
       TextEditingController(text: DateTime.now().displayDate);
   final balanceController = TextEditingController();
   final descriptionController = TextEditingController();
   final _listCategories = <CategoryModel>[].obs;
-  final _currentCategory =
-      Get.find<UserService>().lisPaymentCategories.first.obs;
+  final _currentCategory = Rxn<CategoryModel>(null);
 
   String? _uidTransaction;
   DateTime _selectedDate = DateTime.now();
   bool get isLoading => _isLoading.value;
+  bool get isDisable => _isDisable.value;
   String get dateStr => dateController.text;
   String get balanceStr => balanceController.text;
   String get descriptionStr => descriptionController.text;
   String get titleButton => _titleButton.value;
   List<CategoryModel> get listCategories => _listCategories;
-  CategoryModel get currentCategory => _currentCategory.value;
+  CategoryModel? get currentCategory => _currentCategory.value;
   //?
 
   @override
   void onInit() {
-    _listCategories(Get.find<UserService>().lisPaymentCategories);
+    List<CategoryModel> _list = Get.find<UserService>().listPaymentCategories;
+    _listCategories(_list);
+
+    if (_list.isNotEmpty) {
+      _currentCategory.value = _list.first;
+    }
 
     super.onInit();
   }
@@ -56,6 +62,11 @@ class TransactionDetailController extends GetxController {
       dateController.text = arguments.formatDate;
       balanceController.text = arguments.displayBalance;
       descriptionController.text = arguments.description ?? '';
+      for (var category in listCategories) {
+        if (!category.uid!.contains(arguments.category.uid!)) {
+          _isDisable(true);
+        }
+      }
       _currentCategory(arguments.category);
     }
   }
@@ -78,7 +89,7 @@ class TransactionDetailController extends GetxController {
       try {
         final TransactionModel model = TransactionModel(
           uid: _uidTransaction,
-          category: currentCategory,
+          category: currentCategory!,
           balance: balanceStr.formatBalance,
           description: descriptionStr,
           transactionType: TransactionType.payment,

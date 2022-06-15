@@ -28,10 +28,22 @@ class ClassifyModel {
         DbKeys.currentBalance: currentBalance,
       };
 
+  ClassifyModel copyWith({
+    String? uid,
+    CategoryModel? category,
+    int? defaultBalance,
+    int? currentBalance,
+  }) {
+    return ClassifyModel(
+      uid: uid ?? this.uid,
+      category: category ?? this.category,
+      defaultBalance: defaultBalance ?? this.defaultBalance,
+      currentBalance: currentBalance ?? this.currentBalance,
+    );
+  }
+
   String get title => category.title;
   CategoryType get type => category.categoryType;
-
-  //Covert
 }
 
 final listClassify = <ClassifyModel>[

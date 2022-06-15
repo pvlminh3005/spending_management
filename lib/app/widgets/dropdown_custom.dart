@@ -5,13 +5,15 @@ import '../core/styles/style.dart';
 
 class DropDownCustom extends StatelessWidget {
   final CategoryType categoryType;
-  final Function(CategoryType?) onChanged;
+  final void Function(CategoryType?)? onChanged;
   final EdgeInsetsGeometry? padding;
+  final Color? fillColor;
 
   const DropDownCustom({
     required this.categoryType,
     required this.onChanged,
     this.padding,
+    this.fillColor,
     Key? key,
   }) : super(key: key);
 
@@ -19,6 +21,7 @@ class DropDownCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
+        color: fillColor,
         border: Border.all(color: context.tertiary),
         borderRadius: BorderRadius.circular(4.0),
       ),

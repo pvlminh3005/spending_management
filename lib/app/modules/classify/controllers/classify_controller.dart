@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../core/constants/enum.dart';
+import '../../../core/utilities/app_utils.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../data/models/classify_model.dart';
 import '../../../data/repositories/repositories.dart';
@@ -38,6 +39,7 @@ class ClassifyController extends GetxController
   }
 
   Future<void> initialData() async {
+    print('ALOOO???????????????');
     try {
       resetData();
       var data = await Repositories.classify.getListClassify();
@@ -80,11 +82,21 @@ class ClassifyController extends GetxController
 
   void createClassify() {
     LayoutUtils.openBottomSheet(
-      onPressed: (ClassifyModel data) async {
-        await Repositories.classify.createClassify(data);
-        Get
-          ..back()
-          ..back();
+      onCreate: (ClassifyModel data) async {
+        var existData =
+            listClassify.where((element) => element.title == data.title);
+
+        if (existData.isEmpty) {
+          await Repositories.classify.createClassify(data);
+          //update list
+          await initialData();
+
+          Get
+            ..back()
+            ..back();
+        } else {
+          AppUtils.toast('Tên danh mục đã tồn tại');
+        }
       },
     );
   }
@@ -93,8 +105,35 @@ class ClassifyController extends GetxController
     LayoutUtils.openBottomSheet(
       isEdit: true,
       classify: classify,
-      onPressed: (_) {},
-      onDelete: () {},
+      onEdit: (ClassifyModel classify) async {
+        await Repositories.classify.updateClassify(classify);
+        //update list
+        await initialData();
+        Get
+          ..back()
+          ..back();
+      },
+      onDelete: () async {
+        LayoutUtils.dialogMessage(
+          title: 'Bạn muốn xoá danh mục này?',
+          subtitle: 'Các giao dịch liên quan tới danh mục đều không bị xoá',
+          onConfirm: () async {
+            try {
+              await Repositories.classify.deleteClassify(classify);
+              //update list
+              await initialData();
+
+              Get
+                ..back()
+                ..back();
+              AppUtils.toast('Xoá danh mục thành công');
+            } catch (e) {
+              AppUtils.toast(e.toString());
+              await 1.delay(Get.back);
+            }
+          },
+        );
+      },
     );
   }
 

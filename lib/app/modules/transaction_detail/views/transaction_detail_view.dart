@@ -74,16 +74,17 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
               ),
               const _DividerCustom(),
               const _TitleBuilder('Phân loại'),
-              Padding(
-                padding: margin,
-                child: Obx(
-                  () => ListCategoryWidget(
-                    listCategories: controller.listCategories,
-                    currentCategory: controller.currentCategory,
-                    onSelected: controller.selectedCategory,
+              if (controller.currentCategory != null)
+                Padding(
+                  padding: margin,
+                  child: Obx(
+                    () => ListCategoryWidget(
+                      listCategories: controller.listCategories,
+                      currentCategory: controller.currentCategory!,
+                      onSelected: controller.selectedCategory,
+                    ),
                   ),
                 ),
-              ),
               const _DividerCustom(),
               InputCustom(
                 controller: controller.descriptionController,
@@ -103,6 +104,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
           () => AppButton(
             controller.titleButton,
             loading: controller.isLoading,
+            disabled: controller.isDisable,
             onPressed: controller.toggleTransaction,
           ),
         ),

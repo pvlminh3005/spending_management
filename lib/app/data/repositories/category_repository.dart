@@ -5,6 +5,11 @@ import '../providers/providers.dart';
 abstract class CategoryRepositoryBase {
   Future<List<CategoryModel>> getCategories({required CategoryType type});
   Future<void> createCategory(CategoryModel category);
+  Future<void> updateCategory(CategoryModel category);
+  Future<void> deleteCategory({
+    required CategoryType type,
+    required String uidCategory,
+  });
 }
 
 class CategoryRepository implements CategoryRepositoryBase {
@@ -16,5 +21,21 @@ class CategoryRepository implements CategoryRepositoryBase {
   @override
   Future<void> createCategory(CategoryModel category) {
     return CategoryProvider.createCategory(category);
+  }
+
+  @override
+  Future<void> updateCategory(CategoryModel category) {
+    return CategoryProvider.updateCategory(category);
+  }
+
+  @override
+  Future<void> deleteCategory({
+    required CategoryType type,
+    required String uidCategory,
+  }) {
+    return CategoryProvider.deleteCategory(
+      type: type,
+      uidCategory: uidCategory,
+    );
   }
 }

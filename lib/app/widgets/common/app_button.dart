@@ -145,8 +145,9 @@ class AppButton extends StatelessWidget {
           ),
           color: color ?? Theme.of(context).primaryColor,
           onPressed: disabled || loading ? null : onPressed,
-          disabledColor:
-              loading ? Theme.of(context).primaryColor : Colors.grey.shade300,
+          disabledColor: loading
+              ? color ?? Theme.of(context).primaryColor
+              : Colors.grey.shade300,
           child: child,
         );
 
