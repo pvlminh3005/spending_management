@@ -11,6 +11,7 @@ class StringUtils {
 
   static const verificationId = 'verificationId';
   static const phoneNumber = 'phoneNumber';
+  static const currentMonth = 'currentMonth';
 
   static const welcomeApp = 'Chào mừng đến với Ứng dụng quản lý chi tiêu';
   static const copyrightBy = 'Copyright 2022 by Amo 💕';
@@ -41,4 +42,8 @@ class StringUtils {
   static const errorBalance = 'Số tiền không được để trống';
   static const errorCategory = 'Tên danh mục không được để trống';
   static const errorNotification = 'Có lỗi xảy ra';
+
+  //variable
+  static const monthVal = 'monthVal';
+  static const typeVal = 'typeVal';
 }

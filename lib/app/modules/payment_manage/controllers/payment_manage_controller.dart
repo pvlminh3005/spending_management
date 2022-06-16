@@ -40,16 +40,15 @@ class PaymentManageController extends GetxController
     });
   }
 
-  void confirmDeleteTransaction(String uid) {
+  void confirmDeleteTransaction(TransactionModel transaction) {
     try {
       LayoutUtils.dialogMessage(
           title: 'Bạn có muốn xoá giao dịch này?',
           onConfirm: () async {
             await Repositories.transaction.deleteTransaction(
-              type: TransactionType.payment,
-              uidTransaction: uid,
+              transaction: transaction,
             );
-            state!.removeWhere((transaction) => transaction.uid == uid);
+            state!.removeWhere((data) => transaction.uid == data.uid);
             change(
               state,
               status: state!.isNotEmpty ? RxStatus.success() : RxStatus.empty(),
@@ -83,7 +82,10 @@ class PaymentManageController extends GetxController
   }
 
   Future<void> toFilterPage() async {
-    FilterNavigator.toTransactionDetail(args: currentMonth)?.then((newMonth) {
+    FilterNavigator.toFilter(
+      month: currentMonth,
+      type: CategoryType.payment,
+    )?.then((newMonth) {
       _currentMonth(newMonth ?? currentMonth);
     });
   }

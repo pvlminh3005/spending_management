@@ -38,11 +38,8 @@ class TransactionDetailController extends GetxController {
   void onInit() {
     List<CategoryModel> _list = Get.find<UserService>().listPaymentCategories;
     _listCategories(_list);
-    if (_list.isNotEmpty) {
-      _currentCategory.value = _list.first;
-    } else {
-      _isDisable(true);
-    }
+    _isDisable(_list.isEmpty);
+
     super.onInit();
   }
 
@@ -70,6 +67,9 @@ class TransactionDetailController extends GetxController {
         }
         _isDisable(true);
       }
+      return;
+    } else {
+      _currentCategory(listCategories.first);
     }
   }
 
@@ -123,7 +123,7 @@ class TransactionDetailController extends GetxController {
 
         _isLoading(false);
         //update data when occur change
-        await Get.find<ClassifyController>().initialData();
+        // await Get.find<ClassifyController>().initialData();
         Get.back(result: true);
       } catch (e) {
         AppUtils.toast(e.toString());

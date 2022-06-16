@@ -94,9 +94,7 @@ class ClassifyController extends GetxController
           //update list
           await initialData();
 
-          Get
-            ..back()
-            ..back();
+          Get.back(closeOverlays: true);
         } else {
           AppUtils.toast('Tên danh mục đã tồn tại');
         }

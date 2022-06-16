@@ -1,7 +1,6 @@
 library repositories;
 
 import '../../core/constants/enum.dart';
-import '../models/category_model.dart';
 import '../models/transaction_model.dart';
 import '../models/user_model.dart';
 import '../providers/providers.dart';

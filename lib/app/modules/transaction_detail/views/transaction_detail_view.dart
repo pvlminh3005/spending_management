@@ -6,7 +6,7 @@ import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/app_button.dart';
 import '../../../widgets/common/appbar_custom.dart';
 import '../../../widgets/common/input_custom.dart';
-import '../../../widgets/list_category/list_category_widget.dart';
+import '../../../widgets/list_classify_title_widget.dart';
 import '../../../widgets/thousand_input_formatter/thousand_input_formatter.dart';
 import '../controllers/transaction_detail_controller.dart';
 
@@ -73,18 +73,16 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                 ),
               ),
               const _DividerCustom(),
-              const _TitleBuilder('Phân loại'),
-              if (controller.currentCategory != null)
-                Padding(
-                  padding: margin,
-                  child: Obx(
-                    () => ListCategoryWidget(
-                      listCategories: controller.listCategories,
-                      currentCategory: controller.currentCategory!,
-                      onSelected: controller.selectedCategory,
-                    ),
+              Padding(
+                padding: margin,
+                child: Obx(
+                  () => ListClassifyTitleWidget(
+                    listCategories: controller.listCategories,
+                    currentCategory: controller.currentCategory,
+                    onSelected: controller.selectedCategory,
                   ),
                 ),
+              ),
               const _DividerCustom(),
               InputCustom(
                 controller: controller.descriptionController,

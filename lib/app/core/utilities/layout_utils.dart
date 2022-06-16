@@ -246,9 +246,10 @@ class LayoutUtils {
                                   title: _titleCtrl.text,
                                   categoryType: _categoryType.value,
                                 ),
-                                defaultBalance: _defaultCtrl.text.formatBalance,
+                                defaultBalance: _defaultCtrl.text.isEmpty
+                                    ? 0
+                                    : _defaultCtrl.text.formatBalance,
                               );
-
                               isEdit
                                   ? await onEdit?.call(data)
                                   : await onCreate?.call(data);

@@ -30,8 +30,9 @@ class FilterTypeBuilder extends GetView<ClassifyController> {
               ),
             ),
           ),
+          const SizedBox(width: 6),
           SizedBox(
-            width: 110.0,
+            width: 110,
             child: Obx(
               () => DropDownCustom(
                   categoryType: controller.classifyType,

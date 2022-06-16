@@ -78,16 +78,22 @@ class TransactionProvider {
   }
 
   static Future<void> deleteTransaction({
-    required TransactionType type,
-    required String uidTransaction,
+    required TransactionModel transaction,
   }) async {
     try {
-      String _path = _getPath(type);
+      String _path = _getPath(transaction.transactionType);
       await _transactions
           .doc(_uid)
           .collection(_path)
-          .doc(uidTransaction)
-          .delete();
+          .doc(transaction.uid)
+          .delete()
+          .then((_) async {
+        await Repositories.classify.updateCurrentBalance(
+          uidClassify: transaction.category.uid!,
+          newBalance: transaction.balance,
+          isPlus: false,
+        );
+      });
     } on FirebaseException {
       rethrow;
     }

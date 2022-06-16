@@ -34,8 +34,8 @@ class ClassifyProvider {
   }
 
   static Future<void> createClassify(ClassifyModel classify) async {
-    //* 1: create category
-    //* 2: create classify
+    //* 1: create classify
+    //* 2: create category use classify's uid
     try {
       await _classify
           .doc(_uid)
@@ -98,6 +98,22 @@ class ClassifyProvider {
           uidCategory: classify.category.uid!,
         );
       });
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
+  static Future<void> resetCurrentBalanceClassify(int currentMonth) async {
+    DocumentReference<Map<String, dynamic>> _doc = _classify.doc(_uid);
+    try {
+      var _collection = await _doc.get();
+      if (_collection.data()![DbKeys.cacheMonth] != currentMonth) {
+        var snapshots = await _doc.collection(_uid).get();
+        for (var document in snapshots.docs) {
+          await _doc.update({DbKeys.cacheMonth: currentMonth});
+          await document.reference.update({DbKeys.currentBalance: 0});
+        }
+      }
     } on FirebaseException {
       rethrow;
     }

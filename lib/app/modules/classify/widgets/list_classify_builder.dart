@@ -1,7 +1,6 @@
-import 'dart:math' as math;
-
 import 'package:get/get.dart' hide ContextExtensionss;
 
+import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
 import '../../../widgets/empty_widget.dart';
 import '../../../widgets/error_widget/error_widget.dart';
@@ -73,7 +72,11 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
                       _HeaderTitle(
                         data.currentBalance.format + '\t₫',
                         style: TextStyle(
-                          color: isExceed ? context.error : null,
+                          color: data.type == CategoryType.charge
+                              ? null
+                              : isExceed
+                                  ? context.error
+                                  : null,
                         ),
                       ),
                     ),

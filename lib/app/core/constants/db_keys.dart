@@ -17,4 +17,5 @@ class DbKeys {
   static const String categoryType = 'category_type';
   static const String payment = 'payment';
   static const String charge = 'charge';
+  static const String cacheMonth = 'cache_month';
 }

@@ -88,7 +88,8 @@ class PaymentManageView extends GetView<PaymentManageController> {
                         tagColor: context.error,
                         onPressed: (transaction) => controller
                             .toDetailTransaction(transaction: transaction),
-                        onLongPress: controller.confirmDeleteTransaction,
+                        onLongPress: (_) =>
+                            controller.confirmDeleteTransaction(state[index]),
                       );
                     },
                   );

@@ -3,22 +3,24 @@ import '../../data/models/category_model.dart';
 
 class ListCategoryWidget extends StatelessWidget {
   final List<CategoryModel> listCategories;
-  final CategoryModel currentCategory;
-  final Function(CategoryModel)? onSelected;
+  final CategoryModel? currentCategory;
+  final void Function(CategoryModel)? onSelected;
+  final bool isTapToDisable;
 
   const ListCategoryWidget({
     required this.listCategories,
     required this.currentCategory,
     this.onSelected,
+    this.isTapToDisable = false,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _currentCategoryUid = ValueNotifier<String>(currentCategory.uid!);
+    final _currentCategoryUid = ValueNotifier<String?>(currentCategory?.uid);
     return ValueListenableBuilder(
       valueListenable: _currentCategoryUid,
-      builder: (BuildContext ctx, String value, Widget? _) {
+      builder: (BuildContext ctx, String? value, Widget? _) {
         return Wrap(
           spacing: 7,
           runSpacing: 7,
@@ -28,9 +30,14 @@ class ListCategoryWidget extends StatelessWidget {
               final CategoryModel model = listCategories[index];
               return _CustomItemType(
                 category: model,
-                uid: value,
+                uid: value ?? '',
                 onPressed: (newUid) {
                   _currentCategoryUid.value = newUid;
+                  if (isTapToDisable) {
+                    if (newUid == value) {
+                      _currentCategoryUid.value = '';
+                    }
+                  }
                   onSelected?.call(model);
                 },
               );

@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../../core/styles/style.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/app_button.dart';
-import '../../../widgets/common/input_custom.dart';
+import '../../../widgets/list_classify_title_widget.dart';
 import '../controllers/filter_controller.dart';
+import '../widgets/from_to_date_widget.dart';
+import '../widgets/list_month.dart';
 
 class FilterView extends GetView<FilterController> {
   const FilterView({Key? key}) : super(key: key);
@@ -20,174 +21,43 @@ class FilterView extends GetView<FilterController> {
         leading: const BackButton(),
         title: const Text(StringUtils.filter),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10.0.w),
-        child: ValueListenableBuilder(
-          valueListenable: _currentFilter,
-          builder: ((context, int value, child) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _DateTimeCustom(
-                  title: 'Từ ngày',
-                ),
-                SizedBox(height: 15.h),
-                const _DateTimeCustom(
-                  title: 'Đến ngày',
-                ),
-                SizedBox(height: 20.h),
-                Text(
-                  StringUtils.filterByMonth,
-                  style: context.bodyText1.copyWith(fontSize: 18.sp),
-                ),
-                SizedBox(height: 10.h),
-                Center(
-                  child: Wrap(
-                    runSpacing: 10,
-                    spacing: 5.w,
-                    children: List.generate(12, (index) {
-                      final month = index + 1;
-                      return _TextMonthItem(
-                        '${StringUtils.month} $month',
-                        index: index,
-                        isActive: value == index,
-                        onPressed: (index) {
-                          _currentFilter.value = index;
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Obx(
-                      () => AppButton(
-                        StringUtils.apply,
-                        axisSize: MainAxisSize.max,
-                        loading: controller.isLoading,
-                        onPressed: () => controller.applyFilter(value),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-              ],
-            );
-          }),
-        ),
-      ),
-    );
-  }
-}
-
-class _TextMonthItem extends StatelessWidget {
-  final String title;
-  final bool isActive;
-  final double? width;
-  final int index;
-  final Function(int)? onPressed;
-  const _TextMonthItem(
-    this.title, {
-    this.isActive = false,
-    this.index = 0,
-    this.width,
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: kThemeChangeDuration,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 1),
-            color: Colors.grey.shade300,
-            blurRadius: 3,
-          ),
-        ],
-        color: isActive ? context.primary : context.background,
-      ),
-      margin: EdgeInsets.zero,
-      child: InkWell(
-        onTap: () => onPressed?.call(index),
-        borderRadius: BorderRadius.circular(4),
-        child: SizedBox(
-          width: width ?? context.width / 4 - 3.w * 3,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 15.h),
-            child: Center(
-              child: Text(
-                title,
-                style: context.caption.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: isActive ? context.background : null,
-                ),
-              ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const FromToDateWidget(),
+            const SizedBox(height: 20),
+            ValueListenableBuilder(
+              valueListenable: _currentFilter,
+              builder: (BuildContext context, int value, Widget? _) {
+                return ListMonthWidget(
+                  currentMonth: value,
+                  onSelected: (int newMonth) {
+                    _currentFilter.value = newMonth;
+                  },
+                );
+              },
             ),
+            const SizedBox(height: 20),
+            ListClassifyTitleWidget(
+              listCategories: controller.listCategories,
+              isTapToDisable: true,
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Obx(
+          () => AppButton(
+            StringUtils.apply,
+            axisSize: MainAxisSize.max,
+            loading: controller.isLoading,
+            onPressed: () => controller.applyFilter(_currentFilter.value),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _DateTimeCustom extends StatelessWidget {
-  final String title;
-  final TextEditingController? controller;
-  final Function(DateTime?)? onPressed;
-
-  const _DateTimeCustom({
-    required this.title,
-    this.controller,
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final dateNow = DateTime.now();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: context.caption.copyWith(
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(height: 5.h),
-        InkWell(
-          onTap: () async {
-            var data = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(dateNow.year - 1),
-              lastDate: DateTime(dateNow.year + 1),
-            );
-
-            onPressed?.call(data);
-          },
-          borderRadius: BorderRadius.circular(4),
-          child: InputCustom(
-            controller: controller,
-            borderSide: const BorderSide(color: Colors.grey),
-            isShowPrefixIcon: true,
-            isEnabled: false,
-            prefixIcon: Icon(
-              CupertinoIcons.calendar,
-              color: Colors.grey,
-              size: 23.w,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

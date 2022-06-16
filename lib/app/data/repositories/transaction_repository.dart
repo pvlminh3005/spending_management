@@ -3,8 +3,7 @@ part of repositories;
 abstract class TransactionRepositoryBase {
   Future<void> createTransaction(TransactionModel data);
   Future<void> deleteTransaction({
-    required TransactionType type,
-    required String uidTransaction,
+    required TransactionModel transaction,
   });
   Future<List<TransactionModel>> getTransactions({
     required TransactionType type,
@@ -34,11 +33,11 @@ class TransactionRepository implements TransactionRepositoryBase {
 
   @override
   Future<void> deleteTransaction({
-    required TransactionType type,
-    required String uidTransaction,
+    required TransactionModel transaction,
   }) {
     return TransactionProvider.deleteTransaction(
-        type: type, uidTransaction: uidTransaction);
+      transaction: transaction,
+    );
   }
 
   @override

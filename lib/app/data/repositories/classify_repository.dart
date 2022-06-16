@@ -11,6 +11,7 @@ abstract class ClassifyRepositoryBase {
     bool isPlus = true,
   });
   Future<void> deleteClassify(ClassifyModel classify);
+  Future<void> resetCurrentBalanceClassify(int currentMonth);
 }
 
 class ClassifyRepository implements ClassifyRepositoryBase {
@@ -45,5 +46,10 @@ class ClassifyRepository implements ClassifyRepositoryBase {
       newBalance: newBalance,
       isPlus: isPlus,
     );
+  }
+
+  @override
+  Future<void> resetCurrentBalanceClassify(int currentMonth) {
+    return ClassifyProvider.resetCurrentBalanceClassify(currentMonth);
   }
 }
