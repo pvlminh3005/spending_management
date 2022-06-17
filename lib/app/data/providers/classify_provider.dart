@@ -81,7 +81,11 @@ class ClassifyProvider {
 
   static Future<void> updateClassify(ClassifyModel newClassify) async {
     try {
-      await _classify.doc(_uid).collection(_uid).doc(newClassify.uid).update({
+      await _classify
+          .doc(_uid)
+          .collection(_pathCollectionDate(DateTime.now()))
+          .doc(newClassify.uid)
+          .update({
         DbKeys.defaultBalance: newClassify.defaultBalance,
       });
     } on FirebaseException {
