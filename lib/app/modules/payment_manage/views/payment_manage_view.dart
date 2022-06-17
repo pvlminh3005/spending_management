@@ -54,7 +54,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
           ),
           Obx(
             () => ColoredBox(
-              color: context.primary.withOpacity(.3),
+              color: context.error.withOpacity(.85),
               child: Padding(
                 padding: EdgeInsets.all(12.w),
                 child: Row(
@@ -64,6 +64,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
                           ? '0${controller.currentMonth}/2022'
                           : '${controller.currentMonth}/2022',
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
                       ),
@@ -88,8 +89,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
                         tagColor: context.error,
                         onPressed: (transaction) => controller
                             .toDetailTransaction(transaction: transaction),
-                        onLongPress: (_) =>
-                            controller.confirmDeleteTransaction(state[index]),
+                        onLongPress: controller.confirmDeleteTransaction,
                       );
                     },
                   );

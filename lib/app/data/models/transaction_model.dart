@@ -6,7 +6,7 @@ import 'category_model.dart';
 class TransactionModel {
   final String? uid;
   final CategoryModel category;
-  final String? description;
+  final String description;
   final int balance;
   final TransactionType transactionType;
   final DateTime createdAt;
@@ -17,7 +17,7 @@ class TransactionModel {
     required this.balance,
     required this.transactionType,
     required this.createdAt,
-    this.description,
+    this.description = '',
   });
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) =>

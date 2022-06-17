@@ -6,6 +6,7 @@ import '../../../core/utilities/app_utils.dart';
 import '../../../core/utilities/date_time_picker_utils.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../data/models/category_model.dart';
+import '../../../data/models/classify_model.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
 import '../../../data/services/user_service.dart';
@@ -22,6 +23,7 @@ class TransactionDetailController extends GetxController {
   final descriptionController = TextEditingController();
   final _listCategories = <CategoryModel>[].obs;
   final _currentCategory = Rxn<CategoryModel>(null);
+  late TransactionType currentTransactionType;
 
   String? _uidTransaction;
   DateTime _selectedDate = DateTime.now();
@@ -36,7 +38,16 @@ class TransactionDetailController extends GetxController {
 
   @override
   void onInit() {
-    List<CategoryModel> _list = Get.find<UserService>().listPaymentCategories;
+    //! Get current transaction type
+    currentTransactionType = Get.arguments[StringUtils.transactionTypeVal];
+
+    UserService _userService = Get.find();
+
+    List<CategoryModel> _list =
+        currentTransactionType == TransactionType.payment
+            ? _userService.listPaymentCategories
+            : _userService.listChargeCategories;
+
     _listCategories(_list);
     _isDisable(_list.isEmpty);
 
@@ -50,7 +61,8 @@ class TransactionDetailController extends GetxController {
   }
 
   void initialData() {
-    TransactionModel? arguments = Get.arguments;
+    TransactionModel? arguments =
+        Get.arguments[StringUtils.transactionModelVal];
 
     if (arguments != null) {
       _selectedDate = arguments.createdAt;
@@ -58,7 +70,7 @@ class TransactionDetailController extends GetxController {
       _uidTransaction = arguments.uid;
       dateController.text = arguments.formatDate;
       balanceController.text = arguments.displayBalance;
-      descriptionController.text = arguments.description ?? '';
+      descriptionController.text = arguments.description;
       for (var category in listCategories) {
         if (category.uid == arguments.category.uid) {
           _isDisable(false);
@@ -95,10 +107,11 @@ class TransactionDetailController extends GetxController {
           category: currentCategory!,
           balance: balanceStr.formatBalance,
           description: descriptionStr,
-          transactionType: TransactionType.payment,
+          transactionType: currentTransactionType,
           createdAt: _selectedDate,
         );
-        TransactionModel? arguments = Get.arguments;
+        TransactionModel? arguments =
+            Get.arguments[StringUtils.transactionModelVal];
         if (arguments == null) {
           //* 1: new transaction
           await Repositories.transaction.createTransaction(model);
@@ -123,7 +136,10 @@ class TransactionDetailController extends GetxController {
 
         _isLoading(false);
         //update data when occur change
-        // await Get.find<ClassifyController>().initialData();
+
+        Get.lazyPut(() => ClassifyController());
+        await Get.find<ClassifyController>().initialData();
+
         Get.back(result: true);
       } catch (e) {
         AppUtils.toast(e.toString());

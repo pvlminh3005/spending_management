@@ -250,11 +250,15 @@ class LayoutUtils {
                                     ? 0
                                     : _defaultCtrl.text.formatBalance,
                               );
-                              isEdit
-                                  ? await onEdit?.call(data)
-                                  : await onCreate?.call(data);
-
-                              _isLoadingBtn2.value = false;
+                              try {
+                                isEdit
+                                    ? await onEdit?.call(data)
+                                    : await onCreate?.call(data);
+                              } catch (e) {
+                                rethrow;
+                              } finally {
+                                _isLoadingBtn2.value = false;
+                              }
                             },
                           );
                         },

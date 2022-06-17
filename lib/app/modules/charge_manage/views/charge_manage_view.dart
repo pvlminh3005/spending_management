@@ -54,7 +54,7 @@ class ChargeManageView extends GetView<ChargeManageController> {
           ),
           Obx(
             () => ColoredBox(
-              color: context.secondary.withOpacity(.5),
+              color: context.secondary.withOpacity(.85),
               child: Padding(
                 padding: EdgeInsets.all(12.w),
                 child: Row(
@@ -64,6 +64,7 @@ class ChargeManageView extends GetView<ChargeManageController> {
                           ? '0${controller.currentMonth}/2022'
                           : '${controller.currentMonth}/2022',
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
                       ),
@@ -85,7 +86,7 @@ class ChargeManageView extends GetView<ChargeManageController> {
                       return TransactionItem(
                         model: state[index],
                         index: index,
-                        tagColor: context.error,
+                        tagColor: context.secondary,
                         onPressed: (transaction) => controller
                             .toDetailTransaction(transaction: transaction),
                         onLongPress: controller.confirmDeleteTransaction,

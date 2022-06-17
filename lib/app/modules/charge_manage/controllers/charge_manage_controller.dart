@@ -32,28 +32,28 @@ class ChargeManageController extends GetxController
   }
 
   void toDetailTransaction({TransactionModel? transaction}) {
-    TransactionDetailNavigator.toTransactionDetail(args: transaction)
-        ?.then((value) {
+    TransactionDetailNavigator.toTransactionDetail(
+      transactionModel: transaction,
+      transactionType: TransactionType.charge,
+    )?.then((value) {
       if (value) {
         getListTransactions();
       }
     });
   }
 
-  void confirmDeleteTransaction(String uid) {
+  void confirmDeleteTransaction(TransactionModel transaction) {
     try {
       LayoutUtils.dialogMessage(
           title: 'Bạn có muốn xoá giao dịch này?',
           onConfirm: () async {
-            // await Repositories.transaction.deleteTransaction(
-            //   type: TransactionType.charge,
-            //   uidTransaction: uid,
-            // );
-            // state!.removeWhere((transaction) => transaction.uid == uid);
-            // change(
-            //   state,
-            //   status: state!.isNotEmpty ? RxStatus.success() : RxStatus.empty(),
-            // );
+            await Repositories.transaction
+                .deleteTransaction(transaction: transaction);
+            state!.removeWhere((item) => item.uid == transaction.uid);
+            change(
+              state,
+              status: state!.isNotEmpty ? RxStatus.success() : RxStatus.empty(),
+            );
           });
     } catch (e) {
       change(null, status: RxStatus.error());

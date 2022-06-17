@@ -32,8 +32,10 @@ class PaymentManageController extends GetxController
   }
 
   void toDetailTransaction({TransactionModel? transaction}) {
-    TransactionDetailNavigator.toTransactionDetail(args: transaction)
-        ?.then((value) {
+    TransactionDetailNavigator.toTransactionDetail(
+      transactionModel: transaction,
+      transactionType: TransactionType.payment,
+    )?.then((value) {
       if (value) {
         getListTransactions();
       }

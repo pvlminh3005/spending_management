@@ -34,7 +34,7 @@ class StringUtils {
   static const filterByMonth = 'Lọc theo tháng';
   static const apply = 'Áp dụng';
   static const emptyTransaction = 'Không có giao dịch nào';
-  static const createTransaction = 'Tạo khoản chi mới';
+  static const createTransaction = 'Tạo giao dịch mới';
   static const updateTransaction = 'Cập nhật giao dịch';
 
   //!ERROR TEXT
@@ -46,4 +46,6 @@ class StringUtils {
   //variable
   static const monthVal = 'monthVal';
   static const typeVal = 'typeVal';
+  static const transactionModelVal = 'transactionModelVal';
+  static const transactionTypeVal = 'transactionTypeVal';
 }

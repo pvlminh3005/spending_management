@@ -9,12 +9,14 @@ class ListClassifyTitleWidget extends StatelessWidget {
   final CategoryModel? currentCategory;
   final Function(CategoryModel)? onSelected;
   final bool isTapToDisable;
+  final Color? selectedColor;
 
   const ListClassifyTitleWidget({
     required this.listCategories,
     this.currentCategory,
     this.onSelected,
     this.isTapToDisable = false,
+    this.selectedColor,
     Key? key,
   }) : super(key: key);
 
@@ -31,14 +33,11 @@ class ListClassifyTitleWidget extends StatelessWidget {
         ListCategoryWidget(
           listCategories: listCategories,
           currentCategory: currentCategory,
-          onSelected: onSelected,
           isTapToDisable: isTapToDisable,
+          selectedColor: selectedColor,
+          onSelected: onSelected,
         ),
       ],
     );
-  }
-
-  void a() {
-    Get.back(closeOverlays: false);
   }
 }

@@ -17,11 +17,14 @@ class ClassifyProvider {
   static AuthService get _auth => Get.find();
   static String get _uid => _auth.user!.uid;
 
-  static Future<List<ClassifyModel>> getListClassify() async {
+  static Future<List<ClassifyModel>> getListClassify({
+    DateTime? date,
+  }) async {
     try {
+      DateTime _date = date ?? DateTime.now();
       final _collection = await _classify
           .doc(_uid)
-          .collection(_uid)
+          .collection(_pathCollectionDate(_date))
           .orderBy(DbKeys.defaultBalance)
           .get();
 
@@ -33,25 +36,32 @@ class ClassifyProvider {
     }
   }
 
-  static Future<void> createClassify(ClassifyModel classify) async {
+  static Future<void> createClassify(
+    ClassifyModel classify,
+  ) async {
     //* 1: create classify
     //* 2: create category use classify's uid
     try {
       await _classify
           .doc(_uid)
-          .collection(_uid)
+          .collection(_pathCollectionDate(
+              DateTime.now())) // Ex: 4XzKLnSuUzZ4VZT_06/2022
           .add(classify.toJson())
           .then((value) async {
         //update uid model
         classify = classify.copyWith(
           category: classify.category.copyWith(uid: value.id),
         );
-        await _classify.doc(_uid).collection(_uid).doc(value.id).update({
-          DbKeys.uid: value.id,
-          DbKeys.category: classify.category.toJson(),
-        }).then((_) async {
-          await Repositories.category.createCategory(classify.category);
-        });
+        // await _classify
+        //     .doc(_uid)
+        //     .collection(_pathCollection)
+        //     .doc(value.id)
+        //     .update({
+        //   DbKeys.uid: value.id,
+        //   DbKeys.category: classify.category.toJson(),
+        // }).then((_) async {
+        //   await Repositories.category.createCategory(classify.category);
+        // });
       });
     } on FirebaseException {
       rethrow;
@@ -118,4 +128,7 @@ class ClassifyProvider {
       rethrow;
     }
   }
+
+  static String _pathCollectionDate(DateTime date) =>
+      _uid + '_${date.month}_${date.year}';
 }

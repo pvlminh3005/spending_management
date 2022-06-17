@@ -6,7 +6,7 @@ class TransactionItem extends StatelessWidget {
   final int index;
   final Color? tagColor;
   final Function(TransactionModel)? onPressed;
-  final Function(String)? onLongPress;
+  final Function(TransactionModel)? onLongPress;
 
   const TransactionItem({
     required this.model,
@@ -37,9 +37,9 @@ class TransactionItem extends StatelessWidget {
               color: tagColor ?? context.primary,
             ),
             SizedBox(height: 5.h),
-            if (model.description != null)
+            if (model.description.isNotBlank)
               Text(
-                model.description!,
+                model.description,
                 style: TextStyle(
                   fontSize: 13.sp,
                   height: 1.5,
@@ -78,7 +78,7 @@ class TransactionItem extends StatelessWidget {
         ),
       ),
       onPressed: () => onPressed?.call(model),
-      onLongPress: () => onLongPress?.call(model.uid!),
+      onLongPress: () => onLongPress?.call(model),
     );
   }
 }

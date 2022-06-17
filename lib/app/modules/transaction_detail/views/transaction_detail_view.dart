@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide ContextExtensionss;
 
+import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/app_button.dart';
@@ -15,10 +16,16 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
 
   @override
   Widget build(BuildContext context) {
+    final Color _primaryColor =
+        controller.currentTransactionType == TransactionType.payment
+            ? context.error
+            : context.secondary;
     final margin = EdgeInsets.symmetric(horizontal: 10.w);
     return Scaffold(
       appBar: AppBarCustom(
-        title: 'Chi tiêu',
+        title: controller.currentTransactionType == TransactionType.payment
+            ? 'Chi tiêu'
+            : 'Thu nhập',
         onPressed: () => Get.back(result: false),
       ),
       body: SingleChildScrollView(
@@ -79,6 +86,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
                   () => ListClassifyTitleWidget(
                     listCategories: controller.listCategories,
                     currentCategory: controller.currentCategory,
+                    selectedColor: _primaryColor,
                     onSelected: controller.selectedCategory,
                   ),
                 ),
@@ -101,6 +109,7 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
         child: Obx(
           () => AppButton(
             controller.titleButton,
+            color: _primaryColor,
             loading: controller.isLoading,
             disabled: controller.isDisable,
             onPressed: controller.toggleTransaction,

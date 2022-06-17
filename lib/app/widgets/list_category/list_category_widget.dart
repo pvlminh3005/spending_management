@@ -6,12 +6,14 @@ class ListCategoryWidget extends StatelessWidget {
   final CategoryModel? currentCategory;
   final void Function(CategoryModel)? onSelected;
   final bool isTapToDisable;
+  final Color? selectedColor;
 
   const ListCategoryWidget({
     required this.listCategories,
     required this.currentCategory,
     this.onSelected,
     this.isTapToDisable = false,
+    this.selectedColor,
     Key? key,
   }) : super(key: key);
 
@@ -31,6 +33,7 @@ class ListCategoryWidget extends StatelessWidget {
               return _CustomItemType(
                 category: model,
                 uid: value ?? '',
+                selectedColor: selectedColor ?? context.error,
                 onPressed: (newUid) {
                   _currentCategoryUid.value = newUid;
                   if (isTapToDisable) {
@@ -53,10 +56,12 @@ class _CustomItemType extends StatelessWidget {
   final CategoryModel category;
   final String uid;
   final Function(String)? onPressed;
+  final Color selectedColor;
 
   const _CustomItemType({
     required this.category,
     required this.uid,
+    required this.selectedColor,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -65,7 +70,7 @@ class _CustomItemType extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       decoration: BoxDecoration(
-        color: uid == category.uid ? context.primary : context.background,
+        color: uid == category.uid ? selectedColor : context.background,
         borderRadius: BorderRadius.circular(6),
         boxShadow: const [
           BoxShadow(

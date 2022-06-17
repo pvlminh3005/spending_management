@@ -10,11 +10,15 @@ class UserService extends GetxService {
   final _listChargeCategories = <CategoryModel>[].obs;
 
   List<CategoryModel> get listPaymentCategories => _listPaymentCategories;
-  // List<CategoryModel> get lisChargeCategories => _lisChargeCategories.value;
+  List<CategoryModel> get listChargeCategories => _listChargeCategories;
   Future<UserService> init() async {
     _listPaymentCategories(
       await Repositories.category.getCategories(type: CategoryType.payment),
     );
+    _listChargeCategories(
+      await Repositories.category.getCategories(type: CategoryType.charge),
+    );
+
     await checkCurrentMonth();
     return this;
   }
