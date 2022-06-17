@@ -16,7 +16,8 @@ class ClassifyController extends GetxController
   final _totalPayment = 0.obs;
   final _totalCharge = 0.obs;
   final _totalEstimate = 0.obs;
-  final int balanceLast = 120000;
+  final _openingBalance = 0.obs;
+  final _endingBalance = 0.obs;
 
   List<ClassifyModel> get listClassifyPayment => _listClassifyPayment;
   List<ClassifyModel> get listClassifyCharge => _listClassifyCharge;
@@ -25,6 +26,8 @@ class ClassifyController extends GetxController
   int get totalPayment => _totalPayment.value;
   int get totalCharge => _totalCharge.value;
   int get totalEstimate => _totalEstimate.value;
+  int get openingBalance => _openingBalance.value;
+  int get endingBalance => _endingBalance.value;
 
   @override
   void onInit() {
@@ -44,6 +47,8 @@ class ClassifyController extends GetxController
     try {
       resetData();
       var data = await Repositories.classify.getListClassify();
+      _openingBalance(await Repositories.classify.getOpeningBalance());
+
       listClassify.addAll(data);
 
       for (var classify in data) {
@@ -56,6 +61,7 @@ class ClassifyController extends GetxController
         }
       }
 
+      _endingBalance(totalCharge - totalPayment + openingBalance);
       await getListClassify();
     } catch (e) {
       change(null, status: RxStatus.error());
@@ -124,9 +130,7 @@ class ClassifyController extends GetxController
               //update list
               await initialData();
 
-              Get
-                ..back()
-                ..back();
+              Get.back(closeOverlays: true);
               AppUtils.toast('Xoá danh mục thành công');
             } catch (e) {
               AppUtils.toast(e.toString());

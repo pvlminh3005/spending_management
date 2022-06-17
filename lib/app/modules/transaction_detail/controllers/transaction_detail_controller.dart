@@ -6,7 +6,6 @@ import '../../../core/utilities/app_utils.dart';
 import '../../../core/utilities/date_time_picker_utils.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../data/models/category_model.dart';
-import '../../../data/models/classify_model.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
 import '../../../data/services/user_service.dart';
@@ -38,7 +37,7 @@ class TransactionDetailController extends GetxController {
 
   @override
   void onInit() {
-    //! Get current transaction type
+    //* Get current transaction type
     currentTransactionType = Get.arguments[StringUtils.transactionTypeVal];
 
     UserService _userService = Get.find();
@@ -115,30 +114,24 @@ class TransactionDetailController extends GetxController {
         if (arguments == null) {
           //* 1: new transaction
           await Repositories.transaction.createTransaction(model);
-          await Repositories.classify.updateCurrentBalance(
-            uidClassify: currentCategory!.uid!,
-            newBalance: balanceStr.formatBalance,
-          );
         } else {
           await Repositories.transaction.updateTransaction(data: model);
-          //! First, we need decrement balance in previous category arguments pass
+          //* First, we need decrement balance in previous category arguments pass
           await Repositories.classify.updateCurrentBalance(
             uidClassify: arguments.category.uid!,
             newBalance: arguments.balance,
+            date: arguments.createdAt,
             isPlus: false,
           );
-          //! Then, we update balance in current category
+          //* Then, we update balance in current category
           await Repositories.classify.updateCurrentBalance(
             uidClassify: currentCategory!.uid!,
             newBalance: balanceStr.formatBalance,
+            date: _selectedDate,
           );
         }
-
         _isLoading(false);
         //update data when occur change
-
-        Get.lazyPut(() => ClassifyController());
-        await Get.find<ClassifyController>().initialData();
 
         Get.back(result: true);
       } catch (e) {
@@ -151,16 +144,6 @@ class TransactionDetailController extends GetxController {
   void updateDate(DateTime newDate) {
     _selectedDate = newDate;
     dateController.text = newDate.displayDate;
-  }
-
-  Future<void> updateBalanceClassify({
-    required String uid,
-    required int balance,
-  }) async {
-    await Repositories.classify.updateCurrentBalance(
-      uidClassify: uid,
-      newBalance: balance,
-    );
   }
 
   @override

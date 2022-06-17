@@ -18,4 +18,5 @@ class DbKeys {
   static const String payment = 'payment';
   static const String charge = 'charge';
   static const String cacheMonth = 'cache_month';
+  static const String openingBalance = 'opening_balance';
 }

@@ -8,10 +8,12 @@ abstract class ClassifyRepositoryBase {
   Future<void> updateCurrentBalance({
     required String uidClassify,
     required int newBalance,
+    required DateTime date,
     bool isPlus = true,
   });
   Future<void> deleteClassify(ClassifyModel classify);
   Future<void> resetCurrentBalanceClassify(int currentMonth);
+  Future<int> getOpeningBalance();
 }
 
 class ClassifyRepository implements ClassifyRepositoryBase {
@@ -39,11 +41,13 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   Future<void> updateCurrentBalance({
     required String uidClassify,
     required int newBalance,
+    required DateTime date,
     bool isPlus = true,
   }) {
     return ClassifyProvider.updateCurrentBalance(
       uidClassify: uidClassify,
       newBalance: newBalance,
+      date: date,
       isPlus: isPlus,
     );
   }
@@ -51,5 +55,10 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   @override
   Future<void> resetCurrentBalanceClassify(int currentMonth) {
     return ClassifyProvider.resetCurrentBalanceClassify(currentMonth);
+  }
+
+  @override
+  Future<int> getOpeningBalance() {
+    return ClassifyProvider.getOpeningBalance();
   }
 }

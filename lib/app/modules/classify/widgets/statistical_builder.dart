@@ -12,22 +12,27 @@ class StatisticalBuilder extends GetView<ClassifyController> {
       height: 100.0,
       child: Row(
         children: [
-          _StatisticalItem(
-            title: 'Số dư đầu kỳ',
-            balance: 100000,
-            color: context.theme.brightness == Brightness.light
-                ? const Color(0xFF334960)
-                : context.onBackground,
+          Obx(
+            () => _StatisticalItem(
+              title: 'Số dư đầu kỳ',
+              balance: controller.openingBalance,
+              color: context.theme.brightness == Brightness.light
+                  ? const Color(0xFF334960)
+                  : context.onBackground,
+            ),
           ),
           ColoredBox(
             color: context.tertiary,
             child: const SizedBox(width: 1, height: 100.0),
           ),
-          _StatisticalItem(
-            title: 'Số dư cuối kỳ',
-            balance: controller.balanceLast,
-            color:
-                controller.balanceLast < 0 ? context.error : context.secondary,
+          Obx(
+            () => _StatisticalItem(
+              title: 'Số dư cuối kỳ',
+              balance: controller.endingBalance,
+              color: controller.endingBalance < 0
+                  ? context.error
+                  : context.secondary,
+            ),
           ),
         ],
       ),

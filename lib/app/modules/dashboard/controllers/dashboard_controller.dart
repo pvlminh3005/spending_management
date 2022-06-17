@@ -22,10 +22,15 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     initialUser();
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
     _currentIndex.listen((index) {
       pageController.jumpToPage(index);
     });
-    super.onInit();
+    super.onReady();
   }
 
   Future<void> initialUser() async {

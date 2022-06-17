@@ -58,6 +58,11 @@ class TransactionProvider {
             .collection(_path)
             .doc(value.id)
             .update({DbKeys.uid: value.id});
+        await Repositories.classify.updateCurrentBalance(
+          uidClassify: transaction.category.uid!,
+          newBalance: transaction.balance,
+          date: transaction.createdAt,
+        );
       });
     } on FirebaseException {
       rethrow;
@@ -91,6 +96,7 @@ class TransactionProvider {
         await Repositories.classify.updateCurrentBalance(
           uidClassify: transaction.category.uid!,
           newBalance: transaction.balance,
+          date: transaction.createdAt,
           isPlus: false,
         );
       });
