@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import '../../core/styles/style.dart';
 
 class BadgeCustom extends StatelessWidget {
   final Widget child;
@@ -23,28 +23,28 @@ class BadgeCustom extends StatelessWidget {
         child,
         if (count != 0 && !isCount)
           Positioned(
-            top: 7.0,
-            right: 7.0,
+            top: 7,
+            right: 7,
             child: CircleAvatar(
               backgroundColor: color ?? theme.primaryColor,
               radius: 8,
               child: Text(
                 count > 99 ? '+99' : '$count',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                      fontSize: 7.0,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
+                style: context.bodyText1.copyWith(
+                  fontSize: 7.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
           )
         else
           Positioned(
-            top: 8.0,
-            right: 8.0,
+            top: 8,
+            right: 8,
             child: CircleAvatar(
-              radius: 5,
+              radius: 5.sp,
               backgroundColor: color ?? theme.primaryColor,
             ),
           ),

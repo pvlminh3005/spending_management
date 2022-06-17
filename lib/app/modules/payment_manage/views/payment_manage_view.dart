@@ -20,17 +20,18 @@ class PaymentManageView extends GetView<PaymentManageController> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(10.w),
+            padding: const EdgeInsets.all(10),
             child: Row(
               children: [
                 Expanded(
                   child: InputCustom(
                     controller: controller.searchCtrl,
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 13.h,
-                      horizontal: 8.w,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 13,
+                      horizontal: 8,
                     ),
                     hintText: 'Tìm kiếm',
+                    hintStyle: context.caption.copyWith(fontSize: 14.sp),
                     isShowPrefixIcon: true,
                     isCountryPicker: true,
                     isSearch: true,
@@ -43,10 +44,11 @@ class PaymentManageView extends GetView<PaymentManageController> {
                     onChanged: controller.searchData,
                   ),
                 ),
-                SizedBox(width: 5.w),
+                const SizedBox(width: 5),
                 IconTitle(
                   iconData: Icons.filter_alt_rounded,
                   title: StringUtils.filter,
+                  textStyle: context.caption.copyWith(fontSize: 12.sp),
                   onPressed: controller.toFilterPage,
                 ),
               ],
@@ -56,7 +58,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
             () => ColoredBox(
               color: context.error.withOpacity(.85),
               child: Padding(
-                padding: EdgeInsets.all(12.w),
+                padding: const EdgeInsets.all(12),
                 child: Row(
                   children: [
                     Text(

@@ -64,27 +64,26 @@ class TotalBalanceItem extends StatelessWidget {
           width: width,
           child: Text(
             '$title:',
-            style: context.bodyText1.copyWith(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
+            style: context.bodyText1.copyWith(),
           ),
         ),
         if (icon != null)
           Icon(
             icon,
-            size: 13,
+            size: 12,
             color: iconColor,
           ),
-        Expanded(
-          child: Text(
-            balance == 0 ? '' : balance.format + '\t₫',
-            style: context.bodyText1.copyWith(
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
+        if (balance != 0)
+          Expanded(
+            child: FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.scaleDown,
+              child: Text(
+                balance.format + '\t₫',
+                style: context.bodyText2,
+              ),
             ),
           ),
-        ),
       ],
     );
   }

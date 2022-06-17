@@ -9,7 +9,7 @@ class StatisticalBuilder extends GetView<ClassifyController> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100.0,
+      height: 80.h,
       child: Row(
         children: [
           Obx(
@@ -23,7 +23,10 @@ class StatisticalBuilder extends GetView<ClassifyController> {
           ),
           ColoredBox(
             color: context.tertiary,
-            child: const SizedBox(width: 1, height: 100.0),
+            child: SizedBox(
+              width: 1,
+              height: 80.h,
+            ),
           ),
           Obx(
             () => _StatisticalItem(
@@ -66,7 +69,7 @@ class _StatisticalItem extends StatelessWidget {
                 Text(
                   title.toUpperCase(),
                   style: context.bodyText1.copyWith(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                     color: color,
                   ),
@@ -77,7 +80,7 @@ class _StatisticalItem extends StatelessWidget {
                   child: Text(
                     balance.format + '\t₫',
                     style: context.bodyText1.copyWith(
-                      fontSize: 15,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                       color: color,
                     ),

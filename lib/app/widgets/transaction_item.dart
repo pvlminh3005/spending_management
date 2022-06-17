@@ -25,9 +25,9 @@ class TransactionItem extends StatelessWidget {
       padding: EdgeInsets.zero,
       color: index % 2 == 0 ? null : context.tertiary.withOpacity(.6),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 11.h,
-          horizontal: 7.w,
+        padding: const EdgeInsets.symmetric(
+          vertical: 11,
+          horizontal: 7,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,12 +36,12 @@ class TransactionItem extends StatelessWidget {
               title: model.title,
               color: tagColor ?? context.primary,
             ),
-            SizedBox(height: 5.h),
+            const SizedBox(height: 5),
             if (model.description.isNotBlank)
               Text(
                 model.description,
-                style: TextStyle(
-                  fontSize: 13.sp,
+                style: context.bodyText1.copyWith(
+                  fontSize: 14.sp,
                   height: 1.5,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -52,10 +52,7 @@ class TransactionItem extends StatelessWidget {
               children: [
                 Text(
                   model.formatDate,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey,
-                  ),
+                  style: context.caption.copyWith(fontSize: 12.sp),
                   maxLines: 1,
                 ),
                 Expanded(
@@ -64,9 +61,8 @@ class TransactionItem extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       '${model.displayBalance} đ',
-                      style: TextStyle(
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w600,
+                      style: context.subtitle2.copyWith(
+                        fontSize: 16.sp,
                         color: tagColor,
                       ),
                     ),
@@ -97,16 +93,16 @@ class _CostTag extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(6.w),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: 6.h,
-          horizontal: 10.w,
+        padding: const EdgeInsets.symmetric(
+          vertical: 6,
+          horizontal: 10,
         ),
         child: Text(
           title,
-          style: TextStyle(
+          style: context.caption.copyWith(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
             color: Colors.white,

@@ -33,7 +33,7 @@ class DropDownCustom extends StatelessWidget {
           isExpanded: true,
           isDense: true,
           icon: const Icon(CupertinoIcons.down_arrow),
-          iconSize: 18,
+          iconSize: 18.sp,
           underline: const SizedBox.shrink(),
           style: context.bodyText2,
           items: <CategoryType>[CategoryType.payment, CategoryType.charge]
@@ -44,6 +44,7 @@ class DropDownCustom extends StatelessWidget {
               child: Text(
                 value == CategoryType.payment ? 'Chi tiêu' : 'Thu nhập',
                 style: context.bodyText2.copyWith(
+                  fontSize: 14.sp,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 ),
               ),

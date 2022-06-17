@@ -17,7 +17,7 @@ class ThemeModel {
 final List<ThemeModel> themeSupport = [
   ThemeModel(
     name: 'theme_1',
-    primary: const Color(0xFFe74c3c),
+    primary: const Color(0xFF00a8ff),
     secondary: const Color(0xFF27ae60),
     background: const Color(0xFFdfe6e9),
   ),

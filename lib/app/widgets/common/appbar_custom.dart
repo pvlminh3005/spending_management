@@ -1,17 +1,21 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
+import '../../core/styles/style.dart';
 import 'badge_custom.dart';
 
 class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   final String title;
+  final TextStyle? style;
+  final Color? backgroundColor;
   final VoidCallback? onPressed;
-  final List<Widget>? actions;
+  final bool showNotification;
 
   const AppBarCustom({
     this.title = '',
+    this.style,
+    this.backgroundColor,
+    this.showNotification = true,
     this.onPressed,
-    this.actions,
     Key? key,
   }) : super(key: key);
 
@@ -20,27 +24,32 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
     final theme = Theme.of(context);
     return AppBar(
       elevation: 0,
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: backgroundColor ?? Colors.transparent,
       leading: BackButton(
         onPressed: onPressed,
-        color: theme.textTheme.bodyText1?.color,
+        color: style?.color ?? context.onBackground,
       ),
       title: Text(
         title,
-        style: theme.textTheme.bodyText1?.copyWith(fontSize: 18),
+        style: context.bodyText1.copyWith(
+          fontSize: style?.fontSize?.sp ?? 20.sp,
+          color: style?.color,
+          fontWeight: style?.fontWeight,
+        ),
       ),
       actions: [
-        BadgeCustom(
-          child: IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {},
-            icon: Icon(
-              CupertinoIcons.bell_solid,
-              size: 26,
-              color: theme.textTheme.bodyText1?.color,
+        if (showNotification)
+          BadgeCustom(
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {},
+              icon: Icon(
+                CupertinoIcons.bell_solid,
+                size: 25.sp,
+                color: theme.textTheme.bodyText1?.color,
+              ),
             ),
           ),
-        ),
       ],
     );
   }

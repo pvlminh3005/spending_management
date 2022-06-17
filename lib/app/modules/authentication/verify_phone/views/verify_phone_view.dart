@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
@@ -25,11 +26,11 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 30.h),
+            const SizedBox(height: 30),
             Image.asset(
               ImageUtils.waitingPlaneIcon,
-              width: 200,
-              height: 200,
+              width: 200.w,
+              height: 200.w,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 40, bottom: 30),
@@ -38,7 +39,7 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                 child: RichText(
                   text: TextSpan(
                     text: StringUtils.announceOTP,
-                    style: context.subtitle1,
+                    style: context.subtitle1.copyWith(fontSize: 16.sp),
                     children: [
                       TextSpan(
                         text: controller.yourPhone,
@@ -51,24 +52,34 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                 ),
               ),
             ),
-            Pinput(
-              controller: controller.verifyController,
-              length: 6,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              pinAnimationType: PinAnimationType.fade,
-              onChanged: (value) => controller.onChange(),
+            SizedBox(
+              height: 50,
+              child: Pinput(
+                controller: controller.verifyController,
+                length: 6,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                pinAnimationType: PinAnimationType.fade,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
+                keyboardType: TextInputType.phone,
+                onChanged: (value) => controller.onChange(),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 15.0,
-                bottom: 5.0,
+                top: 15,
+                bottom: 5,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     StringUtils.noHaveOTP,
-                    style: context.bodyText2.copyWith(color: Colors.grey),
+                    style: context.bodyText2.copyWith(
+                      fontSize: 14.sp,
+                      color: Colors.grey,
+                    ),
                   ),
                   Dimensions.width5,
                   Obx(
@@ -79,8 +90,10 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                           child: Center(
                             child: CounterTime(
                               onTimeEnd: controller.timeEnd,
-                              style: context.subtitle1
-                                  .copyWith(color: context.primary),
+                              style: context.bodyText1.copyWith(
+                                fontSize: 14.sp,
+                                color: context.primary,
+                              ),
                             ),
                           ),
                         );
@@ -88,6 +101,7 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                         return AppButton(
                           StringUtils.resend,
                           type: ButtonType.text,
+                          fontSize: 14.sp,
                           textColor: context.primary,
                           padding: EdgeInsets.zero,
                           color: Colors.blue,
@@ -105,6 +119,7 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
               () => AppButton(
                 StringUtils.verify,
                 height: _height,
+                fontSize: 15.sp,
                 axisSize: MainAxisSize.max,
                 loading: controller.isLoading,
                 disabled: controller.disabled,

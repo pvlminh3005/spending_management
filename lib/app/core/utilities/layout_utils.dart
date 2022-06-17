@@ -122,8 +122,10 @@ class LayoutUtils {
                 children: [
                   Text(
                     isEdit ? 'Chỉnh sửa' : 'Tạo mới',
-                    style:
-                        context.subtitle1.copyWith(fontWeight: FontWeight.bold),
+                    style: context.subtitle1.copyWith(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   InkWell(
                     onTap: Get.back,
@@ -139,6 +141,7 @@ class LayoutUtils {
               InputCustom(
                 controller: _titleCtrl,
                 labelText: 'Tên danh mục (*)',
+                labelStyle: context.bodyText2.copyWith(fontSize: 14.sp),
                 isEnabled: !isEdit,
                 fillColor: fillColor,
                 borderSide: BorderSide(color: context.tertiary),
@@ -154,6 +157,7 @@ class LayoutUtils {
                   return InputCustom(
                     controller: _defaultCtrl,
                     labelText: 'Ngân sách dự kiến',
+                    labelStyle: context.bodyText2.copyWith(fontSize: 14.sp),
                     isEnabled: !isCharge,
                     fillColor: isCharge
                         ? context.tertiary.withOpacity(.5)
@@ -171,7 +175,7 @@ class LayoutUtils {
                       ),
                     ),
                     borderSide: BorderSide(color: context.tertiary),
-                    inputType: TextInputType.number,
+                    inputType: TextInputType.phone,
                     inputFormatters: [ThousandsFormatter()],
                     validator: _categoryType.value == CategoryType.charge
                         ? null
@@ -216,6 +220,7 @@ class LayoutUtils {
                       builder: (BuildContext context, bool value, Widget? _) {
                         return AppButton(
                           isEdit ? 'Xoá' : 'Huỷ',
+                          fontSize: 15.sp,
                           color: context.primary,
                           loading: value,
                           height: 40.0,
@@ -244,36 +249,40 @@ class LayoutUtils {
                           valueListenable: _haveChanged,
                           builder:
                               (BuildContext context, bool value, Widget? _) {
-                            return AppButton(isEdit ? 'Chỉnh sửa' : 'Xác nhận',
-                                height: 40.0,
-                                elevation: 0,
-                                disabled: !value,
-                                loading: isLoading,
-                                color: context.secondary,
-                                borderRadius: 6.0, onPressed: () async {
-                              _isLoadingBtn2.value = true;
-                              var data = ClassifyModel(
-                                uid: classify?.uid,
-                                category: CategoryModel(
-                                  title: _titleCtrl.text,
-                                  categoryType: _categoryType.value,
-                                ),
-                                defaultBalance: _defaultCtrl.text.isEmpty
-                                    ? 0
-                                    : _defaultCtrl.text.formatBalance,
-                              );
-                              try {
-                                if (_formKey.currentState!.validate()) {
-                                  isEdit
-                                      ? await onEdit?.call(data)
-                                      : await onCreate?.call(data);
+                            return AppButton(
+                              isEdit ? 'Chỉnh sửa' : 'Xác nhận',
+                              height: 40.0,
+                              fontSize: 15.sp,
+                              elevation: 0,
+                              disabled: !value,
+                              loading: isLoading,
+                              color: context.secondary,
+                              borderRadius: 6.0,
+                              onPressed: () async {
+                                _isLoadingBtn2.value = true;
+                                var data = ClassifyModel(
+                                  uid: classify?.uid,
+                                  category: CategoryModel(
+                                    title: _titleCtrl.text,
+                                    categoryType: _categoryType.value,
+                                  ),
+                                  defaultBalance: _defaultCtrl.text.isEmpty
+                                      ? 0
+                                      : _defaultCtrl.text.formatBalance,
+                                );
+                                try {
+                                  if (_formKey.currentState!.validate()) {
+                                    isEdit
+                                        ? await onEdit?.call(data)
+                                        : await onCreate?.call(data);
+                                  }
+                                } catch (e) {
+                                  rethrow;
+                                } finally {
+                                  _isLoadingBtn2.value = false;
                                 }
-                              } catch (e) {
-                                rethrow;
-                              } finally {
-                                _isLoadingBtn2.value = false;
-                              }
-                            });
+                              },
+                            );
                           },
                         );
                       },

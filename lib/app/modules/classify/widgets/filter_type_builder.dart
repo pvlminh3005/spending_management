@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/styles/style.dart';
@@ -26,13 +25,13 @@ class FilterTypeBuilder extends GetView<ClassifyController> {
                 balance: controller.totalEstimate,
                 icon: Icons.label_important,
                 iconColor: const Color(0xFFe67e22),
-                width: 100,
+                width: 110.w,
               ),
             ),
           ),
           const SizedBox(width: 6),
           SizedBox(
-            width: 110,
+            width: 100.w,
             child: Obx(
               () => DropDownCustom(
                   categoryType: controller.classifyType,

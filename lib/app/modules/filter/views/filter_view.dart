@@ -3,6 +3,7 @@ import 'package:get/get.dart' hide ContextExtensionss;
 import '../../../core/styles/style.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../widgets/common/app_button.dart';
+import '../../../widgets/common/appbar_custom.dart';
 import '../../../widgets/list_classify_title_widget.dart';
 import '../controllers/filter_controller.dart';
 import '../widgets/from_to_date_widget.dart';
@@ -16,13 +17,14 @@ class FilterView extends GetView<FilterController> {
     final _currentFilter = ValueNotifier<int>(controller.currentMonth);
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: const BackButton(),
-        title: const Text(StringUtils.filter),
+      appBar: AppBarCustom(
+        title: StringUtils.filter,
+        backgroundColor: context.primary,
+        style: TextStyle(color: context.background),
+        showNotification: false,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

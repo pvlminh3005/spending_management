@@ -19,6 +19,7 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
           () => DataTable(
             dataRowHeight: 60,
             sortColumnIndex: 0,
+            columnSpacing: 20,
             sortAscending: controller.sortAscending,
             showCheckboxColumn: false,
             columns: [
@@ -115,10 +116,12 @@ class _HeaderTitle extends StatelessWidget {
       child: Text(
         title,
         style: context.bodyText2.copyWith(
-          fontSize: style?.fontSize,
+          fontSize: style?.fontSize?.sp,
           fontWeight: style?.fontWeight,
           color: style?.color,
         ),
+        overflow: TextOverflow.visible,
+        softWrap: true,
         maxLines: 1,
       ),
     );

@@ -93,6 +93,7 @@ class _CustomItemType extends StatelessWidget {
           child: Text(
             category.title,
             style: context.caption.copyWith(
+              fontSize: 12.sp,
               color: uid == category.uid ? Colors.white : context.caption.color,
               fontWeight: FontWeight.w500,
             ),

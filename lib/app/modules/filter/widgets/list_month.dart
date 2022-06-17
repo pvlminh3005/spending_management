@@ -18,12 +18,12 @@ class ListMonthWidget extends StatelessWidget {
       children: [
         Text(
           StringUtils.filterByMonth,
-          style: context.bodyText1.copyWith(fontWeight: FontWeight.w600),
+          style: context.bodyText1.copyWith(fontSize: 14.sp),
         ),
         const SizedBox(height: 10),
         Center(
           child: Wrap(
-            runSpacing: 10,
+            runSpacing: 10.h,
             spacing: 5.w,
             children: List.generate(12, (index) {
               final month = index + 1;
@@ -83,6 +83,7 @@ class _TextMonthItem extends StatelessWidget {
               child: Text(
                 title,
                 style: context.caption.copyWith(
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   color: isActive ? context.background : null,
                 ),

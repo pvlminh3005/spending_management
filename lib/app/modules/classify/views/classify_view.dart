@@ -37,6 +37,7 @@ class ClassifyView extends GetView<ClassifyController> {
           padding: EdgeInsets.zero,
           child: AppButton(
             'Thêm danh mục',
+            fontSize: 15.sp,
             textColor: context.onBackground,
             color: context.background,
             elevation: 0,
