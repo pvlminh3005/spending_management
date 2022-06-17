@@ -221,7 +221,7 @@ class LayoutUtils {
                         return AppButton(
                           isEdit ? 'Xoá' : 'Huỷ',
                           fontSize: 15.sp,
-                          color: context.primary,
+                          color: context.error,
                           loading: value,
                           height: 40.0,
                           elevation: 0,
