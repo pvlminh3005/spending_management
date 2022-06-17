@@ -75,8 +75,8 @@ class AuthService extends GetxService {
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
-      Get.offAndToNamed(Routes.login);
     } on FirebaseAuthException catch (e) {
+      print(e);
       AppUtils.toast(e.message!);
     }
   }

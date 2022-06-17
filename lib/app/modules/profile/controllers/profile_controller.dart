@@ -4,6 +4,7 @@ import '../../../core/styles/style.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../data/services/auth_service.dart';
 import '../../../data/services/setting_service.dart';
+import '../../../routes/app_pages.dart';
 
 class ProfileController extends GetxController {
   AuthService get auth => Get.find();
@@ -25,7 +26,10 @@ class ProfileController extends GetxController {
   void signOut() {
     LayoutUtils.dialogMessage(
       title: StringUtils.announceLogOut,
-      onConfirm: auth.signOut,
+      onConfirm: () async {
+        await auth.signOut();
+        Get.offAllNamed(Routes.login);
+      },
     );
   }
 }
