@@ -9,8 +9,6 @@ import '../../../data/repositories/repositories.dart';
 class ClassifyController extends GetxController
     with StateMixin<List<ClassifyModel>>, ScrollMixin {
   final List<ClassifyModel> listClassify = [];
-  final _listClassifyPayment = <ClassifyModel>[].obs;
-  final _listClassifyCharge = <ClassifyModel>[].obs;
   final _classifyType = CategoryType.payment.obs;
   final _sortAscending = false.obs;
   final _totalPayment = 0.obs;
@@ -19,8 +17,6 @@ class ClassifyController extends GetxController
   final _openingBalance = 0.obs;
   final _endingBalance = 0.obs;
 
-  List<ClassifyModel> get listClassifyPayment => _listClassifyPayment;
-  List<ClassifyModel> get listClassifyCharge => _listClassifyCharge;
   CategoryType get classifyType => _classifyType.value;
   bool get sortAscending => _sortAscending.value;
   int get totalPayment => _totalPayment.value;

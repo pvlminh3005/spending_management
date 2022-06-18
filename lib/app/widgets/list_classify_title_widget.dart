@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-
 import '../core/styles/style.dart';
 import '../data/models/category_model.dart';
 import 'list_category/list_category_widget.dart';
@@ -29,14 +27,16 @@ class ListClassifyTitleWidget extends StatelessWidget {
           'Phân loại',
           style: context.bodyText1.copyWith(fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 10),
-        ListCategoryWidget(
-          listCategories: listCategories,
-          currentCategory: currentCategory,
-          isTapToDisable: isTapToDisable,
-          selectedColor: selectedColor,
-          onSelected: onSelected,
-        ),
+        if (listCategories.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          ListCategoryWidget(
+            listCategories: listCategories,
+            currentCategory: currentCategory,
+            isTapToDisable: isTapToDisable,
+            selectedColor: selectedColor,
+            onSelected: onSelected,
+          ),
+        ],
       ],
     );
   }

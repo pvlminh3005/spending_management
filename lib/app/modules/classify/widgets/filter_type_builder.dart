@@ -34,8 +34,9 @@ class FilterTypeBuilder extends GetView<ClassifyController> {
             width: 100.w,
             child: Obx(
               () => DropDownCustom(
-                  categoryType: controller.classifyType,
-                  onChanged: controller.onChangedFilter),
+                categoryType: controller.classifyType,
+                onChanged: controller.onChangedFilter,
+              ),
             ),
           ),
         ],

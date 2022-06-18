@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../core/styles/style.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/classify_controller.dart';
 
 class TotalBalanceBuilder extends GetView<ClassifyController> {
@@ -13,25 +14,59 @@ class TotalBalanceBuilder extends GetView<ClassifyController> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Obx(
-            () => TotalBalanceItem(
-              title: 'Tổng chi',
-              balance: controller.totalPayment,
-              icon: CupertinoIcons.down_arrow,
-              iconColor: context.error,
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(
+                  () => TotalBalanceItem(
+                    title: 'Tổng chi',
+                    balance: controller.totalPayment,
+                    icon: CupertinoIcons.down_arrow,
+                    iconColor: context.error,
+                  ),
+                ),
+                const SizedBox(height: 7),
+                Obx(
+                  () => TotalBalanceItem(
+                    title: 'Tổng thu',
+                    balance: controller.totalCharge,
+                    icon: CupertinoIcons.up_arrow,
+                    iconColor: context.secondary,
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 7),
-          Obx(
-            () => TotalBalanceItem(
-              title: 'Tổng thu',
-              balance: controller.totalCharge,
-              icon: CupertinoIcons.up_arrow,
-              iconColor: context.secondary,
+          MaterialButton(
+            onPressed: () => Get.toNamed(Routes.classifyDetail),
+            color: context.primary,
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4.0),
+              borderSide: BorderSide.none,
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.bar_chart,
+                  size: 24.sp,
+                  color: Colors.white,
+                ),
+                const SizedBox(width: 3),
+                Text(
+                  'Báo cáo',
+                  style: context.caption.copyWith(
+                    fontSize: 12.sp,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

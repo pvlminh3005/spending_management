@@ -33,7 +33,7 @@ class ListCategoryWidget extends StatelessWidget {
               return _CustomItemType(
                 category: model,
                 uid: value ?? '',
-                selectedColor: selectedColor ?? context.error,
+                selectedColor: selectedColor ?? context.primary,
                 onPressed: (newUid) {
                   _currentCategoryUid.value = newUid;
                   if (isTapToDisable) {

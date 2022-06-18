@@ -9,7 +9,6 @@ import '../../../data/models/category_model.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
 import '../../../data/services/user_service.dart';
-import '../../classify/controllers/classify_controller.dart';
 
 class TransactionDetailController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -80,7 +79,7 @@ class TransactionDetailController extends GetxController {
       }
       return;
     } else {
-      _currentCategory(listCategories.first);
+      _currentCategory(listCategories.isNotEmpty ? listCategories.first : null);
     }
   }
 

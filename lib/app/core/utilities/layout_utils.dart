@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../data/models/category_model.dart';
 import '../../data/models/classify_model.dart';
+import '../../modules/classify_detail/widgets/classify_report_builder.dart';
 import '../../widgets/common/app_button.dart';
 import '../../widgets/common/input_custom.dart';
 import '../../widgets/dropdown_custom.dart';
@@ -295,6 +296,16 @@ class LayoutUtils {
         ),
       ),
       isScrollControlled: true,
+    );
+  }
+
+  static void openDialogStatistical() {
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+        contentPadding: const EdgeInsets.symmetric(vertical: 5),
+        content: const ClassifyReportBuilder(),
+      ),
     );
   }
 }

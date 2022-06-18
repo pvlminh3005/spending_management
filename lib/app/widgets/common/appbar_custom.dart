@@ -6,6 +6,7 @@ import 'badge_custom.dart';
 class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final TextStyle? style;
+  final Color? color;
   final Color? backgroundColor;
   final VoidCallback? onPressed;
   final bool showNotification;
@@ -13,6 +14,7 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   const AppBarCustom({
     this.title = '',
     this.style,
+    this.color,
     this.backgroundColor,
     this.showNotification = true,
     this.onPressed,
@@ -27,13 +29,13 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: backgroundColor ?? Colors.transparent,
       leading: BackButton(
         onPressed: onPressed,
-        color: style?.color ?? context.onBackground,
+        color: color ?? context.onBackground,
       ),
       title: Text(
         title,
         style: context.bodyText1.copyWith(
           fontSize: style?.fontSize?.sp ?? 20.sp,
-          color: style?.color,
+          color: style?.color ?? color,
           fontWeight: style?.fontWeight,
         ),
       ),

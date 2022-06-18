@@ -20,6 +20,7 @@ class FilterView extends GetView<FilterController> {
       appBar: AppBarCustom(
         title: StringUtils.filter,
         backgroundColor: context.primary,
+        color: Colors.white,
         style: TextStyle(color: context.background),
         showNotification: false,
       ),
@@ -28,8 +29,6 @@ class FilterView extends GetView<FilterController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const FromToDateWidget(),
-            const SizedBox(height: 20),
             ValueListenableBuilder(
               valueListenable: _currentFilter,
               builder: (BuildContext context, int value, Widget? _) {
@@ -45,6 +44,7 @@ class FilterView extends GetView<FilterController> {
             ListClassifyTitleWidget(
               listCategories: controller.listCategories,
               isTapToDisable: true,
+              selectedColor: context.primary,
             ),
           ],
         ),
