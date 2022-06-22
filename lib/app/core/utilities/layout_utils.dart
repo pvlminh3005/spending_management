@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../data/models/category_model.dart';
 import '../../data/models/classify_model.dart';
@@ -299,12 +299,63 @@ class LayoutUtils {
     );
   }
 
-  static void openDialogStatistical() {
-    Get.dialog(
-      AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
-        contentPadding: const EdgeInsets.symmetric(vertical: 5),
-        content: const ClassifyReportBuilder(),
+  static void openSheetClassify(DateTime date) {
+    final BuildContext context = Get.context!;
+    Get.bottomSheet(
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 3),
+              width: 60,
+              height: 5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                color: context.primary.withOpacity(.5),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FittedBox(
+                    alignment: Alignment.centerLeft,
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'Danh mục tháng ${date.month.addFirstZero} / ${date.year}',
+                      style: context.subtitle2.copyWith(
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: Get.back,
+                  splashRadius: 20,
+                  icon: const CircleAvatar(
+                    radius: 16,
+                    backgroundColor: Colors.black12,
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 14,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const ClassifyReportBuilder(),
+        ],
+      ),
+      backgroundColor: Get.context!.background,
+      shape: const OutlineInputBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+        borderSide: BorderSide.none,
       ),
     );
   }

@@ -45,7 +45,7 @@ class ClassifyDetailController extends GetxController
   }
 
   Future<void> toggleItem(DateTime date) async {
-    LayoutUtils.openDialogStatistical();
+    LayoutUtils.openSheetClassify(date);
     await getListClassifyDB(date);
   }
 

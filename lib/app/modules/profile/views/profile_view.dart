@@ -32,6 +32,16 @@ class ProfileView extends GetView<ProfileController> {
               title: 'Sign out',
               onPressed: controller.signOut,
             ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  'v1.0.0',
+                  style: context.caption.copyWith(fontSize: 13.sp),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

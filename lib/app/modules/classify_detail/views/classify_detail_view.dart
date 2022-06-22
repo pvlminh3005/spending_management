@@ -29,10 +29,10 @@ class ClassifyDetailView extends GetView<ClassifyDetailController> {
               child: Wrap(
                 runSpacing: 7.h,
                 spacing: 5.w,
-                children: List.generate(11, (index) {
+                children: List.generate(12, (index) {
                   final DateTime _now = DateTime.now();
 
-                  final _month = _now.month - index - 1;
+                  final _month = _now.month - index;
                   return _ClassifyMonthItem(
                     date: DateTime(
                       _now.year,

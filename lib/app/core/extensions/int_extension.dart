@@ -28,6 +28,15 @@ extension BalanceExt on String {
   int get formatBalance => int.parse(replaceAll(',', ''));
 }
 
+extension ConvertIntExt on num {
+  String get addFirstZero {
+    if (this >= 0 && this < 10) {
+      return '0$this';
+    }
+    return toString();
+  }
+}
+
 // extension DateExt on int {
 //   DateTime get date => DateTime.fromMillisecondsSinceEpoch(this);
 //   String get time => DateFormat.yMMMMd('ja').add_Hm().format(date);

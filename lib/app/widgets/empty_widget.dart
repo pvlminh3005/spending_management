@@ -7,17 +7,19 @@ class EmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(ImageUtils.emptyBox),
-        const SizedBox(height: 10),
-        Text(
-          title ?? StringUtils.emptyTransaction,
-          style: context.bodyText2.copyWith(color: const Color(0xFF9A9A9A)),
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(ImageUtils.emptyBox),
+          const SizedBox(height: 10),
+          Text(
+            title ?? StringUtils.emptyTransaction,
+            style: context.bodyText2.copyWith(color: const Color(0xFF9A9A9A)),
+          ),
+        ],
+      ),
     );
   }
 }

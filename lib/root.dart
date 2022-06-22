@@ -29,6 +29,9 @@ class RootApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (_) {
           return GestureDetector(
+            onTap: () {
+              WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+            },
             child: GetMaterialApp(
               title: "Spending Management",
               debugShowCheckedModeBanner: false,
@@ -47,9 +50,6 @@ class RootApp extends StatelessWidget {
               localizationsDelegates: GlobalMaterialLocalizations.delegates,
               supportedLocales: const [Locale('vi', 'VI')],
             ),
-            onTap: () {
-              WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
-            },
           );
         });
   }

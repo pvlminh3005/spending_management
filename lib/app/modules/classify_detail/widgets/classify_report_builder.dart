@@ -3,7 +3,6 @@ import 'package:get/get.dart' hide ContextExtensionss;
 import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
 import '../../../widgets/dropdown_custom.dart';
-import '../../../widgets/empty_widget.dart';
 import '../../../widgets/error_widget/error_widget.dart';
 import '../../../widgets/indicators/loading_indicator.dart';
 import '../controllers/classify_detail_controller.dart';
@@ -40,11 +39,9 @@ class ClassifyReportBuilder extends GetView<ClassifyDetailController> {
               dataRowHeight: 60,
               sortColumnIndex: 0,
               columnSpacing: 20,
-              // sortAscending: controller.sortAscending,
               showCheckboxColumn: false,
               columns: const [
                 DataColumn(
-                  // onSort: controller.sortList,
                   label: _HeaderTitle(
                     'Phân loại',
                     style: TextStyle(

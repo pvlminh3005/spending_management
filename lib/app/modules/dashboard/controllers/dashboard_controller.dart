@@ -41,7 +41,9 @@ class DashboardController extends GetxController {
     Preferences.pref.setInt(StringUtils.currentMonth, DateTime.now().month);
   }
 
-  void onBottomTabChange(int index) => _currentIndex(index);
+  void onBottomTabChange(int index) {
+    _currentIndex(index);
+  }
 
   @override
   void onClose() {
