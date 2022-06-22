@@ -328,7 +328,7 @@ class LayoutUtils {
                     child: Text(
                       'Danh mục tháng ${date.month.addFirstZero} / ${date.year}',
                       style: context.subtitle2.copyWith(
-                        fontSize: 16.sp,
+                        fontSize: 17.sp,
                       ),
                     ),
                   ),

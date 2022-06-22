@@ -16,7 +16,10 @@ class ClassifyDetailView extends GetView<ClassifyDetailController> {
       ),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(
+          vertical: 10.h,
+          horizontal: 15.w,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -27,7 +30,6 @@ class ClassifyDetailView extends GetView<ClassifyDetailController> {
             const SizedBox(height: 10),
             Center(
               child: Wrap(
-                runSpacing: 7.h,
                 spacing: 5.w,
                 children: List.generate(12, (index) {
                   final DateTime _now = DateTime.now();
@@ -62,7 +64,6 @@ class _ClassifyMonthItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _month = date.month < 10 ? '0${date.month}' : '${date.month}';
     return MaterialButton(
       onPressed: () {
         onPressed?.call(date);
@@ -73,12 +74,12 @@ class _ClassifyMonthItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         borderSide: BorderSide.none,
       ),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: 12,
-        horizontal: 15.w,
       ),
+      minWidth: context.width / 4 - 5.w * 3,
       child: Text(
-        '$_month/${date.year}',
+        '${date.month.addFirstZero}/${date.year}',
         style: context.bodyText1.copyWith(
           fontSize: 14.sp,
           color: context.onBackground.withOpacity(.7),
