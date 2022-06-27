@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../core/constants/enum.dart';
 import '../../../core/styles/style.dart';
+import '../../../core/utilities/app_utils.dart';
 import '../../../core/utilities/layout_utils.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/repositories/repositories.dart';
@@ -79,7 +80,9 @@ class PaymentManageController extends GetxController
         status: data.isEmpty ? RxStatus.empty() : RxStatus.success(),
       );
     } catch (e) {
+      print(e);
       change(null, status: RxStatus.error(e.toString()));
+      AppUtils.toast(e.toString());
     }
   }
 

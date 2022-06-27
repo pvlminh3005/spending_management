@@ -12,109 +12,114 @@ class ClassifyReportBuilder extends GetView<ClassifyDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 10,
-              top: 5,
-              bottom: 6,
-            ),
-            child: SizedBox(
-              width: 100.w,
-              child: Obx(
-                () => DropDownCustom(
-                  categoryType: controller.classifyType,
-                  onChanged: controller.onChangedFilter,
+    return Expanded(
+      child: SingleChildScrollView(
+        child: ColoredBox(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 10,
+                  top: 5,
+                  bottom: 6,
+                ),
+                child: SizedBox(
+                  width: 100.w,
+                  child: Obx(
+                    () => DropDownCustom(
+                      categoryType: controller.classifyType,
+                      onChanged: controller.onChangedFilter,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          controller.obx(
-            (state) => DataTable(
-              dataRowHeight: 60,
-              sortColumnIndex: 0,
-              columnSpacing: 20,
-              showCheckboxColumn: false,
-              columns: const [
-                DataColumn(
-                  label: _HeaderTitle(
-                    'Phân loại',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+              controller.obx(
+                (state) => DataTable(
+                  dataRowHeight: 60,
+                  sortColumnIndex: 0,
+                  columnSpacing: 20,
+                  showCheckboxColumn: false,
+                  columns: const [
+                    DataColumn(
+                      label: _HeaderTitle(
+                        'Phân loại',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                DataColumn(
-                  numeric: true,
-                  label: _HeaderTitle(
-                    'Ước tính',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                    DataColumn(
+                      numeric: true,
+                      label: _HeaderTitle(
+                        'Ước tính',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                DataColumn(
-                  numeric: true,
-                  label: _HeaderTitle(
-                    'Thực tế',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                    DataColumn(
+                      numeric: true,
+                      label: _HeaderTitle(
+                        'Thực tế',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
-              rows: state!.map(
-                (data) {
-                  bool isExceed = (data.defaultBalance <=
-                          data.currentBalance) ||
-                      ((data.currentBalance) >= data.defaultBalance * 2 / 3);
+                  ],
+                  rows: state!.map(
+                    (data) {
+                      bool isExceed =
+                          (data.defaultBalance <= data.currentBalance) ||
+                              ((data.currentBalance) >=
+                                  data.defaultBalance * 2 / 3);
 
-                  return DataRow(
-                    cells: [
-                      DataCell(
-                        _HeaderTitle(data.title),
-                      ),
-                      DataCell(
-                        _HeaderTitle(
-                          data.defaultBalance == 0
-                              ? '\t'
-                              : data.defaultBalance.format + '\t₫',
-                        ),
-                      ),
-                      DataCell(
-                        _HeaderTitle(
-                          data.currentBalance.format + '\t₫',
-                          style: TextStyle(
-                            color: data.type == CategoryType.charge
-                                ? null
-                                : isExceed
-                                    ? context.error
-                                    : null,
+                      return DataRow(
+                        cells: [
+                          DataCell(
+                            _HeaderTitle(data.title),
                           ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ).toList(),
-            ),
-            onLoading: const IntrinsicHeight(
-              child: Center(child: LoadingIndicator()),
-            ),
-            onEmpty: const Center(
-                child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('Không có danh mục nào'),
-            )),
-            onError: (error) =>
-                const IntrinsicHeight(child: ErrorCustomWidget()),
+                          DataCell(
+                            _HeaderTitle(
+                              data.defaultBalance == 0
+                                  ? '\t'
+                                  : data.defaultBalance.format + '\t₫',
+                            ),
+                          ),
+                          DataCell(
+                            _HeaderTitle(
+                              data.currentBalance.format + '\t₫',
+                              style: TextStyle(
+                                color: data.type == CategoryType.charge
+                                    ? null
+                                    : isExceed
+                                        ? context.error
+                                        : null,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ).toList(),
+                ),
+                onLoading: const IntrinsicHeight(
+                  child: Center(child: LoadingIndicator()),
+                ),
+                onEmpty: const Center(
+                    child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Không có danh mục nào'),
+                )),
+                onError: (error) =>
+                    const IntrinsicHeight(child: ErrorCustomWidget()),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

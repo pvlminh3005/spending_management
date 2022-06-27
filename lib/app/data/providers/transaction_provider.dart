@@ -40,7 +40,6 @@ class TransactionProvider {
         return TransactionModel.fromJson(transaction.data());
       }).toList();
     } on FirebaseException catch (e) {
-      AppUtils.toast(e.toString());
       rethrow;
     }
   }

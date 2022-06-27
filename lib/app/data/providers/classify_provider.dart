@@ -46,6 +46,20 @@ class ClassifyProvider {
     }
   }
 
+  static Future<void> createCacheClassify() async {
+    try {
+      var _existed = await _classify.doc(_uid).get();
+      if (_existed.data() == null) {
+        _classify.doc(_uid).set({
+          DbKeys.cacheMonth: DateTime.now().month,
+          DbKeys.openingBalance: 0,
+        });
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   static Future<void> createClassify(ClassifyModel classify,
       {bool isCreateCategory = true}) async {
     //* 1: create classify
@@ -57,6 +71,7 @@ class ClassifyProvider {
               DateTime.now())) // Ex: 4XzKLnSuUzZ4VZT_06/2022
           .add(classify.toJson())
           .then((value) async {
+        createCacheClassify();
         //update uid model
         classify = classify.copyWith(
           category: classify.category.copyWith(uid: value.id),
@@ -143,8 +158,8 @@ class ClassifyProvider {
     try {
       var _value = await _doc.get();
 
-      int _cacheMonth = _value.data()![DbKeys.cacheMonth] as int;
-      int _openingBalance = _value.data()![DbKeys.openingBalance] as int;
+      int _cacheMonth = _value.data()?[DbKeys.cacheMonth];
+      int _openingBalance = _value.data()?[DbKeys.openingBalance];
 
       if (_cacheMonth != currentMonth) {
         //* get data in previous date

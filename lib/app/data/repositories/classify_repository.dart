@@ -2,6 +2,7 @@ import '../models/classify_model.dart';
 import '../providers/classify_provider.dart';
 
 abstract class ClassifyRepositoryBase {
+  Future<void> createCacheClassify();
   Future<List<ClassifyModel>> getListClassify({DateTime? date});
   Future<void> createClassify(ClassifyModel classify);
   Future<void> updateClassify(ClassifyModel newClassify);
@@ -17,6 +18,11 @@ abstract class ClassifyRepositoryBase {
 }
 
 class ClassifyRepository implements ClassifyRepositoryBase {
+  @override
+  Future<void> createCacheClassify() {
+    return ClassifyProvider.createCacheClassify();
+  }
+
   @override
   Future<List<ClassifyModel>> getListClassify({DateTime? date}) {
     return ClassifyProvider.getListClassify(date: date);

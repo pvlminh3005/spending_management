@@ -4,6 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/styles/style.dart';
 import '../../../../core/utilities/utilities.dart';
+import '../../../../data/repositories/repositories.dart';
 import '../../../../data/services/auth_service.dart';
 import '../../../../routes/app_pages.dart';
 
@@ -43,7 +44,8 @@ class VerifyPhoneController extends GetxController {
     _isLoading(true);
     auth.verifyOTP(
       smsCode: verifyStr,
-      onSuccess: (UserCredential user) {
+      onSuccess: (UserCredential user) async {
+        await Repositories.classify.createCacheClassify();
         _isLoading(false);
         Get.offAllNamed(Routes.dashboard);
       },
