@@ -21,7 +21,7 @@ class TransactionProvider {
   }) async {
     final _month = month ?? _dateNow.month;
     final DateTime _firstDate = DateTime(_dateNow.year, _month, 1);
-    final DateTime _lastDate = DateTime(_dateNow.year, _month + 1, 0);
+    final DateTime _lastDate = DateTime(_dateNow.year, _month + 1, 1);
 
     try {
       String _path = _getPath(type);
@@ -32,14 +32,13 @@ class TransactionProvider {
           .orderBy(DbKeys.createdAt, descending: true)
           .where(DbKeys.createdAt,
               isGreaterThanOrEqualTo: _firstDate.millisecondsSinceEpoch)
-          .where(DbKeys.createdAt,
-              isLessThanOrEqualTo: _lastDate.millisecondsSinceEpoch)
+          .where(DbKeys.createdAt, isLessThan: _lastDate.millisecondsSinceEpoch)
           .get();
 
       return _collection.docs.map((transaction) {
         return TransactionModel.fromJson(transaction.data());
       }).toList();
-    } on FirebaseException catch (e) {
+    } on FirebaseException {
       rethrow;
     }
   }

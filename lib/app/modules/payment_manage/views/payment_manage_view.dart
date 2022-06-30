@@ -79,30 +79,40 @@ class PaymentManageView extends GetView<PaymentManageController> {
           Expanded(
             child: RefreshIndicator(
               onRefresh: controller.initData,
-              child: controller.obx(
-                (state) {
-                  return ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: state!.length,
-                    itemBuilder: (ctx, index) {
-                      return TransactionItem(
-                        model: state[index],
-                        index: index,
-                        tagColor: context.error,
-                        onPressed: (transaction) => controller
-                            .toDetailTransaction(transaction: transaction),
-                        onLongPress: controller.confirmDeleteTransaction,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: double.infinity),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: controller.obx(
+                    (state) {
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: state!.length,
+                        itemBuilder: (ctx, index) {
+                          return TransactionItem(
+                            model: state[index],
+                            index: index,
+                            tagColor: context.error,
+                            onPressed: (transaction) => controller
+                                .toDetailTransaction(transaction: transaction),
+                            onLongPress: controller.confirmDeleteTransaction,
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                onLoading: const ListLoading(),
-                onEmpty: Obx(
-                  () => EmptyWidget(
-                      title:
-                          "Không có giao dịch trong tháng ${controller.currentMonth}"),
+                    onLoading: const ListLoading(),
+                    onEmpty: Obx(
+                      () => SizedBox(
+                        height: context.height * .5 + 200.h,
+                        child: EmptyWidget(
+                            title:
+                                "Không có giao dịch trong tháng ${controller.currentMonth}"),
+                      ),
+                    ),
+                    onError: (error) => const ErrorCustomWidget(),
+                  ),
                 ),
-                onError: (error) => const ErrorCustomWidget(),
               ),
             ),
           ),

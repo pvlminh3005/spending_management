@@ -10,6 +10,8 @@ class ListLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       itemCount: 3,
       itemBuilder: (ctx, index) {
         return Padding(
