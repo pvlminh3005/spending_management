@@ -25,7 +25,7 @@ class FilterTypeBuilder extends GetView<ClassifyController> {
                 balance: controller.totalEstimate,
                 icon: Icons.label_important,
                 iconColor: const Color(0xFFe67e22),
-                width: 110.w,
+                width: Get.width > 600 ? 100.w : 100,
               ),
             ),
           ),
