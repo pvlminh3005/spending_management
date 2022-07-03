@@ -40,12 +40,12 @@ class FilterView extends GetView<FilterController> {
                 );
               },
             ),
-            const SizedBox(height: 20),
-            ListClassifyTitleWidget(
-              listCategories: controller.listCategories,
-              isTapToDisable: true,
-              selectedColor: context.primary,
-            ),
+            // const SizedBox(height: 20),
+            // ListClassifyTitleWidget(
+            //   listCategories: controller.listCategories,
+            //   isTapToDisable: true,
+            //   selectedColor: context.primary,
+            // ),
           ],
         ),
       ),

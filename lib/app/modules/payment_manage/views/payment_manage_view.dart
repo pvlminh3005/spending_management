@@ -104,7 +104,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
                     onLoading: const ListLoading(),
                     onEmpty: Obx(
                       () => SizedBox(
-                        height: context.height * .5 + 200.h,
+                        height: context.height * .5 + 180.h,
                         child: EmptyWidget(
                             title:
                                 "Không có giao dịch trong tháng ${controller.currentMonth}"),
