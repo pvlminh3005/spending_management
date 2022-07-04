@@ -108,8 +108,10 @@ class TransactionDetailController extends GetxController {
           transactionType: currentTransactionType,
           createdAt: _selectedDate,
         );
+
         TransactionModel? arguments =
             Get.arguments[StringUtils.transactionModelVal];
+
         if (arguments == null) {
           //* 1: new transaction
           await Repositories.transaction.createTransaction(model);

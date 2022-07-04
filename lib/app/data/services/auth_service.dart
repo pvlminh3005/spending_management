@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../../../main.dart';
 import '../../core/utilities/app_utils.dart';
 import '../../core/utilities/utilities.dart';
-import '../../routes/app_pages.dart';
 
 class AuthService extends GetxService {
   final _isAuth = false.obs;
@@ -76,7 +75,6 @@ class AuthService extends GetxService {
     try {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      print(e);
       AppUtils.toast(e.message!);
     }
   }

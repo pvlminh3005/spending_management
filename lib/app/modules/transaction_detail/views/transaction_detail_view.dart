@@ -120,25 +120,25 @@ class TransactionDetailView extends GetView<TransactionDetailController> {
   }
 }
 
-class _TitleBuilder extends StatelessWidget {
-  final String title;
-  const _TitleBuilder(this.title, {Key? key}) : super(key: key);
+// class _TitleBuilder extends StatelessWidget {
+//   final String title;
+//   const _TitleBuilder(this.title, {Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 10.w,
-        right: 10.w,
-        bottom: 10.h,
-      ),
-      child: Text(
-        title,
-        style: context.bodyText2.copyWith(fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.only(
+//         left: 10.w,
+//         right: 10.w,
+//         bottom: 10.h,
+//       ),
+//       child: Text(
+//         title,
+//         style: context.bodyText2.copyWith(fontWeight: FontWeight.w600),
+//       ),
+//     );
+//   }
+// }
 
 class _DividerCustom extends StatelessWidget {
   final EdgeInsetsGeometry margin;

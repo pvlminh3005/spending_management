@@ -60,9 +60,4 @@ class ClassifyDetailController extends GetxController
     listClassify.clear();
     change(listClassify, status: RxStatus.success());
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

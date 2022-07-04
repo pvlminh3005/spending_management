@@ -178,10 +178,12 @@ class ClassifyProvider {
             } else {
               _openingBalance -= classify.currentBalance;
             }
-            await createClassify(
-              classify.copyWith(currentBalance: 0),
-              isCreateCategory: false,
-            );
+
+            await _classify
+                .doc(_uid)
+                .collection(_pathCollectionDate(DateTime.now()))
+                .doc(classify.uid)
+                .set(classify.toJson());
           }
         });
 
