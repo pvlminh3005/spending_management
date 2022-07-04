@@ -6,10 +6,11 @@ import '../../../core/utilities/utilities.dart';
 import '../../../data/models/classify_model.dart';
 import '../../../data/repositories/repositories.dart';
 
-class ClassifyController extends GetxController
-    with StateMixin<List<ClassifyModel>>, ScrollMixin {
-  final List<ClassifyModel> listClassify = [];
+class ClassifyController extends GetxController with ScrollMixin {
+  final listClassify = <ClassifyModel>[].obs;
+  final listClassifyType = <ClassifyModel>[].obs;
   final _classifyType = CategoryType.payment.obs;
+  final _loadingTable = false.obs;
   final _sortAscending = false.obs;
   final _totalPayment = 0.obs;
   final _totalCharge = 0.obs;
@@ -18,6 +19,7 @@ class ClassifyController extends GetxController
   final _endingBalance = 0.obs;
 
   CategoryType get classifyType => _classifyType.value;
+  bool get loadingTable => _loadingTable.value;
   bool get sortAscending => _sortAscending.value;
   int get totalPayment => _totalPayment.value;
   int get totalCharge => _totalCharge.value;
@@ -27,59 +29,103 @@ class ClassifyController extends GetxController
 
   @override
   void onInit() {
-    _classifyType.listen((_) {
-      getListClassify();
+    initialData().whenComplete(() {
+      Repositories.classify.streamListClassify().listen((event) {
+        if (event.docChanges.length == listClassify.length) return;
+
+        ClassifyModel classify =
+            ClassifyModel.fromJson(event.docChanges.first.doc.data()!);
+
+        print(classify.defaultBalance);
+        if (classify.uid == null) return;
+
+        int _index =
+            listClassify.indexWhere((element) => element.uid == classify.uid);
+        if (_index >= 0) {
+          calculatorTotal(
+            preClassify: listClassify[_index],
+            newClassify: classify,
+          );
+          listClassify[_index] = classify;
+        } else {
+          print('ADDED');
+          listClassify.insert(0, classify);
+          calculatorTotal(newClassify: classify);
+        }
+        getListClassify.call();
+      });
     });
+
+    _classifyType.listen((_) {
+      getListClassify.call();
+    });
+
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    initialData();
-    super.onReady();
-  }
-
   Future<void> initialData() async {
+    _loadingTable(true);
+    resetData();
     try {
-      resetData();
       var data = await Repositories.classify.getListClassify();
       _openingBalance(await Repositories.classify.getOpeningBalance());
 
       listClassify.addAll(data);
 
       for (var classify in data) {
-        _totalEstimate(totalEstimate + classify.defaultBalance);
-
-        if (classify.type == CategoryType.payment) {
-          _totalPayment(totalPayment + classify.currentBalance);
-        } else {
-          _totalCharge(totalCharge + classify.currentBalance);
-        }
+        calculatorTotal(newClassify: classify);
       }
 
-      _endingBalance(totalCharge - totalPayment + openingBalance);
-      await getListClassify();
+      getListClassify.call();
     } catch (e) {
-      change(null, status: RxStatus.error());
+      AppUtils.toast(e.toString());
+    } finally {
+      _loadingTable(false);
     }
   }
 
-  Future<void> getListClassify() async {
-    List<ClassifyModel> data = listClassify
-        .where((classify) => classify.type == classifyType)
-        .toList();
-    change(
-      data,
-      status: data.isEmpty ? RxStatus.empty() : RxStatus.success(),
+  void calculatorTotal({
+    ClassifyModel? preClassify,
+    required ClassifyModel newClassify,
+  }) {
+    int _default = preClassify?.defaultBalance ?? 0;
+    int _current = preClassify?.currentBalance ?? 0;
+
+    _totalEstimate(totalEstimate - _default + newClassify.defaultBalance);
+    if (newClassify.type == CategoryType.payment) {
+      _totalPayment(totalPayment - _current + newClassify.currentBalance);
+    } else {
+      _totalCharge(totalCharge - _current + newClassify.currentBalance);
+    }
+    _endingBalance(totalCharge - totalPayment + openingBalance);
+  }
+
+  void removeItem(ClassifyModel classify) {
+    classify = classify.copyWith(
+      currentBalance: -classify.currentBalance,
+      defaultBalance: -classify.defaultBalance,
     );
+    listClassify.removeWhere((e) => e.uid == classify.uid);
+    calculatorTotal(newClassify: classify);
+  }
+
+  List<ClassifyModel> getListClassify() {
+    print('CALLED');
+    return listClassify
+        .where((element) => element.type == classifyType)
+        .toList();
   }
 
   void sortList(int columnIndex, bool ascending) {
     _sortAscending(ascending);
     if (ascending) {
-      state!.sort((model1, model2) => model1.title.compareTo(model2.title));
+      listClassify.sort(
+        (model1, model2) => model1.title.compareTo(model2.title),
+      );
     } else {
-      state!.sort((model1, model2) => model2.title.compareTo(model1.title));
+      listClassify.sort(
+        (model1, model2) => model2.title.compareTo(model1.title),
+      );
     }
   }
 
@@ -93,9 +139,6 @@ class ClassifyController extends GetxController
 
         if (existData.isEmpty) {
           await Repositories.classify.createClassify(data);
-          //update list
-          await initialData();
-
           Get.back(closeOverlays: true);
         } else {
           AppUtils.toast('Tên danh mục đã tồn tại');
@@ -110,8 +153,6 @@ class ClassifyController extends GetxController
       classify: classify,
       onEdit: (ClassifyModel classify) async {
         await Repositories.classify.updateClassify(classify);
-        //update list
-        await initialData();
         Get
           ..back()
           ..back();
@@ -123,9 +164,7 @@ class ClassifyController extends GetxController
           onConfirm: () async {
             try {
               await Repositories.classify.deleteClassify(classify);
-              //update list
-              await initialData();
-
+              removeItem(classify);
               Get.back(closeOverlays: true);
               AppUtils.toast('Xoá danh mục thành công');
             } catch (e) {

@@ -37,6 +37,13 @@ class ClassifyProvider {
     }
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> streamListClassify() {
+    return _classify
+        .doc(_uid)
+        .collection(_pathCollectionDate(DateTime.now()))
+        .snapshots();
+  }
+
   static Future<int> getOpeningBalance() async {
     try {
       var _document = await _classify.doc(_uid).get();
@@ -179,6 +186,7 @@ class ClassifyProvider {
               _openingBalance -= classify.currentBalance;
             }
 
+            classify = classify.copyWith(currentBalance: 0);
             await _classify
                 .doc(_uid)
                 .collection(_pathCollectionDate(DateTime.now()))

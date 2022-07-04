@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/classify_model.dart';
 import '../providers/classify_provider.dart';
 
 abstract class ClassifyRepositoryBase {
   Future<void> createCacheClassify();
   Future<List<ClassifyModel>> getListClassify({DateTime? date});
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamListClassify();
   Future<void> createClassify(ClassifyModel classify);
   Future<void> updateClassify(ClassifyModel newClassify);
   Future<void> updateCurrentBalance({
@@ -26,6 +29,12 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   @override
   Future<List<ClassifyModel>> getListClassify({DateTime? date}) {
     return ClassifyProvider.getListClassify(date: date);
+  }
+
+  @override
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamListClassify() {
+    return ClassifyProvider.streamListClassify();
+    ;
   }
 
   @override

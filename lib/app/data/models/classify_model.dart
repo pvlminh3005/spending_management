@@ -45,35 +45,3 @@ class ClassifyModel {
   String get title => category.title;
   CategoryType get type => category.categoryType;
 }
-
-final listClassify = <ClassifyModel>[
-  ClassifyModel(
-    uid: 'classify1',
-    category: const CategoryModel(
-      uid: 'wz9zGoWX2shGMm78xnWz',
-      title: 'Ăn uống',
-      categoryType: CategoryType.payment,
-    ),
-    defaultBalance: 2000000,
-    currentBalance: 1800000,
-  ),
-  ClassifyModel(
-    uid: 'classify2',
-    category: const CategoryModel(
-      uid: 'Rkr8bLOxVkQAC0hmCRzr',
-      title: 'Mua sắm',
-      categoryType: CategoryType.payment,
-    ),
-    defaultBalance: 750000,
-    currentBalance: 1200000,
-  ),
-  ClassifyModel(
-    uid: 'classify3',
-    category: const CategoryModel(
-      uid: '3Z31zrR81mUntrCojlF5',
-      title: 'Lương',
-      categoryType: CategoryType.charge,
-    ),
-    currentBalance: 12000000,
-  ),
-];
