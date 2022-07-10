@@ -98,7 +98,9 @@ class ChargeManageController extends GetxController
       .5.delay(
         () {
           var data = state
-              ?.where((e) => e.title.tiengViet.contains(val.tiengViet))
+              ?.where((e) => e.title.tiengViet
+                  .toLowerCase()
+                  .contains(val.tiengViet.toLowerCase()))
               .toList();
           if (data == null) {
             change(state, status: RxStatus.error());
