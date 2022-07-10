@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/classify_model.dart';
-import '../providers/classify_provider.dart';
+import '../providers/providers.dart';
 
 abstract class ClassifyRepositoryBase {
   Future<void> createCacheClassify();
@@ -34,7 +34,6 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   @override
   Stream<QuerySnapshot<Map<String, dynamic>>> streamListClassify() {
     return ClassifyProvider.streamListClassify();
-    ;
   }
 
   @override

@@ -1,12 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
-
-import '../../core/constants/db_keys.dart';
-import '../../core/constants/db_paths.dart';
-import '../../core/constants/enum.dart';
-import '../models/classify_model.dart';
-import '../repositories/repositories.dart';
-import '../services/auth_service.dart';
+part of providers;
 
 class ClassifyProvider {
   factory ClassifyProvider() => _instance;
@@ -22,16 +14,22 @@ class ClassifyProvider {
     DateTime? date,
   }) async {
     try {
+      final _listClassify = <ClassifyModel>[];
       DateTime _date = date ?? DateTime.now();
       final _collection = await _classify
           .doc(_uid)
           .collection(_pathCollectionDate(_date))
-          .orderBy(DbKeys.defaultBalance)
           .get();
 
-      return _collection.docs.map((classify) {
-        return ClassifyModel.fromJson(classify.data());
-      }).toList();
+      for (var element in _collection.docs) {
+        final _classify = ClassifyModel.fromJson(element.data());
+        _listClassify.add(_classify);
+      }
+
+      _listClassify.sort((a, b) =>
+          a.category.title.tiengViet.compareTo(b.category.title.tiengViet));
+
+      return _listClassify;
     } on FirebaseException {
       rethrow;
     }

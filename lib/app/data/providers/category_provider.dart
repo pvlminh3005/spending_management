@@ -12,6 +12,7 @@ class CategoryProvider {
 
   static Future<List<CategoryModel>> getCategories(
       {required CategoryType type}) async {
+    final _listCategories = <CategoryModel>[];
     try {
       String _path = _getPath(type);
 
@@ -21,9 +22,15 @@ class CategoryProvider {
           .orderBy(DbKeys.title)
           .get();
 
-      return _collection.docs.map((category) {
-        return CategoryModel.fromJson(category.data());
-      }).toList();
+      for (var element in _collection.docs) {
+        var category = CategoryModel.fromJson(element.data());
+        _listCategories.add(category);
+      }
+
+      _listCategories.sort(
+        (a, b) => a.title.tiengViet.compareTo(b.title.tiengViet),
+      );
+      return _listCategories;
     } on FirebaseException {
       rethrow;
     }

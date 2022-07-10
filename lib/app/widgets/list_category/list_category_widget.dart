@@ -25,7 +25,7 @@ class ListCategoryWidget extends StatelessWidget {
       builder: (BuildContext ctx, String? value, Widget? _) {
         return Wrap(
           spacing: 7,
-          runSpacing: 7,
+          runSpacing: 6,
           children: List.generate(
             listCategories.length,
             (index) {
@@ -81,14 +81,14 @@ class _CustomItemType extends StatelessWidget {
           )
         ],
       ),
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 150),
       child: InkWell(
         onTap: () => onPressed?.call(category.uid!),
         borderRadius: BorderRadius.circular(6.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 10,
-            horizontal: 20,
+            horizontal: 15,
           ),
           child: Text(
             category.title,
