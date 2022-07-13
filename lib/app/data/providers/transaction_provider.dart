@@ -28,7 +28,7 @@ class TransactionProvider {
       final _collection = await _transactions
           .doc(_uid)
           .collection(_path)
-          .limit(10)
+          // .limit(10)
           .orderBy(DbKeys.createdAt, descending: true)
           .where(DbKeys.createdAt,
               isGreaterThanOrEqualTo: _firstDate.millisecondsSinceEpoch)
