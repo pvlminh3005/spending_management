@@ -78,7 +78,7 @@ class _StatisticalItem extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    balance.format + '\t₫',
+                    balance.format + ' ₫',
                     style: context.bodyText1.copyWith(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,

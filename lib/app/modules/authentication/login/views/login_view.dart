@@ -97,7 +97,6 @@ class LoginView extends GetView<LoginController> {
                       type: ButtonType.text,
                       fontSize: 14.sp,
                       textColor: context.primary,
-                      onPressed: controller.toRegister,
                     ),
                   ],
                 ),

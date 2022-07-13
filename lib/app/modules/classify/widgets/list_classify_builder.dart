@@ -65,13 +65,13 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
                         DataCell(
                           _HeaderTitle(
                             data.defaultBalance == 0
-                                ? '\t'
-                                : data.defaultBalance.format + '\t₫',
+                                ? ' '
+                                : data.defaultBalance.format + ' ₫',
                           ),
                         ),
                         DataCell(
                           _HeaderTitle(
-                            data.currentBalance.format + '\t₫',
+                            data.currentBalance.format + ' ₫',
                             style: TextStyle(
                               color: data.type == CategoryType.charge
                                   ? null

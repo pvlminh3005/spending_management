@@ -114,7 +114,7 @@ class TotalBalanceItem extends StatelessWidget {
               alignment: Alignment.centerLeft,
               fit: BoxFit.scaleDown,
               child: Text(
-                balance.format + '\t₫',
+                balance.format + ' ₫',
                 style: context.bodyText2,
               ),
             ),

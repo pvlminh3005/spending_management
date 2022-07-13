@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import '../../../../core/styles/style.dart';
 import '../../../../core/utilities/app_utils.dart';
 import '../../../../core/utilities/utilities.dart';
-import '../../../../data/models/models.dart';
 import '../../../../data/services/auth_service.dart';
-import '../../../../data/services/notification_service.dart';
 import '../../../../routes/app_pages.dart';
 
 const maxLength = 13;
@@ -55,18 +53,6 @@ class LoginController extends GetxController {
       _disabled(false);
       WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
     }
-  }
-
-  void toRegister() {
-    // Get.offAndToNamed(Routes.register);
-    Get.find<NotificationService>().sentMessage(
-      MessagingModel(
-        title: 'Chào bae',
-        body: 'Yêu bae',
-        data: {},
-      ),
-      StringUtils.messagingKey,
-    );
   }
 
   @override
