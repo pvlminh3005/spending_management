@@ -75,8 +75,6 @@ class PaymentManageController extends GetxController
         page: _page,
         month: currentMonth,
       );
-
-      print(data.length);
       change(
         data,
         status: data.isEmpty ? RxStatus.empty() : RxStatus.success(),

@@ -30,7 +30,7 @@ class RootApp extends StatelessWidget {
         builder: (_, __) {
           return GestureDetector(
             onTap: () {
-              WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+              WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
             },
             child: GetMaterialApp(
               title: "Spending Management",
@@ -45,7 +45,7 @@ class RootApp extends StatelessWidget {
                 textTheme: theme.darkTheme.textTheme,
               ),
               routingCallback: (_) {
-                WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+                WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
               },
               localizationsDelegates: GlobalMaterialLocalizations.delegates,
               supportedLocales: const [Locale('vi', 'VI')],

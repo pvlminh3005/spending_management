@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'app/core/utilities/preferences.dart';
 import 'app/data/services/auth_service.dart';
+import 'app/data/services/firebase_config.dart';
 import 'root.dart';
 
 Future<void> main() async {
@@ -14,7 +15,10 @@ Future<void> main() async {
 Future<void> initialApp() async {
   Get.log('Starting services ...');
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    name: DefaultFirebaseOptions.appName,
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Preferences.setPreferences();
   await Get.putAsync(() => AuthService().init());
   // await Get.putAsync(() => NotificationService().init());

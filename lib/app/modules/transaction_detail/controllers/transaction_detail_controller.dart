@@ -20,7 +20,7 @@ class TransactionDetailController extends GetxController {
   final balanceController = TextEditingController();
   final descriptionController = TextEditingController();
   final _listCategories = <CategoryModel>[].obs;
-  final _currentCategory = Rxn<CategoryModel>(null);
+  final _currentCategory = Rxn<CategoryModel>();
   late TransactionType currentTransactionType;
 
   String? _uidTransaction;
@@ -96,7 +96,7 @@ class TransactionDetailController extends GetxController {
   void selectedCategory(CategoryModel category) => _currentCategory(category);
 
   Future<void> toggleTransaction() async {
-    WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     if (formKey.currentState!.validate()) {
       _isLoading(true);
       try {

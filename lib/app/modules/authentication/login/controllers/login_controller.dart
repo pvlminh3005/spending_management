@@ -51,7 +51,7 @@ class LoginController extends GetxController {
       _disabled(true);
     } else {
       _disabled(false);
-      WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     }
   }
 

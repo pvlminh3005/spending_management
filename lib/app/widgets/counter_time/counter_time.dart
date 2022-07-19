@@ -32,7 +32,7 @@ class _CounterTimeState extends State<CounterTime> {
   @override
   void initState() {
     initTime = widget.minutes * 60;
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       startTime();
     });
     super.initState();
