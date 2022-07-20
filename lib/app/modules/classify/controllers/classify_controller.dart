@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../core/constants/enum.dart';
+import '../../../core/styles/style.dart';
 import '../../../core/utilities/app_utils.dart';
 import '../../../core/utilities/utilities.dart';
 import '../../../data/models/classify_model.dart';
@@ -35,8 +36,6 @@ class ClassifyController extends GetxController with ScrollMixin {
 
         ClassifyModel classify =
             ClassifyModel.fromJson(event.docChanges.first.doc.data()!);
-
-        print(classify.defaultBalance);
         if (classify.uid == null) return;
 
         int _index =
@@ -48,7 +47,6 @@ class ClassifyController extends GetxController with ScrollMixin {
           );
           listClassify[_index] = classify;
         } else {
-          print('ADDED');
           listClassify.insert(0, classify);
           calculatorTotal(newClassify: classify);
         }
@@ -110,7 +108,6 @@ class ClassifyController extends GetxController with ScrollMixin {
   }
 
   List<ClassifyModel> getListClassify() {
-    print('CALLED');
     return listClassify
         .where((element) => element.type == classifyType)
         .toList();
@@ -120,11 +117,13 @@ class ClassifyController extends GetxController with ScrollMixin {
     _sortAscending(ascending);
     if (ascending) {
       listClassify.sort(
-        (model1, model2) => model1.title.compareTo(model2.title),
+        (model1, model2) =>
+            model2.title.tiengViet.compareTo(model1.title.tiengViet),
       );
     } else {
       listClassify.sort(
-        (model1, model2) => model2.title.compareTo(model1.title),
+        (model1, model2) =>
+            model1.title.tiengViet.compareTo(model2.title.tiengViet),
       );
     }
   }
@@ -175,6 +174,17 @@ class ClassifyController extends GetxController with ScrollMixin {
         );
       },
     );
+  }
+
+  Future<void> onEditOpeningBalance(int balance) async {
+    try {
+      await Repositories.classify.updateOpeningBalance(balance);
+      _endingBalance(endingBalance - openingBalance + balance);
+      _openingBalance(balance);
+      Get.back();
+    } catch (e) {
+      AppUtils.toast(e.toString());
+    }
   }
 
   void resetData() {

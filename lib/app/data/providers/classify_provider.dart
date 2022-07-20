@@ -203,6 +203,14 @@ class ClassifyProvider {
     }
   }
 
+  static Future<void> updateOpeningBalance(int balance) async {
+    try {
+      await _classify.doc(_uid).update({DbKeys.openingBalance: balance});
+    } on FirebaseException {
+      rethrow;
+    }
+  }
+
   static String _pathCollectionDate(DateTime date) =>
       _uid + '_${date.month}_${date.year}';
 }

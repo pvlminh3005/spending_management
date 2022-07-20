@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:get/get.dart';
 
 import '../../../core/styles/style.dart';

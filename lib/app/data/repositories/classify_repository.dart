@@ -18,6 +18,7 @@ abstract class ClassifyRepositoryBase {
   Future<void> deleteClassify(ClassifyModel classify);
   Future<void> resetCurrentBalanceClassify(int currentMonth);
   Future<int> getOpeningBalance();
+  Future<void> updateOpeningBalance(int balance);
 }
 
 class ClassifyRepository implements ClassifyRepositoryBase {
@@ -74,5 +75,10 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   @override
   Future<int> getOpeningBalance() {
     return ClassifyProvider.getOpeningBalance();
+  }
+
+  @override
+  Future<void> updateOpeningBalance(int balance) {
+    return ClassifyProvider.updateOpeningBalance(balance);
   }
 }

@@ -2,6 +2,7 @@ import 'package:get/get.dart' hide ContextExtensionss;
 
 import '../../data/models/category_model.dart';
 import '../../data/models/classify_model.dart';
+import '../../modules/classify/widgets/change_opening_balance.dart';
 import '../../modules/classify_detail/widgets/classify_report_builder.dart';
 import '../../widgets/common/app_button.dart';
 import '../../widgets/common/input_custom.dart';
@@ -361,6 +362,14 @@ class LayoutUtils {
         borderSide: BorderSide.none,
       ),
       isScrollControlled: true,
+    );
+  }
+
+  static void editOpeningBalance() {
+    Get.dialog(
+      const AlertDialog(
+        content: ChangeOpeningBalance(),
+      ),
     );
   }
 }
