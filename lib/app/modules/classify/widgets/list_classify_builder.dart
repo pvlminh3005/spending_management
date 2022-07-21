@@ -64,7 +64,7 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
                         ),
                         DataCell(
                           _HeaderTitle(
-                            data.defaultBalance == 0
+                            (data.isChargeType)
                                 ? ' '
                                 : data.defaultBalance.format + ' ₫',
                           ),

@@ -44,4 +44,5 @@ class ClassifyModel {
 
   String get title => category.title;
   CategoryType get type => category.categoryType;
+  bool get isChargeType => category.categoryType == CategoryType.charge;
 }
