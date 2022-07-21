@@ -133,8 +133,11 @@ class ClassifyController extends GetxController with ScrollMixin {
   void createClassify() {
     LayoutUtils.openBottomSheet(
       onCreate: (ClassifyModel data) async {
-        var existData =
-            listClassify.where((element) => element.title == data.title);
+        var existData = listClassify.where(
+          (element) =>
+              StringCasingExt.isDuplicate(element.title, data.title) &&
+              data.type == element.type,
+        );
 
         if (existData.isEmpty) {
           await Repositories.classify.createClassify(data);
