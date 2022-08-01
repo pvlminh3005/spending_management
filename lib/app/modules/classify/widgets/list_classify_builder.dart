@@ -52,9 +52,11 @@ class ListClassifyBuilder extends GetView<ClassifyController> {
                 ],
                 rows: controller.getListClassify().map(
                   (data) {
-                    bool isExceed = (data.defaultBalance <=
-                            data.currentBalance) ||
-                        ((data.currentBalance) >= data.defaultBalance * 4 / 5);
+                    bool isExceed =
+                        ((data.defaultBalance <= data.currentBalance) ||
+                                ((data.currentBalance) >=
+                                    data.defaultBalance * 4 / 5)) &&
+                            data.defaultBalance != 0;
 
                     return DataRow(
                       onLongPress: () => controller.onEditClassify(data),

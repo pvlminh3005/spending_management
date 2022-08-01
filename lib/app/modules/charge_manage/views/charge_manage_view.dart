@@ -35,6 +35,8 @@ class ChargeManageView extends GetView<ChargeManageController> {
                     isShowPrefixIcon: true,
                     isCountryPicker: true,
                     isSearch: true,
+                    isClear: true,
+                    isShowSuffixIcon: true,
                     fillColor: context.tertiary,
                     prefixIcon: const Icon(
                       CupertinoIcons.search,

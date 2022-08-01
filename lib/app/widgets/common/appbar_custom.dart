@@ -35,7 +35,7 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
         title,
         style: context.bodyText1.copyWith(
           fontSize: style?.fontSize?.sp ?? 20.sp,
-          color: style?.color ?? color,
+          color: color,
           fontWeight: style?.fontWeight,
         ),
       ),

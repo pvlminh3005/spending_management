@@ -67,11 +67,15 @@ class _TextMonthItem extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             offset: const Offset(0, 1),
-            color: Colors.grey.shade300,
+            color: context.onBackground.withOpacity(.2),
             blurRadius: 3,
           ),
         ],
-        color: isActive ? context.primary : context.background,
+        color: isActive
+            ? context.primary
+            : context.theme.brightness == Brightness.dark
+                ? const Color(0xFF333333)
+                : Colors.white,
       ),
       margin: EdgeInsets.zero,
       child: InkWell(

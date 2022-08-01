@@ -189,11 +189,6 @@ class _CustomTextFieldState extends State<InputCustom> {
                           ),
                           onPressed: _toggle,
                         )
-                      else if (widget.isSearch && _text.isNotEmpty)
-                        IconButton(
-                          onPressed: _clear,
-                          icon: const Icon(Icons.cancel_outlined),
-                        )
                       else if (widget.isIcon)
                         _IconButton(
                           padding: EdgeInsets.zero,
@@ -203,7 +198,7 @@ class _CustomTextFieldState extends State<InputCustom> {
                       else if (widget.suffixIcon != null)
                         widget.suffixIcon!,
                     ],
-                    if (widget.isClear)
+                    if (widget.isClear && _text.isNotEmpty)
                       _IconButton(
                         icon: const Icon(
                           Icons.close,

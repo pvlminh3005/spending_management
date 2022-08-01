@@ -70,13 +70,17 @@ class _CustomItemType extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       decoration: BoxDecoration(
-        color: uid == category.uid ? selectedColor : context.background,
+        color: uid == category.uid
+            ? selectedColor
+            : context.theme.brightness == Brightness.dark
+                ? const Color(0xFF333333)
+                : Colors.white,
         borderRadius: BorderRadius.circular(6),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            offset: Offset(0, 2),
-            color: Colors.black12,
-            blurRadius: 2,
+            offset: const Offset(0, 2),
+            color: context.onBackground.withOpacity(.15),
+            blurRadius: 3,
             blurStyle: BlurStyle.normal,
           )
         ],

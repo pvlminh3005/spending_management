@@ -13,6 +13,12 @@ class ProfileController extends GetxController {
   final _isDarkMode = false.obs;
   bool get isDarkMode => _isDarkMode.value;
 
+  @override
+  void onInit() {
+    _isDarkMode(setting.themeMode == ThemeMode.dark);
+    super.onInit();
+  }
+
   void changeMode() {
     _isDarkMode(!isDarkMode);
 

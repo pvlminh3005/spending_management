@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-
+import '../../core/styles/style.dart';
 import '../common/shimmer.dart';
 
 class ItemSkeleton extends StatelessWidget {
@@ -20,7 +19,7 @@ class ItemSkeleton extends StatelessWidget {
       baseColor: Colors.grey.shade300,
       child: child ??
           ColoredBox(
-            color: Colors.grey,
+            color: context.dividerColor,
             child: SizedBox.fromSize(
               size: Size(width ?? 0, height ?? 0),
               child: child,
@@ -43,7 +42,7 @@ class ItemLoading extends StatelessWidget {
     return ItemSkeleton(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.dividerColor,
           borderRadius: BorderRadius.circular(radius),
         ),
         child: SizedBox(
