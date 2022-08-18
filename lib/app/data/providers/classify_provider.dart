@@ -16,18 +16,14 @@ class ClassifyProvider {
     try {
       final _listClassify = <ClassifyModel>[];
       DateTime _date = date ?? DateTime.now();
-      final _collection = await _classify
-          .doc(_uid)
-          .collection(_pathCollectionDate(_date))
-          .get();
+      final _collection = await _classify.doc(_uid).collection(_pathCollectionDate(_date)).get();
 
       for (var element in _collection.docs) {
         final _classify = ClassifyModel.fromJson(element.data());
         _listClassify.add(_classify);
       }
 
-      _listClassify.sort((a, b) =>
-          a.category.title.tiengViet.compareTo(b.category.title.tiengViet));
+      _listClassify.sort((a, b) => a.category.title.tiengViet.compareTo(b.category.title.tiengViet));
 
       return _listClassify;
     } on FirebaseException {
@@ -36,10 +32,7 @@ class ClassifyProvider {
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> streamListClassify() {
-    return _classify
-        .doc(_uid)
-        .collection(_pathCollectionDate(DateTime.now()))
-        .snapshots();
+    return _classify.doc(_uid).collection(_pathCollectionDate(DateTime.now())).snapshots();
   }
 
   static Future<int> getOpeningBalance() async {
@@ -65,15 +58,13 @@ class ClassifyProvider {
     }
   }
 
-  static Future<void> createClassify(ClassifyModel classify,
-      {bool isCreateCategory = true}) async {
+  static Future<void> createClassify(ClassifyModel classify, {bool isCreateCategory = true}) async {
     //* 1: create classify
     //* 2: create category use classify's uid
     try {
       await _classify
           .doc(_uid)
-          .collection(_pathCollectionDate(
-              DateTime.now())) // Ex: 4XzKLnSuUzZ4VZT_06/2022
+          .collection(_pathCollectionDate(DateTime.now())) // Ex: 4XzKLnSuUzZ4VZT_06/2022
           .add(classify.toJson())
           .then((value) async {
         createCacheClassify();
@@ -81,11 +72,7 @@ class ClassifyProvider {
         classify = classify.copyWith(
           category: classify.category.copyWith(uid: value.id),
         );
-        await _classify
-            .doc(_uid)
-            .collection(_pathCollectionDate(DateTime.now()))
-            .doc(value.id)
-            .update({
+        await _classify.doc(_uid).collection(_pathCollectionDate(DateTime.now())).doc(value.id).update({
           DbKeys.uid: value.id,
           DbKeys.category: classify.category.toJson(),
         }).then((_) async {
@@ -101,11 +88,7 @@ class ClassifyProvider {
 
   static Future<void> updateClassify(ClassifyModel newClassify) async {
     try {
-      await _classify
-          .doc(_uid)
-          .collection(_pathCollectionDate(DateTime.now()))
-          .doc(newClassify.uid)
-          .update({
+      await _classify.doc(_uid).collection(_pathCollectionDate(DateTime.now())).doc(newClassify.uid).update({
         DbKeys.defaultBalance: newClassify.defaultBalance,
       });
     } on FirebaseException {
@@ -121,20 +104,18 @@ class ClassifyProvider {
   }) async {
     try {
       //* check exist collection db
-      var _dataClassify =
-          await _classify.doc(_uid).collection(_pathCollectionDate(date)).get();
-      if (_dataClassify.docs.isNotEmpty) {
-        _classify
-            .doc(_uid)
-            .collection(_pathCollectionDate(date))
-            .doc(uidClassify)
-            .update(
-          {
-            DbKeys.currentBalance:
-                FieldValue.increment(isPlus ? newBalance : -newBalance)
-          },
-        );
+      var _dataClassify = await _classify.doc(_uid).collection(_pathCollectionDate(date)).get();
+      final _isPlus = _dataClassify.docs.isEmpty ? true : isPlus;
+
+      if (_dataClassify.docs.isEmpty) {
+        await resetCurrentBalanceClassify(date);
       }
+
+      _classify
+          .doc(_uid)
+          .collection(_pathCollectionDate(date))
+          .doc(uidClassify)
+          .update({DbKeys.currentBalance: FieldValue.increment(_isPlus ? newBalance : -newBalance)});
     } on FirebaseException {
       rethrow;
     }
@@ -158,7 +139,10 @@ class ClassifyProvider {
     }
   }
 
-  static Future<void> resetCurrentBalanceClassify(int currentMonth) async {
+  static Future<void> resetCurrentBalanceClassify(
+    DateTime currentDate, {
+    bool isUpdateCacheMonth = false,
+  }) async {
     DocumentReference<Map<String, dynamic>> _doc = _classify.doc(_uid);
     try {
       var _value = await _doc.get();
@@ -166,7 +150,7 @@ class ClassifyProvider {
       int _cacheMonth = _value.data()?[DbKeys.cacheMonth];
       int _openingBalance = _value.data()?[DbKeys.openingBalance];
 
-      if (_cacheMonth != currentMonth) {
+      if (_cacheMonth != currentDate.month) {
         //* get data in previous date
         await _doc
             .collection(_pathCollectionDate(DateTime(
@@ -176,6 +160,7 @@ class ClassifyProvider {
             .get()
             .then((collection) async {
           //* create classify current month same previous data
+
           for (var element in collection.docs) {
             ClassifyModel classify = ClassifyModel.fromJson(element.data());
             if (classify.type == CategoryType.charge) {
@@ -187,16 +172,18 @@ class ClassifyProvider {
             classify = classify.copyWith(currentBalance: 0);
             await _classify
                 .doc(_uid)
-                .collection(_pathCollectionDate(DateTime.now()))
-                .doc(classify.uid)
+                .collection(_pathCollectionDate(currentDate))
+                .doc(classify.uid) // Ex: 4XzKLnSuUzZ4VZT_06/2022
                 .set(classify.toJson());
           }
         });
 
-        await _doc.update({
-          DbKeys.cacheMonth: currentMonth,
-          DbKeys.openingBalance: _openingBalance,
-        });
+        if (isUpdateCacheMonth) {
+          await _doc.update({
+            DbKeys.cacheMonth: currentDate.month,
+            DbKeys.openingBalance: _openingBalance,
+          });
+        }
       }
     } on FirebaseException {
       rethrow;
@@ -211,6 +198,5 @@ class ClassifyProvider {
     }
   }
 
-  static String _pathCollectionDate(DateTime date) =>
-      _uid + '_${date.month}_${date.year}';
+  static String _pathCollectionDate(DateTime date) => _uid + '_${date.month}_${date.year}';
 }

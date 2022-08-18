@@ -25,7 +25,10 @@ class UserService extends GetxService {
 
   Future<void> checkCurrentMonth() async {
     try {
-      await Repositories.classify.resetCurrentBalanceClassify(DateTime.now().month);
+      await Repositories.classify.resetCurrentBalanceClassify(
+        DateTime.now(),
+        isUpdateCacheMonth: true,
+      );
     } catch (e) {
       AppUtils.toast(e.toString());
     }

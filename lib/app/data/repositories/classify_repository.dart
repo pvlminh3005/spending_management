@@ -16,7 +16,7 @@ abstract class ClassifyRepositoryBase {
     bool isPlus = true,
   });
   Future<void> deleteClassify(ClassifyModel classify);
-  Future<void> resetCurrentBalanceClassify(int currentMonth);
+  Future<void> resetCurrentBalanceClassify(DateTime currentDate, {bool isUpdateCacheMonth});
   Future<int> getOpeningBalance();
   Future<void> updateOpeningBalance(int balance);
 }
@@ -68,8 +68,11 @@ class ClassifyRepository implements ClassifyRepositoryBase {
   }
 
   @override
-  Future<void> resetCurrentBalanceClassify(int currentMonth) {
-    return ClassifyProvider.resetCurrentBalanceClassify(currentMonth);
+  Future<void> resetCurrentBalanceClassify(DateTime currentDate, {bool isUpdateCacheMonth = false}) {
+    return ClassifyProvider.resetCurrentBalanceClassify(
+      currentDate,
+      isUpdateCacheMonth: isUpdateCacheMonth,
+    );
   }
 
   @override

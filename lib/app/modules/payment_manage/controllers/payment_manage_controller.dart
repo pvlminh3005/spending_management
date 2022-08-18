@@ -8,8 +8,7 @@ import '../../../data/repositories/repositories.dart';
 import '../../filter/navigator/navigator.dart';
 import '../../transaction_detail/navigator/navigator.dart';
 
-class PaymentManageController extends GetxController
-    with StateMixin<List<TransactionModel>>, ScrollMixin {
+class PaymentManageController extends GetxController with StateMixin<List<TransactionModel>>, ScrollMixin {
   final _currentMonth = DateTime.now().month.obs;
   final searchCtrl = TextEditingController();
 
@@ -76,6 +75,9 @@ class PaymentManageController extends GetxController
         page: _page,
         month: currentMonth,
       );
+
+      print(data.first.toString());
+
       change(
         data,
         status: data.isEmpty ? RxStatus.empty() : RxStatus.success(),
@@ -101,11 +103,8 @@ class PaymentManageController extends GetxController
     } else {
       .5.delay(
         () {
-          var data = state
-              ?.where((e) => e.title.tiengViet
-                  .toLowerCase()
-                  .contains(val.tiengViet.toLowerCase()))
-              .toList();
+          var data =
+              state?.where((e) => e.title.tiengViet.toLowerCase().contains(val.tiengViet.toLowerCase())).toList();
           if (data == null) {
             change(state, status: RxStatus.error());
           } else {

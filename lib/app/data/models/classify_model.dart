@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../core/constants/constants.dart';
 import 'category_model.dart';
 
@@ -45,4 +46,9 @@ class ClassifyModel {
   String get title => category.title;
   CategoryType get type => category.categoryType;
   bool get isChargeType => category.categoryType == CategoryType.charge;
+
+  @override
+  String toString() {
+    return 'ClassifyModel(uid: $uid, category: $category, defaultBalance: $defaultBalance, currentBalance: $currentBalance)';
+  }
 }

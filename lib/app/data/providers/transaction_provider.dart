@@ -30,8 +30,7 @@ class TransactionProvider {
           .collection(_path)
           // .limit(10)
           .orderBy(DbKeys.createdAt, descending: true)
-          .where(DbKeys.createdAt,
-              isGreaterThanOrEqualTo: _firstDate.millisecondsSinceEpoch)
+          .where(DbKeys.createdAt, isGreaterThanOrEqualTo: _firstDate.millisecondsSinceEpoch)
           .where(DbKeys.createdAt, isLessThan: _lastDate.millisecondsSinceEpoch)
           .get();
 
@@ -46,16 +45,9 @@ class TransactionProvider {
   static Future<void> createTransaction(TransactionModel transaction) async {
     try {
       String _path = _getPath(transaction.transactionType);
-      await _transactions
-          .doc(_uid)
-          .collection(_path)
-          .add(transaction.toJson())
-          .then((value) async {
-        await _transactions
-            .doc(_uid)
-            .collection(_path)
-            .doc(value.id)
-            .update({DbKeys.uid: value.id});
+      await _transactions.doc(_uid).collection(_path).add(transaction.toJson()).then((value) async {
+        await _transactions.doc(_uid).collection(_path).doc(value.id).update({DbKeys.uid: value.id});
+
         await Repositories.classify.updateCurrentBalance(
           uidClassify: transaction.category.uid!,
           newBalance: transaction.balance,
@@ -70,11 +62,7 @@ class TransactionProvider {
   static Future<void> updateTransaction(TransactionModel data) async {
     try {
       String _path = _getPath(data.transactionType);
-      await _transactions
-          .doc(_uid)
-          .collection(_path)
-          .doc(data.uid)
-          .update(data.toJson());
+      await _transactions.doc(_uid).collection(_path).doc(data.uid).update(data.toJson());
     } on FirebaseException {
       rethrow;
     }
@@ -85,12 +73,7 @@ class TransactionProvider {
   }) async {
     try {
       String _path = _getPath(transaction.transactionType);
-      await _transactions
-          .doc(_uid)
-          .collection(_path)
-          .doc(transaction.uid)
-          .delete()
-          .then((_) async {
+      await _transactions.doc(_uid).collection(_path).doc(transaction.uid).delete().then((_) async {
         await Repositories.classify.updateCurrentBalance(
           uidClassify: transaction.category.uid!,
           newBalance: transaction.balance,

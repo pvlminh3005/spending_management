@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../core/constants/db_keys.dart';
 import '../../core/constants/enum.dart';
 import '../../core/styles/style.dart';
@@ -20,16 +21,13 @@ class TransactionModel {
     this.description = '',
   });
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      TransactionModel(
+  factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
         uid: json[DbKeys.uid],
         category: CategoryModel.fromJson(json[DbKeys.category]),
         balance: json[DbKeys.balance],
         description: json[DbKeys.description],
-        transactionType:
-            TransactionExt.create(json[DbKeys.transactionType] as String),
-        createdAt:
-            DateTime.fromMillisecondsSinceEpoch(json[DbKeys.createdAt] as int),
+        transactionType: TransactionExt.create(json[DbKeys.transactionType] as String),
+        createdAt: DateTime.fromMillisecondsSinceEpoch(json[DbKeys.createdAt] as int),
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -50,4 +48,9 @@ class TransactionModel {
   //* Convert to model
   static DateTime convertDate(String date) => DateTimeExt.parseDate(date);
   static String convertType(TransactionType type) => type.name;
+
+  @override
+  String toString() {
+    return 'TransactionModel(uid: $uid, category: $category, description: $description, balance: $balance, transactionType: $transactionType, createdAt: $createdAt)';
+  }
 }
