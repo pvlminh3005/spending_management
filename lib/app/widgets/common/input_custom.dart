@@ -92,7 +92,13 @@ class _CustomTextFieldState extends State<InputCustom> {
   String _text = '';
   @override
   void initState() {
-    _text = widget.controller?.text ?? '';
+    widget.controller?.addListener(() {
+      _text = widget.controller?.text ?? '';
+      if (_text.isEmpty) {
+        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+      }
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -209,12 +215,7 @@ class _CustomTextFieldState extends State<InputCustom> {
                   ],
                 ),
         ),
-        onChanged: (val) {
-          widget.onChanged?.call(val);
-          setState(() {
-            _text = val;
-          });
-        },
+        onChanged: (val) => widget.onChanged?.call(val),
         onTap: widget.onTap,
         onFieldSubmitted: widget.onSubmit,
       ),
@@ -223,9 +224,6 @@ class _CustomTextFieldState extends State<InputCustom> {
 
   void _clear() {
     widget.controller?.clear();
-    setState(() {
-      _text = '';
-    });
   }
 
   void _toggle() {

@@ -75,9 +75,7 @@ class _DashboardButton extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        final Color color = controller.currentIndex == index
-            ? context.primary
-            : Colors.transparent;
+        final Color color = controller.currentIndex == index ? context.primary : Colors.transparent;
         return Expanded(
           child: Material(
             color: Colors.transparent,
@@ -115,9 +113,7 @@ class _DashboardButton extends GetView<DashboardController> {
                         title,
                         style: context.caption.copyWith(
                           fontSize: 12.sp,
-                          fontWeight: controller.currentIndex == index
-                              ? FontWeight.bold
-                              : FontWeight.w400,
+                          fontWeight: controller.currentIndex == index ? FontWeight.bold : FontWeight.w400,
                         ),
                       ),
                     ],

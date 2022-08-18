@@ -12,6 +12,7 @@ class UserService extends GetxService {
   List<CategoryModel> get listPaymentCategories => _listPaymentCategories;
   List<CategoryModel> get listChargeCategories => _listChargeCategories;
   Future<UserService> init() async {
+    await checkCurrentMonth();
     _listPaymentCategories(
       await Repositories.category.getCategories(type: CategoryType.payment),
     );
@@ -19,14 +20,12 @@ class UserService extends GetxService {
       await Repositories.category.getCategories(type: CategoryType.charge),
     );
 
-    await checkCurrentMonth();
     return this;
   }
 
   Future<void> checkCurrentMonth() async {
     try {
-      await Repositories.classify
-          .resetCurrentBalanceClassify(DateTime.now().month);
+      await Repositories.classify.resetCurrentBalanceClassify(DateTime.now().month);
     } catch (e) {
       AppUtils.toast(e.toString());
     }

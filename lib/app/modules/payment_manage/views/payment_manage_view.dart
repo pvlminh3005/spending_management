@@ -20,7 +20,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10.w),
             child: Row(
               children: [
                 Expanded(
@@ -96,8 +96,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
                             model: state[index],
                             index: index,
                             tagColor: context.error,
-                            onPressed: (transaction) => controller
-                                .toDetailTransaction(transaction: transaction),
+                            onPressed: (transaction) => controller.toDetailTransaction(transaction: transaction),
                             onLongPress: controller.confirmDeleteTransaction,
                           );
                         },
@@ -107,9 +106,7 @@ class PaymentManageView extends GetView<PaymentManageController> {
                     onEmpty: Obx(
                       () => SizedBox(
                         height: context.height * .5 + 180.h,
-                        child: EmptyWidget(
-                            title:
-                                "Không có giao dịch trong tháng ${controller.currentMonth}"),
+                        child: EmptyWidget(title: "Không có giao dịch trong tháng ${controller.currentMonth}"),
                       ),
                     ),
                     onError: (error) => const ErrorCustomWidget(),

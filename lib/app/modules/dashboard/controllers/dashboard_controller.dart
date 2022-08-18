@@ -8,7 +8,7 @@ import '../../classify/views/classify_view.dart';
 import '../../payment_manage/views/payment_manage_view.dart';
 import '../../profile/views/profile_view.dart';
 
-class DashboardController extends GetxController {
+class DashboardController extends SuperController {
   final _currentIndex = 0.obs;
   int get currentIndex => _currentIndex.value;
   final pages = const [
@@ -49,4 +49,16 @@ class DashboardController extends GetxController {
   void onClose() {
     pageController.dispose();
   }
+
+  @override
+  void onDetached() {}
+
+  @override
+  void onInactive() {}
+
+  @override
+  void onPaused() {}
+
+  @override
+  void onResumed() {}
 }

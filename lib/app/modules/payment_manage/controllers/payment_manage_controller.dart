@@ -66,6 +66,7 @@ class PaymentManageController extends GetxController
     _page = 1;
 
     _currentMonth(DateTime.now().month);
+    searchCtrl.clear();
     await getListTransactions();
   }
 
