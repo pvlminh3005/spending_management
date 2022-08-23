@@ -7,23 +7,13 @@ import '../../../data/repositories/repositories.dart';
 import '../../filter/navigator/navigator.dart';
 import '../../transaction_detail/navigator/navigator.dart';
 
-class ChargeManageController extends GetxController
-    with StateMixin<List<TransactionModel>>, ScrollMixin {
+class ChargeManageController extends GetxController with StateMixin<List<TransactionModel>>, ScrollMixin {
   final _currentMonth = DateTime.now().month.obs;
   final searchCtrl = TextEditingController();
 
   int _page = 1;
   int get currentMonth => _currentMonth.value;
   String get searchStr => searchCtrl.text;
-
-  @override
-  void onInit() {
-    _currentMonth.listen((_) {
-      getListTransactions();
-    });
-
-    super.onInit();
-  }
 
   @override
   void onReady() {
@@ -47,8 +37,7 @@ class ChargeManageController extends GetxController
       LayoutUtils.dialogMessage(
           title: 'Bạn có muốn xoá giao dịch này?',
           onConfirm: () async {
-            await Repositories.transaction
-                .deleteTransaction(transaction: transaction);
+            await Repositories.transaction.deleteTransaction(transaction: transaction);
             state!.removeWhere((item) => item.uid == transaction.uid);
             change(
               state,
@@ -87,8 +76,9 @@ class ChargeManageController extends GetxController
     FilterNavigator.toFilter(
       month: currentMonth,
       type: CategoryType.charge,
-    )?.then((newMonth) {
+    )?.then((newMonth) async {
       _currentMonth(newMonth ?? currentMonth);
+      await getListTransactions();
     });
   }
 
@@ -98,11 +88,8 @@ class ChargeManageController extends GetxController
     } else {
       .5.delay(
         () {
-          var data = state
-              ?.where((e) => e.title.tiengViet
-                  .toLowerCase()
-                  .contains(val.tiengViet.toLowerCase()))
-              .toList();
+          var data =
+              state?.where((e) => e.title.tiengViet.toLowerCase().contains(val.tiengViet.toLowerCase())).toList();
           if (data == null) {
             change(state, status: RxStatus.error());
           } else {

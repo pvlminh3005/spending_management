@@ -17,15 +17,6 @@ class PaymentManageController extends GetxController with StateMixin<List<Transa
   String get searchStr => searchCtrl.text;
 
   @override
-  void onInit() {
-    _currentMonth.listen((_) {
-      getListTransactions();
-    });
-
-    super.onInit();
-  }
-
-  @override
   void onReady() {
     initData();
     super.onReady();
@@ -76,8 +67,6 @@ class PaymentManageController extends GetxController with StateMixin<List<Transa
         month: currentMonth,
       );
 
-      print(data.first.toString());
-
       change(
         data,
         status: data.isEmpty ? RxStatus.empty() : RxStatus.success(),
@@ -92,8 +81,9 @@ class PaymentManageController extends GetxController with StateMixin<List<Transa
     FilterNavigator.toFilter(
       month: currentMonth,
       type: CategoryType.payment,
-    )?.then((newMonth) {
+    )?.then((newMonth) async {
       _currentMonth(newMonth ?? currentMonth);
+      await getListTransactions();
     });
   }
 
